@@ -21,7 +21,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class SpotifyAPIServiceImpl implements SpotifyAPIService {
@@ -154,7 +156,11 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<SpotifyPlaylist> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, SpotifyPlaylist.class);
+        ResponseEntity<SpotifyPlaylist> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                SpotifyPlaylist.class);
 
         if (response.getStatusCode() == HttpStatus.CREATED) {
              System.out.println("Playlist created successfully!");
@@ -165,7 +171,36 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         return spotifyPlaylist;
     }
 
+    @Override
+    public String addSongs(Tracks tracks, String playlistId, String authorizationCode) {
+        String url = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + authorizationCode);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
+        String songList= tracks.getItems().stream().map(song -> "\"spotify:track:"+song.getId()+"\"").collect(Collectors.joining(","));
+
+        String requestBody = "{\"uris\": ["+ songList +"],\"position\": 0}";
+        //System.out.println("requestBody = " + requestBody);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+        System.out.println(requestBody);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                String.class);
+
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+            System.out.println("Songs are added successfully!");
+        } else {
+            System.out.println("Failed to add songs. Status code: " + response.getStatusCode());
+        }
+        //SpotifyPlaylist spotifyPlaylist = response.getBody();
+        return response.getBody();
+
+
+    }
 
 
     private String generateRandomString(int length) {
@@ -187,7 +222,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }*/
-
         return data;
     }
 }

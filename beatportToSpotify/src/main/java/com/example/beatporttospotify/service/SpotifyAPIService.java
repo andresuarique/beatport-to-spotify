@@ -1,9 +1,6 @@
 package com.example.beatporttospotify.service;
 
-import com.example.beatporttospotify.model.SpotifyAccessToken;
-import com.example.beatporttospotify.model.SpotifyPlaylist;
-import com.example.beatporttospotify.model.SpotifySong;
-import com.example.beatporttospotify.model.SpotifyUser;
+import com.example.beatporttospotify.model.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URISyntaxException;
@@ -15,4 +12,5 @@ public interface SpotifyAPIService {
     public SpotifyAccessToken exchangeAuthorizationCode (String authorizationCode, String url);
     public SpotifySong searchSong (String songName);
     public SpotifyPlaylist createPlaylist(String name, String userId, String authorizationCode);
+    public String addSongs(Tracks tracks, String playlistId, String authorizationCode);
 }

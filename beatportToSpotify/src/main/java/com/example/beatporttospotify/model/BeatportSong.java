@@ -2,9 +2,11 @@ package com.example.beatporttospotify.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class BeatportSong {
     private String name;
-    private String artist;
+    private List<String> artists;
     private String urlImage;
 }

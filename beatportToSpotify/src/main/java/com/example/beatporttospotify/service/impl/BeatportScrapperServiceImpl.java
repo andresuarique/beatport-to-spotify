@@ -27,12 +27,10 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     public Document getHTML(String url) {
         System.out.println("getHTML: "+url);
         webDriver.get(url);
-
         WebDriverWait wait = new WebDriverWait(webDriver, 5);
         wait.until(ExpectedConditions.jsReturnsValue("return document.readyState == 'complete'"));
         String html = webDriver.getPageSource();
         Document document = Jsoup.parse(html);
-        //System.out.println(document.html());
         return document;
     }
 
@@ -57,12 +55,9 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         List<BeatportGenre> genreList = new ArrayList<>();
 
         for(int i = 0; i<jsonArray.length();i++){
-
         JSONObject object = jsonArray.getJSONObject(i);
-            System.out.println(object);
         BeatportGenre beatportGenre = new BeatportGenre();
         Long id =0L;
-            System.out.println(object.get("id"));
             try {
                 id = Long.parseLong(object.get("id").toString());
             }catch (Exception e){
@@ -70,9 +65,49 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             }
         beatportGenre.setId(id);
         beatportGenre.setName(object.get("name").toString());
-            System.out.println(beatportGenre.getId());
-            System.out.println(beatportGenre.getName());
+        beatportGenre.setUrl(stringFormatter(beatportGenre.getName())+"/"+beatportGenre.getId());
+        genreList.add(beatportGenre);
         }
-        return null;
+        return genreList;
     }
+
+    @Override
+    public List<BeatportSong> getTop100(String genre) {
+        Elements songs = getHTML("https://www.beatport.com/genre/"+genre+"/top-100").select("script#__NEXT_DATA__");
+
+        String json = songs.get(0).html();
+        JSONObject jsonObject = new JSONObject(json);
+        String json2= jsonObject.getJSONObject("props")
+                .getJSONObject("pageProps")
+                .getJSONObject("dehydratedState").getJSONArray("queries").getJSONObject(0).toString();
+
+        jsonObject = new JSONObject(json2);
+        json2 = jsonObject.getJSONObject("state").getJSONObject("data").getJSONArray("results").toString();
+        JSONArray jsonArray = new JSONArray(json2);
+        List<BeatportSong> beatportSongList = new ArrayList<>();
+        for(int i = 0; i<jsonArray.length();i++){
+            JSONObject object = jsonArray.getJSONObject(i);
+            BeatportSong beatportSong = new BeatportSong();
+            String songName = object.get("name").toString();
+            String songImage = object.getJSONObject("release").getJSONObject("image").get("uri").toString();
+            List<String> artists = new ArrayList<>();
+            JSONArray array = object.getJSONArray("artists");
+            for(int j = 0; j<array.length();j++){
+                JSONObject artistObject = array.getJSONObject(j);
+                artists.add(artistObject.get("name").toString());
+            }
+            beatportSong.setName(songName);
+            beatportSong.setUrlImage(songImage);
+            beatportSong.setArtists(artists);
+            beatportSongList.add(beatportSong);
+        }
+        return beatportSongList;
+    }
+    private String stringFormatter(String input){
+        String lowercase = input.toLowerCase();
+        String removedCharacters = lowercase.replaceAll("[()&/]", "");
+        String replacedSpaces = removedCharacters.replaceAll("\\s+", "-");
+        return replacedSpaces;
+    }
+
 }

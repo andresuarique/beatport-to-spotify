@@ -1,6 +1,7 @@
 package com.example.beatporttospotify.service.impl;
 
 import com.example.beatporttospotify.model.*;
+import com.example.beatporttospotify.service.BeatportScrapperService;
 import com.example.beatporttospotify.service.SpotifyAPIService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,9 @@ import java.util.stream.Collectors;
 @Service
 public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     @Autowired
-    Dotenv dotenv;
+    private Dotenv dotenv;
+    @Autowired
+    private BeatportScrapperService beatportScrapperService;
 
     @Override
     public SpotifyUser getUser(String token){
@@ -119,6 +123,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
     @Override
     public SpotifySong searchSong(String songName) {
+        System.out.println("Song: "+songName);
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://api.spotify.com/v1/search?q=" + encodeURL(songName)  +"&type=track";
         System.out.println("url = " + url);
@@ -134,6 +139,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         );
 
         SpotifySongList songList = responseEntity.getBody();
+        System.out.println(songList.getTracks().getItems().get(0));
         return songList.getTracks().getItems().get(0);
     }
 
@@ -200,6 +206,22 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         return response.getBody();
 
 
+    }
+
+    @Override
+    public void createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode) {
+        SpotifyPlaylist spotifyPlaylist = createPlaylist(request.getPlaylistName() ,userId,authorizationCode);
+        if(request.getSongs().isEmpty()) {
+            request.setSongs(beatportScrapperService.getTop100(request.getGenre()));
+        }
+        Tracks tracks = new Tracks();
+        List<SpotifySong> songs = new ArrayList<>();
+        request.getSongs().forEach(beatportSong ->{
+                songs.add(
+                        searchSong(beatportSong.getName()+" "+beatportSong.getArtists().get(0)));
+        });
+        tracks.setItems(songs);
+        addSongs(tracks,spotifyPlaylist.getId(),authorizationCode);
     }
 
 

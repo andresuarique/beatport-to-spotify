@@ -1,9 +1,6 @@
 package com.example.beatporttospotify.controller;
 
-import com.example.beatporttospotify.model.SpotifyAccessToken;
-import com.example.beatporttospotify.model.SpotifySong;
-import com.example.beatporttospotify.model.SpotifyUser;
-import com.example.beatporttospotify.model.Tracks;
+import com.example.beatporttospotify.model.*;
 import com.example.beatporttospotify.service.SpotifyAPIService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +68,11 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
     public ResponseEntity<?> createPlaylist(@PathVariable String name){
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
         return  ResponseEntity.ok(spotifyAPIService.createPlaylist(name, user.getId(), token.getAccess_token()));
+    }
+    @PostMapping("/create-playlist")
+    public ResponseEntity<?> createPlaylistFromBeatport(@RequestBody BeatportToSpotifyRequest request){
+        SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
+        spotifyAPIService.createPlaylistFromBeatport(request, user.getId(),token.getAccess_token());
+        return ResponseEntity.ok(null);
     }
 }

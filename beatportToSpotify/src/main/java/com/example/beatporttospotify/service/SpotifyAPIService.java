@@ -13,4 +13,5 @@ public interface SpotifyAPIService {
     public SpotifySong searchSong (String songName);
     public SpotifyPlaylist createPlaylist(String name, String userId, String authorizationCode);
     public String addSongs(Tracks tracks, String playlistId, String authorizationCode);
+    public void createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode);
 }

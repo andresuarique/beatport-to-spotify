@@ -137,10 +137,12 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 entity,
                 SpotifySongList.class
         );
-
+        if(responseEntity.getBody() != null){
         SpotifySongList songList = responseEntity.getBody();
         System.out.println(songList.getTracks().getItems().get(0));
         return songList.getTracks().getItems().get(0);
+        }
+        return null;
     }
 
     @Override
@@ -209,19 +211,27 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     }
 
     @Override
-    public void createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode) {
+    public List<BeatportSong> createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode) {
         SpotifyPlaylist spotifyPlaylist = createPlaylist(request.getPlaylistName() ,userId,authorizationCode);
         if(request.getSongs().isEmpty()) {
             request.setSongs(beatportScrapperService.getTop100(request.getGenre()));
         }
         Tracks tracks = new Tracks();
         List<SpotifySong> songs = new ArrayList<>();
+        List<BeatportSong> notFound = new ArrayList<>();
+
         request.getSongs().forEach(beatportSong ->{
-                songs.add(
-                        searchSong(beatportSong.getName()+" "+beatportSong.getArtists().get(0)));
+            SpotifySong song =  searchSong(beatportSong.getName()+" "+beatportSong.getArtists().get(0));
+            if(song != null){
+                songs.add(song);
+            }
+            else {
+                notFound.add(beatportSong);
+            }
         });
         tracks.setItems(songs);
         addSongs(tracks,spotifyPlaylist.getId(),authorizationCode);
+        return notFound;
     }
 
 

@@ -21,10 +21,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,7 +75,8 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     }
 
     @Override
-    public RedirectView authorize(String url, String scope) throws URISyntaxException {
+    public Map<String,Object> authorize(String url, String scope) throws URISyntaxException {
+        Map<String,Object> resp = new HashMap<>();
         String state = generateRandomString(16);
 
         URI authorizeUri = new URIBuilder("https://accounts.spotify.com/authorize")
@@ -88,7 +86,11 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 .addParameter("redirect_uri", url)
                 .addParameter("state", state)
                 .build();
-        return new RedirectView(authorizeUri.toString());
+
+        System.out.println("callback1");
+        System.out.println(authorizeUri);
+        resp.put("url",authorizeUri.toString());
+        return resp;
     }
 
     @Override
@@ -147,7 +149,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
     @Override
     public SpotifyPlaylist createPlaylist(String name, String userId, String authorizationCode) {
-
+        System.out.println("playlist: "+name);
         // Utilizar el token de acceso para crear la playlist
         String url = "https://api.spotify.com/v1/users/" + userId + "/playlists";
         HttpHeaders headers = new HttpHeaders();
@@ -213,7 +215,8 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     @Override
     public List<BeatportSong> createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode) {
         SpotifyPlaylist spotifyPlaylist = createPlaylist(request.getPlaylistName() ,userId,authorizationCode);
-        if(request.getSongs().isEmpty()) {
+        if(request.getSongs() == null || request.getSongs().isEmpty()) {
+            System.out.println("songs null");
             request.setSongs(beatportScrapperService.getTop100(request.getGenre()));
         }
         Tracks tracks = new Tracks();

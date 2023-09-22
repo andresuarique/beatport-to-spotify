@@ -61,13 +61,13 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             try {
                 id = Long.parseLong(object.get("id").toString());
             }catch (Exception e){
-
             }
         beatportGenre.setId(id);
         beatportGenre.setName(object.get("name").toString());
         beatportGenre.setUrl(stringFormatter(beatportGenre.getName())+"/"+beatportGenre.getId());
         genreList.add(beatportGenre);
         }
+        System.out.println("success!");
         return genreList;
     }
 

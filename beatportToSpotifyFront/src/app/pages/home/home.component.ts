@@ -11,7 +11,6 @@ import { BeatportToSpotifyRequest } from 'src/app/models/beatport-to-spotify-req
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  spotifyLogin:boolean = false;
   urlGenreSelected:string = '';
   playlistName:string = '';
 
@@ -27,12 +26,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const state = this.route.snapshot.paramMap.get('state')
-    if(state){
-      if(state=="logged"){
-        this.spotifyLogin=true;
-      }
-    }
     this.getGenres();
   }
 
@@ -47,20 +40,7 @@ export class HomeComponent implements OnInit {
     );
   }
   create():void{
-
     let split =this.urlGenreSelected.split("/");
-    //const url="?genreName="+split[0]+"&genreId="+split[1];
-
-    this.spotifyLogin=!this.spotifyLogin;
-    /*this.beatportToSpotifyApiService.getCallback(url).subscribe(data =>{
-     window.open(data.url,"_self");
-    });*/
     this.router.navigate(['/detail',this.playlistName,split[0],split[1]]);
-  }
-  spotifyVerify():void{
-    this.spotifyLogin=!this.spotifyLogin;
-    this.beatportToSpotifyApiService.getCallback().subscribe(data =>{
-      window.open(data.url,"_self");
-     });
   }
 }

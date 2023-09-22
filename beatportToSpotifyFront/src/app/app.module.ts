@@ -8,12 +8,16 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DetailComponent } from './pages/detail/detail.component';
 import { FormsModule } from '@angular/forms';
+import { SpotifyLoginComponent } from './pages/spotify-login/spotify-login.component';
+import { BackgroundComponent } from './pages/background/background.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    DetailComponent
+    DetailComponent,
+    SpotifyLoginComponent,
+    BackgroundComponent
   ],
   imports: [
     BrowserModule,

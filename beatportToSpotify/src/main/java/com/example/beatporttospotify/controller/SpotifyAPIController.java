@@ -61,8 +61,8 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
             System.out.println("Failed to obtain access token");
         }
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(dotenv.get("CLIENT_URL")+"/home/logged");
-        System.out.println("redirect fin");
+        redirectView.setUrl(dotenv.get("CLIENT_URL")+"/home");
+        System.out.println("redirect fin"+redirectView.getUrl());
         return redirectView;
     }
     @GetMapping("/search-song/{song}")
@@ -80,7 +80,7 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
     public ResponseEntity<?> createPlaylistFromBeatport(@RequestBody BeatportToSpotifyRequest request){
         System.out.println("POST");
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
-        spotifyAPIService.createPlaylistFromBeatport(request, user.getId(),token.getAccess_token());
-        return ResponseEntity.ok(null);
+
+        return ResponseEntity.ok(spotifyAPIService.createPlaylistFromBeatport(request, user.getId(),token.getAccess_token()));
     }
 }

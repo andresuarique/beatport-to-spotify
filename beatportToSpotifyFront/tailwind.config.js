@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      brightness: {
+        25: '.25',
+      }
+    },
     fontFamily:{
       'quicksand':['Quicksand','sans-serif']
     }

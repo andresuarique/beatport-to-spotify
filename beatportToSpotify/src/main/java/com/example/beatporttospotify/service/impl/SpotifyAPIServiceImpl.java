@@ -51,6 +51,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
             return null;
         }
     }
+
     @Override
     public SpotifyAccessToken getToken() {
         RestTemplate restTemplate = new RestTemplate();
@@ -213,7 +214,8 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     }
 
     @Override
-    public List<BeatportSong> createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode) {
+    public Map<String,Object> createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode) {
+        Map<String,Object> response = new HashMap<>();
         SpotifyPlaylist spotifyPlaylist = createPlaylist(request.getPlaylistName() ,userId,authorizationCode);
         if(request.getSongs() == null || request.getSongs().isEmpty()) {
             System.out.println("songs null");
@@ -222,7 +224,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         Tracks tracks = new Tracks();
         List<SpotifySong> songs = new ArrayList<>();
         List<BeatportSong> notFound = new ArrayList<>();
-
         request.getSongs().forEach(beatportSong ->{
             SpotifySong song =  searchSong(beatportSong.getName()+" "+beatportSong.getArtists().get(0));
             if(song != null){
@@ -234,7 +235,31 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         });
         tracks.setItems(songs);
         addSongs(tracks,spotifyPlaylist.getId(),authorizationCode);
-        return notFound;
+        spotifyPlaylist=getPlaylist(authorizationCode,spotifyPlaylist.getId());
+        response.put("playlist",spotifyPlaylist);
+        response.put("notFound",notFound);
+        response.put("tracks",tracks);
+        return response;
+    }
+    @Override
+    public SpotifyPlaylist getPlaylist(String token,String playlistId){
+        String url = "https://api.spotify.com/v1/playlists/"+playlistId;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<SpotifyPlaylist> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, SpotifyPlaylist.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            SpotifyPlaylist playlist = response.getBody();
+            return playlist;
+        } else {
+            System.out.println("Failed to get playlist information. Status code: " + response.getStatusCode());
+            return null;
+        }
     }
 
 
@@ -244,7 +269,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         secureRandom.nextBytes(randomBytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
-    public String encodeURL(String data){
+    private String encodeURL(String data){
         data=data.trim();
         /*
         data=data.toLowerCase();

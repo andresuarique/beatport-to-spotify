@@ -1,17 +1,22 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './pages/home/home.component';
 import { DetailComponent } from './pages/detail/detail.component';
+import { SpotifyLoginComponent } from './pages/spotify-login/spotify-login.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home/1',
+    redirectTo: 'spotify-login',
     pathMatch: 'full'
   },
   {
-    path:'home/:state',
+    path:'spotify-login',
+    component:SpotifyLoginComponent
+  },
+  {
+    path:'home',
     component:HomeComponent
   },
   {

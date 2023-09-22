@@ -16,7 +16,9 @@ export class DetailComponent implements OnInit {
     genre:'',
     songs:null
   };
-
+  image:string ='';
+  playlistUrl:string = '';
+  ready:boolean=false;
   constructor(
     private beatportToSpotifyApiService: BeatportToSpotifyApiService,
     private dataService: DataService,
@@ -24,7 +26,7 @@ export class DetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-this.createPlaylist();
+    this.createPlaylist();
 
   }
   createPlaylist():void{
@@ -35,7 +37,11 @@ this.createPlaylist();
     if(name && id && playlist){
       this.request.playlistName=playlist;
       this.request.genre=name+"/"+id;
-      this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe();
+      this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe(data =>{
+        this.image=data.playlist.images[0].url
+        this.playlistUrl=data.playlist.external_urls.spotify;
+        this.ready=!this.ready
+      });
     }
   }
 }

@@ -16,9 +16,9 @@ export class DetailComponent implements OnInit {
     genre:'',
     songs:null
   };
-  image:string ='https://i.scdn.co/image/ab67616d0000b273d321650e4e1f239f314f364c';
+  image:string ='';
   playlistUrl:string = '';
-  ready:boolean=true;
+  ready:boolean=false;
   constructor(
     private beatportToSpotifyApiService: BeatportToSpotifyApiService,
     private dataService: DataService,
@@ -26,7 +26,7 @@ export class DetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.createPlaylist();
+    this.createPlaylist();
 
   }
   createPlaylist():void{

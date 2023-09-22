@@ -4,6 +4,7 @@ import com.example.beatporttospotify.model.*;
 import com.example.beatporttospotify.service.BeatportScrapperService;
 import com.example.beatporttospotify.service.SpotifyAPIService;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -128,7 +129,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     public SpotifySong searchSong(String songName) {
         System.out.println("Song: "+songName);
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://api.spotify.com/v1/search?q=" + encodeURL(songName)  +"&type=track";
+        String url = "https://api.spotify.com/v1/search?q=" + encodeURL(songName)  +"&type=artist,track";
         System.out.println("url = " + url);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + getToken().getAccess_token());
@@ -225,7 +226,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         List<SpotifySong> songs = new ArrayList<>();
         List<BeatportSong> notFound = new ArrayList<>();
         request.getSongs().forEach(beatportSong ->{
-            SpotifySong song =  searchSong(beatportSong.getName()+" "+beatportSong.getArtists().get(0));
+            SpotifySong song =  searchSong(beatportSong.getName()+" "+clearArtistText(beatportSong.getArtists().get(0)));
             if(song != null){
                 songs.add(song);
             }
@@ -283,5 +284,26 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
             throw new RuntimeException(e);
         }*/
         return data;
+    }
+    private String clearArtistText(String artist){
+        artist = artist.trim();
+        artist = StringEscapeUtils.unescapeHtml4(artist);
+        //(ofc) (US) (OZ) (ITA) (UK) (BR)
+        String array[]={"(ofc)","(US)","(UK)","(ITA)","(OZ)","(BR)","(IT)","(UZ)","(FR)","(ES)","(YU)",
+                "(CA)","(PL)","(BE)","(SE)","(DE)","(PT)","(NO)","(RSA)","(SA)","(RO)","(Havana)","(VE)","(UZ)"
+                ,"(FL)","(AR)","(EON)","(BG)","(ZM)","(TN)","(NL)","(Palestina)","(GB)","(Official)","(CO)","(Aus)"
+                ,"(DnB)","(MX)","(HU)","(fr)","(It)","(SC)","(CZ)","(JP)","(SWE)","(IL)","(AZ)","(TN)","(NYC)","(Italy)"
+                ,"(LA)","(AUS)","(ARG)","(PE)","(GER)","(ESP)","(AU)","(SL)","(BRA)","(MU)","(Paris)","(UA)","(IND)","(CU)","(GR)"
+                ,"(Brazil)","(ISR)","(Psy)","(IE)","(LU)","(CL)","(UY)","(JPN)"};
+        for (String data: array) {
+                    if(artist.contains(data)){
+                        artist=artist.replace(data,"");
+                        break;
+                    }
+        }
+        if(artist.contains("(") && artist.contains(")")){
+            System.out.println("ARTIST : "+artist);
+        }
+        return artist;
     }
 }

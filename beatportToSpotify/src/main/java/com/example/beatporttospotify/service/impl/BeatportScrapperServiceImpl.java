@@ -27,7 +27,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     public Document getHTML(String url) {
         System.out.println("getHTML: "+url);
         webDriver.get(url);
-        WebDriverWait wait = new WebDriverWait(webDriver, 5);
+        WebDriverWait wait = new WebDriverWait(webDriver, 1);
         wait.until(ExpectedConditions.jsReturnsValue("return document.readyState == 'complete'"));
         String html = webDriver.getPageSource();
         Document document = Jsoup.parse(html);

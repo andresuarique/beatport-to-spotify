@@ -14,9 +14,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.http.client.utils.URIBuilder;
+
+import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
@@ -271,17 +274,18 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
     private String encodeURL(String data){
-        data=data.trim();
-        /*
         data=data.toLowerCase();
         data=data.replace("/"," ");
         data=data.replace("#"," ");
         data=data.replace("&","and");
-
+        data=data.trim();
+/*
         try {
-            data=URLEncoder.encode(data, "UTF-8");
+            data= URLEncoder.encode(data, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return data;
+
         }*/
         return data;
     }

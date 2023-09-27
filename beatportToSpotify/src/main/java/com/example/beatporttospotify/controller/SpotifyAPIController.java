@@ -78,7 +78,6 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
     }
     @PostMapping("/create-playlist")
     public ResponseEntity<?> createPlaylistFromBeatport(@RequestBody BeatportToSpotifyRequest request){
-        System.out.println("POST");
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
 
         return ResponseEntity.ok(spotifyAPIService.createPlaylistFromBeatport(request, user.getId(),token.getAccess_token()));

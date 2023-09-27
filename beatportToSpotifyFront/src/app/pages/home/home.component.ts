@@ -40,6 +40,9 @@ export class HomeComponent implements OnInit {
     );
   }
   create():void{
+    console.log("Click");
+    console.log(this.playlistName);
+    console.log(this.urlGenreSelected);
     let split =this.urlGenreSelected.split("/");
     this.router.navigate(['/detail',this.playlistName,split[0],split[1]]);
   }

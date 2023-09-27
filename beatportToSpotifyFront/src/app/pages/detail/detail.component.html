@@ -13,11 +13,18 @@
       </div>
     </div>
     <div class="w-full flex mb-10">
-     <a *ngIf="ready" href="{{playlistUrl}}" target="_blank" class="inline-block text-center align-middle rounded-full w-full py-2 border border-gray-500 font-bold text-white bg-gradient-to-l from-purple-700 via-fuchsia-600 to-purple-700">Ver Lista</a>
-    </div>
-    <div class="w-1/2 flex">
-      <a *ngIf="ready" href="/home" class="inline-block text-center align-middle rounded-full w-full py-2 border border-gray-500 font-bold text-white bg-gradient-to-l from-indigo-700 via-pruple-600 to-indigo-700">Regresar</a>
+      <a *ngIf="ready" href="{{playlistUrl}}" target="_blank" class="w-full text-center align-middle relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-gray-900 dark:text-gray-900">
+        <span class="w-full font-bold relative px-5 py-2.5 transition-all ease-in duration-75 bg-opacity-0 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-100">
+            Ver Lista de Reproduccion
+        </span>
+      </a>
      </div>
-
+    <div class="w-1/2 flex">
+      <a *ngIf="ready" href="/home" class="w-full text-center align-middle relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-gray-900 dark:text-gray-900">
+        <span class="w-full font-bold relative px-5 py-2.5 transition-all ease-in duration-75 bg-opacity-0 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-100">
+            Regresar
+        </span>
+      </a>
+     </div>
   </div>
 </div>

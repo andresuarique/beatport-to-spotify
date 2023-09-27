@@ -17,7 +17,7 @@
       <div class="mb-8 w-full">
         <label class="block w-full text-xl font-medium" for="genre">Genero:</label>
         <select [(ngModel)]="urlGenreSelected" class="block w-full h-8 border border-gray-500 focus:outline-gray-600 rounded-md bg-gray-100 pl-2" id="genre">
-          <option value="0">General</option>
+          <option value="general/0">General</option>
           <option value="{{genre.url}}" *ngFor="let genre of genres">{{genre.name}}</option>
         </select>
       </div>

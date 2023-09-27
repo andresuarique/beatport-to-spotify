@@ -73,8 +73,14 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
 
     @Override
     public List<BeatportSong> getTop100(String genre) {
-        Elements songs = getHTML("https://www.beatport.com/genre/"+genre+"/top-100").select("script#__NEXT_DATA__");
-
+        String url="https://www.beatport.com/genre/"+genre+"/top-100";
+        Elements songs;
+        if(genre.equals("general/0")){
+            url="https://www.beatport.com/top-100";
+        }
+        System.out.println("urlScrapper: "+url);
+        Document html =getHTML(url);
+         songs = html.select("script#__NEXT_DATA__");
         String json = songs.get(0).html();
         JSONObject jsonObject = new JSONObject(json);
         String json2= jsonObject.getJSONObject("props")

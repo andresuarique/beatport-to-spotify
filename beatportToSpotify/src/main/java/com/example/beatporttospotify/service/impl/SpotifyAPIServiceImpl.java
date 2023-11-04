@@ -144,9 +144,16 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 entity,
                 SpotifySongList.class
         );
+        ResponseEntity<Object> a = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                Object.class
+        );
+        System.out.println("response: "+(Map<String,Object>) a.getBody());
         if(responseEntity.getBody() != null){
         SpotifySongList songList = responseEntity.getBody();
-        System.out.println(songList.getTracks().getItems().get(0));
+        System.out.println(songList.getTracks().getItems().get(0).getAlbum().getImages().get(0));
         return songList.getTracks().getItems().get(0);
         }
         return null;

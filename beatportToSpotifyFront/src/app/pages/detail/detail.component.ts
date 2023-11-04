@@ -11,6 +11,8 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+  tracks: any[] = [];
+
   request: BeatportToSpotifyRequest ={
     playlistName:'',
     genre:'',
@@ -26,6 +28,7 @@ export class DetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    //this.ready=true;
     this.createPlaylist();
 
   }
@@ -40,7 +43,11 @@ export class DetailComponent implements OnInit {
       this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe(data =>{
         this.image=data.playlist.images[0].url
         this.playlistUrl=data.playlist.external_urls.spotify;
-        this.ready=!this.ready
+        this.tracks = data.tracks.items;
+        this.tracks.sort(() => Math.random() - 0.5);
+        this.tracks= this.tracks.slice(0,40);
+        this.ready=!this.ready;
+
       });
     }
   }

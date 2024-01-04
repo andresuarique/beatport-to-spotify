@@ -8,7 +8,7 @@ import { SpotifyLoginComponent } from './pages/spotify-login/spotify-login.compo
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'spotify-login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {

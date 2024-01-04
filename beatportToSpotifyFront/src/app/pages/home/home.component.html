@@ -2,20 +2,20 @@
 <div class="bg-transparent h-screen grid grid-cols-1 place-items-center p-8">
   <div class="flex flex-col items-center px-6 py-8 rounded-md md:w-full lg:w-1/2 xl:w-1/3">
     <div class="mb-8">
-      <h1 class="font-bold overflow-visible text-center text-6xl text-transparent bg-clip-text bg-gradient-to-l from-fuchsia-600 via-purple-700 to-fuchsia-600 p-6">Beatport to Spotify</h1>
-      <h2 class="font-medium text-center text-2xl  text-black">Crea listas de reproduccion rapidamente</h2>
+      <h1 class="font-bold overflow-visible text-center text-6xl text-transparent bg-clip-text bg-gradient-to-tr from-fuchsia-500 from-40% via-fuchsia-400 to-fuchsia-500 to-60% p-6">Beatport to Spotify</h1>
+      <h2 class="font-medium text-center text-2xl  text-white">Crea listas de reproduccion rapidamente</h2>
     </div>
     <div class="mb-8">
-      <p class="text-center text-gray-600">Crea una lista de reproduccion con el top 100 de Beatport en segundos</p>
+      <p class="text-center text-gray-300">Crea una lista de reproduccion con el top 100 de Beatport en segundos</p>
     </div>
     <div class="mb-8 w-full">
       <div class="mb-4 w-full">
-        <label class="block w-full text-xl font-medium" for="">Nombre de lista de reproduccion:</label>
+        <label class="block w-full text-xl font-medium text-white" for="">Nombre de lista de reproduccion:</label>
         <input [(ngModel)]="playlistName" maxlength="100" minlength="1" class="block w-full h-8 border border-gray-500 focus:outline-gray-600 rounded-md bg-gray-100 pl-2" type="text">
       </div>
 
       <div class="mb-8 w-full">
-        <label class="block w-full text-xl font-medium" for="genre">Genero:</label>
+        <label class="block w-full text-xl font-medium text-white" for="genre">Genero:</label>
         <select [(ngModel)]="urlGenreSelected" class="block w-full h-8 border border-gray-500 focus:outline-gray-600 rounded-md bg-gray-100 pl-2" id="genre">
           <option value="general/0">General</option>
           <option value="{{genre.url}}" *ngFor="let genre of genres">{{genre.name}}</option>

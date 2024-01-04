@@ -17,4 +17,5 @@ public interface SpotifyAPIService {
     public String addSongs(Tracks tracks, String playlistId, String authorizationCode);
     public Map<String,Object> createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode);
     public SpotifyPlaylist getPlaylist(String token,String playlistId);
+    public SpotifyAccessToken refreshToken(String refreshToken);
 }

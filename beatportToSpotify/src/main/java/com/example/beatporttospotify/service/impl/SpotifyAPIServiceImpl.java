@@ -75,7 +75,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 SpotifyAccessToken.class
         );
         SpotifyAccessToken spotifyAccessToken = responseEntity.getBody();
-        //System.out.printf("TOKEN:"+spotifyAccessToken.toString());
         return spotifyAccessToken;
     }
 
@@ -272,7 +271,39 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
             return null;
         }
     }
+    @Override
+    public SpotifyAccessToken refreshToken(String refreshToken) {
+        String clientId = dotenv.get("SPOTIFY_CLIENT_ID");
+        String clientSecret = dotenv.get("SPOTIFY_CLIENT_SECRET");
+        System.out.println(" REFRESH TOKEN: "+refreshToken);
+        Instant creationTime = Instant.now();
+        System.out.println("time: "+creationTime);
+        String spotifyTokenUrl = "https://accounts.spotify.com/api/token";
 
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setBasicAuth(clientId, clientSecret);
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("grant_type", "refresh_token");
+        body.add("refresh_token", refreshToken);
+
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<SpotifyAccessToken> response = restTemplate.exchange(
+                spotifyTokenUrl,
+                HttpMethod.POST,
+                requestEntity,
+                SpotifyAccessToken.class
+        );
+
+        SpotifyAccessToken tokenResponse = response.getBody();
+        tokenResponse.setToken_creation_time(creationTime);
+        tokenResponse.setRefresh_token(refreshToken);
+        System.out.println("RT: "+tokenResponse.getToken_creation_time());
+        return tokenResponse;
+    }
 
     private String generateRandomString(int length) {
         SecureRandom secureRandom = new SecureRandom();

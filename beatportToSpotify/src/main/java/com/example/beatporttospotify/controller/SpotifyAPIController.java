@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,9 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
 
     @GetMapping("/user")
     public ResponseEntity<?> getUser(){
+        Instant currentTime = Instant.now();
+        if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
+            token= spotifyAPIService.refreshToken(token.getRefresh_token());
 
         SpotifyUser spotifyUser = spotifyAPIService.getUser(token.getAccess_token());
         return ResponseEntity.ok(spotifyUser);
@@ -62,6 +67,7 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
         }
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(dotenv.get("CLIENT_URL")+"/home");
+        System.out.printf("token: "+ token.toString());
         System.out.println("redirect fin"+redirectView.getUrl());
         return redirectView;
     }
@@ -73,11 +79,19 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
     @GetMapping("/create-playlist-by-name/{name}")
     public ResponseEntity<?> createPlaylist(@PathVariable String name){
         System.out.println("GET");
+        Instant currentTime = Instant.now();
+        if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
+            token= spotifyAPIService.refreshToken(token.getRefresh_token());
+
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
         return  ResponseEntity.ok(spotifyAPIService.createPlaylist(name, user.getId(), token.getAccess_token()));
     }
     @PostMapping("/create-playlist")
     public ResponseEntity<?> createPlaylistFromBeatport(@RequestBody BeatportToSpotifyRequest request){
+        Instant currentTime = Instant.now();
+        if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
+            token= spotifyAPIService.refreshToken(token.getRefresh_token());
+
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
 
         return ResponseEntity.ok(spotifyAPIService.createPlaylistFromBeatport(request, user.getId(),token.getAccess_token()));

@@ -4,6 +4,7 @@ import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { BeatportToSpotifyRequest } from '../../models/beatport-to-spotify-request.interface';
 import { delay } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-detail',
@@ -11,6 +12,7 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+  url: string = '../../../assets/data.json';
   tracks: any[] = [];
 
   request: BeatportToSpotifyRequest ={
@@ -24,7 +26,8 @@ export class DetailComponent implements OnInit {
   constructor(
     private beatportToSpotifyApiService: BeatportToSpotifyApiService,
     private dataService: DataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +43,9 @@ export class DetailComponent implements OnInit {
     if(name && id && playlist){
       this.request.playlistName=playlist;
       this.request.genre=name+"/"+id;
-      this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe(data =>{
+
+      //this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe(data =>{  ../../../../..
+        this.http.get<any>(this.url).subscribe(data =>{
         this.image=data.playlist.images[0].url
         this.playlistUrl=data.playlist.external_urls.spotify;
         this.tracks = data.tracks.items;

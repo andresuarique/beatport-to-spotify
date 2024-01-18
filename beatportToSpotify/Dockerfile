@@ -18,6 +18,7 @@ FROM openjdk:8-jdk-alpine
 
 # Establece el directorio de trabajo en /app
 WORKDIR /app
+
 # Copia el archivo JAR de la aplicación en el contenedor
 COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war
 

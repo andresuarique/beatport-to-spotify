@@ -31,7 +31,6 @@ export class DetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.ready=true;
     this.createPlaylist();
 
   }
@@ -44,8 +43,8 @@ export class DetailComponent implements OnInit {
       this.request.playlistName=playlist;
       this.request.genre=name+"/"+id;
 
-      //this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe(data =>{  ../../../../..
-        this.http.get<any>(this.url).subscribe(data =>{
+      this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe(data =>{
+        //this.http.get<any>(this.url).subscribe(data =>{
         this.image=data.playlist.images[0].url
         this.playlistUrl=data.playlist.external_urls.spotify;
         this.tracks = data.tracks.items;

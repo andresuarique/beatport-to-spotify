@@ -18,12 +18,11 @@ FROM openjdk:8-jdk-alpine
 
 # Establece el directorio de trabajo en /app
 WORKDIR /app
-RUN ls
 # Copia el archivo JAR de la aplicación en el contenedor
-COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war b2s-java-app.war
+COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war
 
 # Expone el puerto 8080 (o el puerto que esté utilizando tu aplicación)
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación cuando el contenedor se inicia
-CMD ["java", "-jar", "b2s-java-app.war"]
+CMD ["java", "-jar", "java-app.war"]

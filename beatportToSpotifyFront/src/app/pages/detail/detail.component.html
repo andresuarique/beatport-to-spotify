@@ -36,13 +36,13 @@
       <div
         class="w-full h-auto flex flex-row pb-4 border-b-2 border-white border-opacity-10"
       >
-        <a [href]="playlistUrl" target="_blank" class="aspect-square w-1/3 flex items-end justify-end transition-all hover:scale-90">
+        <a [href]="playlistUrl" target="_blank" class="aspect-square lg:w-1/2 max-lg:w-1/3 flex items-end justify-end transition-all hover:scale-90">
           <img [src]="image" alt="" class="aspect-square h-auto w-auto" />
         </a>
-        <div class="h-full w-full flex flex-col items-start justify-end px-14">
-          <small class="text-lg mb-2">Playlist</small>
-          <h2 class="text-4xl mb-6">{{ request.playlistName }}</h2>
-          <h5 class="text-lg">{{ tracks.length }} Canciones</h5>
+        <div class="h-full w-full flex flex-col items-start justify-end px-8">
+          <small class="lg:text-base max-lg:text-sm max-[1366px]:hidden">Playlist</small>
+          <h2 class="lg:text-2xl max-lg:text-base font-bold">{{ request.playlistName }}</h2>
+          <small class="lg:text-base max-lg:text-sm max-[1366px]:hidden">{{ tracks.length }} Canciones</small>
         </div>
       </div>
       <div class="overflow-y-scroll w-full h-5/6 py-2 scrollbar">

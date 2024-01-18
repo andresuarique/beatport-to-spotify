@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  b2s-angular_app:
+  b2s_angular_app:
     container_name: b2s-angular_app
     image: as-b2s-angular_app:1.0.0
     build: ./beatportToSpotifyFront
@@ -8,7 +8,7 @@ services:
       - 80:81
     depends_on:
       - b2s-java_app
-  b2s-java_app:
+  b2s_java_app:
     container_name: b2s-java_app
     image: as-b2s-java_app:1.0.0
     build: ./beatportToSpotify

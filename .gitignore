@@ -194,4 +194,8 @@ replay_pid*
 .history
 .ionide
 
+# Local Test without api file
+data.json
+
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,dotenv,visualstudiocode,angular

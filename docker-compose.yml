@@ -7,7 +7,7 @@ services:
     ports:
       - 80:81
     depends_on:
-      - b2s-java_app
+      - b2s_java_app
   b2s_java_app:
     container_name: b2s-java_app
     image: as-b2s-java_app:1.0.0

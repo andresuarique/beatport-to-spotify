@@ -4,6 +4,9 @@ FROM maven:3.8.4-openjdk-8-slim AS build
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
+# Copia el directorio de controladores
+COPY drivers /app/drivers
+
 # Copia el archivo pom.xml para descargar las dependencias
 COPY pom.xml .
 

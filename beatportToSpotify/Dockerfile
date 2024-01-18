@@ -20,7 +20,7 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 
 # Copia el archivo JAR de la aplicación en el contenedor
-COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war /app/b2s-java-app.war
+COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war b2s-java-app.war
 
 # Expone el puerto 8080 (o el puerto que esté utilizando tu aplicación)
 EXPOSE 8080

@@ -5,7 +5,7 @@ FROM maven:3.8.4-openjdk-8-slim AS build
 WORKDIR /app
 
 # Copia el directorio de controladores
-COPY drivers /app/drivers
+#COPY drivers /app/drivers
 
 # Copia el archivo pom.xml para descargar las dependencias
 COPY pom.xml .

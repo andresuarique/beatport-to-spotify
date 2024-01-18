@@ -23,7 +23,7 @@ WORKDIR /app
 COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war
 
 # Expone el puerto 8080 (o el puerto que esté utilizando tu aplicación)
-EXPOSE 8080
+EXPOSE 8081
 
 # Comando para ejecutar la aplicación cuando el contenedor se inicia
 CMD ["java", "-jar", "java-app.war"]

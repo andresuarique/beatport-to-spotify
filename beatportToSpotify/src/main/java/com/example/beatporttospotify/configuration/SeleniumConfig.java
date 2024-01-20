@@ -13,14 +13,17 @@ import java.nio.file.Paths;
 public class SeleniumConfig {
     @Bean
     public WebDriver webDriver() {
-        Path path = Paths.get("drivers/chromedriver");
+        Path path = Paths.get("/usr/lib/chromium/chromedriver.exe");
         String absolutePath = path.toAbsolutePath().toString();
         System.out.println(absolutePath);
-        System.setProperty("webdriver.chrome.driver", absolutePath);
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver.exe");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920,1080");
+
 
 
         return new ChromeDriver(options);

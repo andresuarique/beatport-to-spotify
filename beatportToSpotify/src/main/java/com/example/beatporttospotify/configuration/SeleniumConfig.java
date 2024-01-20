@@ -16,7 +16,7 @@ public class SeleniumConfig {
         Path path = Paths.get("/usr/lib/chromium/chromedriver.exe");
         String absolutePath = path.toAbsolutePath().toString();
         System.out.println(absolutePath);
-        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");

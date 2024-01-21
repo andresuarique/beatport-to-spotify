@@ -30,4 +30,4 @@ COPY --from=build /app/dist/beatportToSpotifyFront/ /usr/share/nginx/html
 # Copia la configuración de Nginx para manejar las rutas
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 81
+EXPOSE 80

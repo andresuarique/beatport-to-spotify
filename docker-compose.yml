@@ -5,7 +5,7 @@ services:
     image: as-b2s-angular_app:1.0.0
     build: ./beatportToSpotifyFront
     ports:
-      - 81:81
+      - 81:80
     depends_on:
       - b2s_java_app
   b2s_java_app:

@@ -24,9 +24,9 @@ WORKDIR /app
 
 
 # Instala dependencias necesarias para Chrome
-RUN apk add --no-cache \
-    chromium \
-    chromium-chromedriver
+#RUN apk add --no-cache \
+    #chromium \
+    #chromium-chromedriver
 
 # Copia el archivo JAR de la aplicación en el contenedor
 COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war

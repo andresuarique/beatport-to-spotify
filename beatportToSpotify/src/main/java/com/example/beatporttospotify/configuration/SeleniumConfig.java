@@ -13,8 +13,8 @@ import java.nio.file.Paths;
 public class SeleniumConfig {
     @Bean
     public WebDriver webDriver() {
-        Path path = Paths.get("drivers/chromedriver.exe");
-        //Path path = Paths.get("/usr/bin/chromedriver");
+        //Path path = Paths.get("drivers/chromedriver.exe");
+        Path path = Paths.get("/usr/bin/chromedriver");
         String absolutePath = path.toAbsolutePath().toString();
         System.out.println(absolutePath);
         System.setProperty("webdriver.chrome.driver", absolutePath);

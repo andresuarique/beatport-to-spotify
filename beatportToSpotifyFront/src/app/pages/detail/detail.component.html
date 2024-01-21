@@ -46,11 +46,11 @@
         </a>
         <div class="h-full w-full flex flex-col items-start justify-end px-8">
           <small class="lg:text-base max-lg:text-sm max-[1366px]:hidden">Playlist</small>
-          <h2 class="lg:text-2xl max-lg:text-base font-bold">{{ request.playlistName }}</h2>
+          <h2 class="lg:text-2xl max-lg:text-base font-bold text-fuchsia-400">{{ request.playlistName }}</h2>
           <small class="lg:text-base max-lg:text-sm max-[1366px]:hidden">{{ tracks.length }} Canciones</small>
         </div>
       </section>
-      <section class="overflow-y-scroll w-full h-5/6 py-2 scrollbar">
+      <section class="overflow-y-scroll w-full h-5/6 py-2 scrollbar p-4">
         <table
           class="table-auto text-left min-w-full divide-y-2 divide-slate-400"
         >
@@ -61,7 +61,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let track of tracks; index as i" class="text-sm">
+            <tr *ngFor="let track of tracks; index as i" class="text-sm border-b-2 border-white border-opacity-0 hover:border-opacity-10 transition-all duration-200">
               <td class="text-right">
                 {{ i + 1 }}
               </td>

@@ -22,13 +22,11 @@ FROM openjdk:8-jdk-alpine
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copia el controlador de Chrome desde tu proyecto al contenedor
-COPY drivers/chromedriver /usr/bin/chromedriver
-COPY drivers/chromedriver.exe /usr/bin/chromedriver.exe
-RUN chmod +x /usr/bin/chromedriver
 
 # Instala dependencias necesarias para Chrome
-RUN apk --no-cache add chromium
+RUN apk add --no-cache \
+    chromium \
+    chromium-chromedriver
 
 # Copia el archivo JAR de la aplicación en el contenedor
 COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war
@@ -36,8 +34,7 @@ COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war
 # Expone el puerto 8080 (o el puerto que esté utilizando tu aplicación)
 EXPOSE 8081
 
-# Configura la propiedad del sistema para el controlador de Chrome
-ENV CHROME_DRIVER_PATH=/usr/lib/chromium/chromedriver
+
 
 # Comando para ejecutar la aplicación cuando el contenedor se inicia
 CMD ["java", "-jar", "java-app.war"]

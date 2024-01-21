@@ -13,10 +13,11 @@ import java.nio.file.Paths;
 public class SeleniumConfig {
     @Bean
     public WebDriver webDriver() {
-        Path path = Paths.get("/usr/lib/chromium/chromedriver.exe");
+        Path path = Paths.get("drivers/chromedriver.exe");
+        //Path path = Paths.get("/usr/bin/chromedriver");
         String absolutePath = path.toAbsolutePath().toString();
         System.out.println(absolutePath);
-        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+        System.setProperty("webdriver.chrome.driver", absolutePath);
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");

@@ -4,6 +4,7 @@ import com.example.beatporttospotify.model.*;
 import com.example.beatporttospotify.service.SpotifyAPIService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -18,12 +19,15 @@ import java.util.List;
 @RequestMapping("/api/spotify")
 @CrossOrigin(origins = "*")
 public class SpotifyAPIController {
-@Autowired
-private Dotenv dotenv;
+
 @Autowired
 private SpotifyAPIService spotifyAPIService;
 private SpotifyAccessToken token = new SpotifyAccessToken();
 
+@Value("${server.url}")
+private String serverUrl;
+@Value("${client.url}")
+private String clientUrl;
 
 
 
@@ -45,7 +49,7 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
     @GetMapping("/callback")
     public ResponseEntity<?> callback(){
         try{
-            String url = dotenv.get("SERVER_URL")+"/api/spotify/redirect";
+            String url = serverUrl+"/api/spotify/redirect";
 
             String scope = "user-read-currently-playing";
             scope = "user-read-private user-read-email user-read-currently-playing user-read-recently-played playlist-modify-public playlist-modify-private";
@@ -59,14 +63,14 @@ private SpotifyAccessToken token = new SpotifyAccessToken();
     @GetMapping("/redirect")
     public RedirectView redirect(@RequestParam("code") String authorizationCode){
         System.out.println("redirect");
-        String url = dotenv.get("SERVER_URL")+"/api/spotify/redirect";
+        String url = serverUrl+"/api/spotify/redirect";
         System.out.println(url);
         token = spotifyAPIService.exchangeAuthorizationCode(authorizationCode,url);
         if(token == null){
             System.out.println("Failed to obtain access token");
         }
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(dotenv.get("CLIENT_URL")+"/home");
+        redirectView.setUrl(clientUrl +"/home");
         System.out.printf("token: "+ token.toString());
         System.out.println("redirect fin"+redirectView.getUrl());
         return redirectView;

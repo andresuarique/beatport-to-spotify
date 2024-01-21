@@ -6,6 +6,7 @@ import com.example.beatporttospotify.service.SpotifyAPIService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -30,11 +31,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class SpotifyAPIServiceImpl implements SpotifyAPIService {
-    @Autowired
-    private Dotenv dotenv;
+
     @Autowired
     private BeatportScrapperService beatportScrapperService;
 
+    @Value("$spotify.client.id}")
+    private String spotifyClientId;
+    @Value("${spotify.client.secret}")
+    private String spotifyClientSecret;
     @Override
     public SpotifyUser getUser(String token){
         String url = "https://api.spotify.com/v1/me";
@@ -64,8 +68,8 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "client_credentials");
-        body.add("client_id", dotenv.get("SPOTIFY_CLIENT_ID"));
-        body.add("client_secret", dotenv.get("SPOTIFY_CLIENT_SECRET"));
+        body.add("client_id", spotifyClientId);
+        body.add("client_secret", spotifyClientSecret);
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
         ResponseEntity<SpotifyAccessToken> responseEntity = restTemplate.exchange(
@@ -85,7 +89,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
         URI authorizeUri = new URIBuilder("https://accounts.spotify.com/authorize")
                 .addParameter("response_type", "code")
-                .addParameter("client_id", dotenv.get("SPOTIFY_CLIENT_ID"))
+                .addParameter("client_id", spotifyClientId)
                 .addParameter("scope", scope)
                 .addParameter("redirect_uri", url)
                 .addParameter("state", state)
@@ -106,7 +110,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.setBasicAuth(dotenv.get("SPOTIFY_CLIENT_ID"), dotenv.get("SPOTIFY_CLIENT_SECRET"));
+        headers.setBasicAuth(spotifyClientId, spotifyClientSecret);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
@@ -273,8 +277,8 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     }
     @Override
     public SpotifyAccessToken refreshToken(String refreshToken) {
-        String clientId = dotenv.get("SPOTIFY_CLIENT_ID");
-        String clientSecret = dotenv.get("SPOTIFY_CLIENT_SECRET");
+        String clientId = spotifyClientId;
+        String clientSecret = spotifyClientSecret;
         System.out.println(" REFRESH TOKEN: "+refreshToken);
         Instant creationTime = Instant.now();
         System.out.println("time: "+creationTime);

@@ -7,13 +7,10 @@ import com.example.beatporttospotify.model.BeatportSong;
 import com.example.beatporttospotify.service.BeatportScrapperService;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,17 +18,19 @@ import java.util.List;
 
 @Service
 public class BeatportScrapperServiceImpl implements BeatportScrapperService {
-    @Autowired
-    private WebDriver webDriver;
+
     @Override
     public Document getHTML(String url) {
-        System.out.println("getHTML: "+url);
-        webDriver.get(url);
-        WebDriverWait wait = new WebDriverWait(webDriver, 1);
-        wait.until(ExpectedConditions.jsReturnsValue("return document.readyState == 'complete'"));
-        String html = webDriver.getPageSource();
-        Document document = Jsoup.parse(html);
+        try {
+        System.out.println("getHTML: " + url);
+        Connection.Response response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).ignoreHttpErrors(true).execute();
+        Document document = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).get();
         return document;
+        }catch (Exception e){
+        e.printStackTrace();
+        return null;
+        }
+
     }
 
     @Override

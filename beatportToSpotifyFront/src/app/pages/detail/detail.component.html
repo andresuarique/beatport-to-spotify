@@ -5,7 +5,7 @@
 </svg>
 </div>
 <div *ngIf="ready" class="w-full h-full">
-<div  class="absolute">
+<div  class="absolute max-sm:hidden">
   <a href="/home">
     <div
       class="aspect-square rounded-full w-12 h-12 m-10 border-solid border-2 border-white grid place-items-center transition-all ease-in duration-75 hover:scale-90"
@@ -28,12 +28,17 @@
     </div>
   </a>
 </div>
-<div class="w-full h-full flex flex-col items-center justify-center">
+<main class="w-full h-full flex flex-col items-center justify-center">
   <div
-    class="h-5/6 lg:w-1/3 md:w-1/2 sm:w-5/6 max-sm:w-5/6 flex flex-col items-center justify-center p-8 border-2 border-opacity-10 border-white backdrop-blur rounded-md"
+    class="h-5/6 lg:w-1/4 md:w-1/3 sm:w-5/6 max-sm:w-5/6 flex flex-col items-center justify-center text-center"
   >
-    <div class="w-full h-full rounded-md overflow-hidden text-white">
-      <div
+  <header class="w-full h-auto items-center justify-center text-white mb-4">
+    <h1 class="font-bold overflow-visible text-center lg:text-3xl max-lg:text-xl text-transparent bg-clip-text bg-gradient-to-tr from-fuchsia-300 from-40% via-fuchsia-100 to-fuchsia-300 to-60% p-6">Playlist Creada Exitosamente</h1>
+    <p>Ahora puedes disfrutar de tu playlist haciendo click <a [href]="playlistUrl" target="_blank" class="text-amber-400">aqui</a></p>
+  </header>
+    <div class="w-full h-full rounded-md overflow-hidden text-white p-8 border-2 border-opacity-10 border-white backdrop-blur rounded-md">
+
+      <section
         class="w-full h-auto flex flex-row pb-4 border-b-2 border-white border-opacity-10"
       >
         <a [href]="playlistUrl" target="_blank" class="aspect-square lg:w-1/2 max-lg:w-1/3 flex items-end justify-end transition-all hover:scale-90">
@@ -44,8 +49,8 @@
           <h2 class="lg:text-2xl max-lg:text-base font-bold">{{ request.playlistName }}</h2>
           <small class="lg:text-base max-lg:text-sm max-[1366px]:hidden">{{ tracks.length }} Canciones</small>
         </div>
-      </div>
-      <div class="overflow-y-scroll w-full h-5/6 py-2 scrollbar">
+      </section>
+      <section class="overflow-y-scroll w-full h-5/6 py-2 scrollbar">
         <table
           class="table-auto text-left min-w-full divide-y-2 divide-slate-400"
         >
@@ -67,19 +72,19 @@
                   alt=""
                   class="aspect-square w-12 max-w-[100px]"
                 />
-                <div class="flex flex-col">
+                <header class="flex flex-col">
                   <h3 class="font-bold">{{ track.name }}</h3>
                   <small class="font-light">{{ track.artists[0].name }}</small>
-                </div>
+                </header>
               </a>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
     </div>
   </div>
-</div>
+</main>
 </div>
 <!--div class="grid grid-cols-1 place-items-center">
 <div class="bg-transparent h-full min-w-[300px] max-h-full aspect-square grid grid-cols-7 grid-rows-7 gap-4 p-8">

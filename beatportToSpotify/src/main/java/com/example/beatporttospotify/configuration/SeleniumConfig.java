@@ -18,7 +18,7 @@ public class SeleniumConfig {
         String absolutePath = path.toAbsolutePath().toString();
         System.out.println(absolutePath);
         System.setProperty("webdriver.chrome.driver", absolutePath);
-
+        System.setProperty("webdriver.chrome.verboseLogging", "true");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");

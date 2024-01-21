@@ -35,7 +35,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     @Autowired
     private BeatportScrapperService beatportScrapperService;
 
-    @Value("$spotify.client.id}")
+    @Value("${spotify.client.id}")
     private String spotifyClientId;
     @Value("${spotify.client.secret}")
     private String spotifyClientSecret;

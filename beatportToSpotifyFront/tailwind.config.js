@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       brightness: {
         25: '.25',
+      },
+      aspectRatio:{
+        '1/4':'1 / 4',
       }
     },
     fontFamily:{

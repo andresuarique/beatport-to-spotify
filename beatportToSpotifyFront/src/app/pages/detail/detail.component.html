@@ -29,16 +29,22 @@
 </div>
 <div *ngIf="ready" class="w-full h-full grid place-items-center max-md:p-4">
 
-  <div class="lg:w-2/5 md:w-1/2 max-md:w-2/3 md:aspect-square max-md:aspect-1/4">
+  <div class="lg:w-2/5 md:w-2/3 max-md:w-4/5 md:aspect-square max-md:aspect-1/4">
 <main class="w-full h-full grid md:grid-cols-2 auto-rows-fr max-md:grid-cols-1 gap-2">
-  <section class="col-span-1 md:row-span-2 max-md:row-span-1 w-full rounded-xl border-2 border-white text-white p-4">
-    <article>
-      <h1>Tu playlist se ha creado exitosamente</h1>
-      <h2>La playlist cuenta con {{ tracks.length }} canciones</h2>
+  <section class="col-span-1 md:row-span-2 max-md:row-span-1 w-full rounded-xl text-white bg-gradient-to-r from-blue-600 via-cyan-400 to-blue-600 p-1">
+    <div class="bg-black w-full h-full rounded-xl p-4">
+    <article class="w-full h-full flex items-end">
+      <div class="w-full ">
+      <h2 class="font-bold">Playlist Creada</h2>
+      <h1 class="font-bold overflow-visible text-left lg:text-3xl max-lg:text-xl text-transparent bg-clip-text bg-gradient-to-tr from-amber-500 from-40% via-amber-400 to-amber-500 to-60% ">{{ request.playlistName }}</h1>
+      <h2 class="bottom-1"><span class="text-cyan-400 font-bold"> {{ tracks.length }} </span>Canciones</h2>
+    </div>
     </article>
+  </div>
   </section>
-  <section class="col-span-1 md:row-span-4 max-md:row-span-1 w-full rounded-xl p-2 border-2 border-white text-white">
-    <div class="w-full h-full overflow-y-scroll scrollbar p-2">
+  <section class="col-span-1 md:row-span-4 max-md:row-span-1 w-full rounded-xl text-white bg-gradient-to-br from-blue-600 via-cyan-400 to-blue-600 p-1">
+    <div class="bg-black w-full h-full rounded-xl">
+    <div class="w-full h-full overflow-y-scroll scrollbar py-4">
     <table
           class="table-auto text-left min-w-full divide-y-2 divide-slate-400"
         >
@@ -58,11 +64,11 @@
                 <img
                   [src]="track.album.images[0].url"
                   alt=""
-                  class="aspect-square w-12 max-w-[50px]"
+                  class="aspect-square w-auto max-w-[50px]"
                 />
                 <header class="flex flex-col">
                   <h3 class="font-bold">{{ track.name }}</h3>
-                  <small class="font-light">{{ track.artists[0].name }}</small>
+                  <small class="">{{ track.artists[0].name }}</small>
                 </header>
               </a>
               </td>
@@ -70,16 +76,21 @@
           </tbody>
         </table>
       </div>
+    </div>
   </section>
-  <section class="col-span-1 row-span-1 w-full rounded-xl border-2 border-white text-white p-4">
-    <article>
-      <h2>Ver la playlist en Spotify</h2>
+  <section class="col-span-1 row-span-1 w-full rounded-xl text-white bg-gradient-to-r from-blue-600 via-cyan-400 to-blue-600 p-1">
+    <div class="bg-black w-full h-full rounded-xl p-4">
+    <article class="w-full h-full flex items-center justify-center">
+      <h2>Ver en Spotify</h2>
     </article>
+  </div>
   </section>
-  <section class="col-span-1 row-span-1 w-full rounded-xl border-2 border-white text-white p-4">
-    <article>
-      <h2>Ver la playlist en Beatport</h2>
+  <section class="col-span-1 row-span-1 w-full rounded-xl text-white bg-gradient-to-r from-blue-600 via-cyan-400 to-blue-600 p-1">
+    <div class="bg-black w-full h-full rounded-xl p-4">
+    <article class="w-full h-full flex items-center justify-center">
+      <h2>Ver en Beatport</h2>
     </article>
+  </div>
   </section>
 </main>
 </div>

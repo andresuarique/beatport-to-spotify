@@ -22,6 +22,7 @@ export class DetailComponent implements OnInit {
   };
   image:string ='';
   playlistUrl:string = '';
+  beatportUrl:string='https://www.beatport.com/';
   ready:boolean=false;
   constructor(
     private beatportToSpotifyApiService: BeatportToSpotifyApiService,
@@ -54,5 +55,14 @@ export class DetailComponent implements OnInit {
 
       });
     }
+
+    if(name == 'general'){
+      this.beatportUrl+='top-100';
+    }
+    else{
+      this.beatportUrl+='genre/'+name+"/"+id+"/top-100"
+    }
+
+
   }
 }

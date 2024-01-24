@@ -39,3 +39,30 @@
    border-radius: 10px;
    -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.5);
 }
+
+.spotify-button:hover{
+  div{
+    img{
+      transform: rotate(5deg);
+      scale: 120%;
+    }
+  }
+  article{
+    h2{
+      scale: 95%;
+    }
+  }
+}
+.beatport-button:hover{
+  div{
+    img{
+      transform: rotate(-5deg);
+      scale: 120%;
+    }
+  }
+  article{
+    h2{
+      scale: 95%;
+    }
+  }
+}

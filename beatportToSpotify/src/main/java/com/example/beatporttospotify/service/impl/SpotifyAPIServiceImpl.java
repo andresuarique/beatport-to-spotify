@@ -156,8 +156,11 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         System.out.println("response: "+(Map<String,Object>) a.getBody());
         if(responseEntity.getBody() != null){
         SpotifySongList songList = responseEntity.getBody();
-        System.out.println(songList.getTracks().getItems().get(0).getAlbum().getImages().get(0));
-        return songList.getTracks().getItems().get(0);
+        if(!songList.getTracks().getItems().isEmpty()){
+            return songList.getTracks().getItems().get(0);
+        }
+        //System.out.println(songList.getTracks().getItems().get(0).getAlbum().getImages().get(0));
+
         }
         return null;
     }

@@ -53,7 +53,6 @@ private String clientUrl;
 
             String scope = "user-read-currently-playing";
             scope = "user-read-private user-read-email user-read-currently-playing user-read-recently-played playlist-modify-public playlist-modify-private";
-            //scope = "user-read-private user-read-email";
             System.out.println("callback");
             return ResponseEntity.ok(spotifyAPIService.authorize(url,scope));
         }catch (URISyntaxException e){
@@ -62,27 +61,22 @@ private String clientUrl;
     }
     @GetMapping("/redirect")
     public RedirectView redirect(@RequestParam("code") String authorizationCode){
-        System.out.println("redirect");
         String url = serverUrl+"/api/spotify/redirect";
-        System.out.println(url);
+        System.out.println("Redirect to: "+url);
         token = spotifyAPIService.exchangeAuthorizationCode(authorizationCode,url);
         if(token == null){
             System.out.println("Failed to obtain access token");
         }
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(clientUrl +"/home");
-        System.out.printf("token: "+ token.toString());
-        System.out.println("redirect fin"+redirectView.getUrl());
         return redirectView;
     }
     @GetMapping("/search-song/{song}")
     public ResponseEntity<?> searchSong(@PathVariable String song){
-
         return ResponseEntity.ok(spotifyAPIService.searchSong(song));
     }
     @GetMapping("/create-playlist-by-name/{name}")
     public ResponseEntity<?> createPlaylist(@PathVariable String name){
-        System.out.println("GET");
         Instant currentTime = Instant.now();
         if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
             token= spotifyAPIService.refreshToken(token.getRefresh_token());
@@ -97,7 +91,6 @@ private String clientUrl;
             token= spotifyAPIService.refreshToken(token.getRefresh_token());
 
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
-
         return ResponseEntity.ok(spotifyAPIService.createPlaylistFromBeatport(request, user.getId(),token.getAccess_token()));
     }
 }

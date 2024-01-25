@@ -3,26 +3,20 @@ package com.example.beatporttospotify.service.impl;
 import com.example.beatporttospotify.model.*;
 import com.example.beatporttospotify.service.BeatportScrapperService;
 import com.example.beatporttospotify.service.SpotifyAPIService;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.http.client.utils.URIBuilder;
 
-import java.net.URLEncoder;
 import java.security.SecureRandom;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -95,8 +89,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 .addParameter("state", state)
                 .build();
 
-        System.out.println("callback1");
-        System.out.println(authorizeUri);
         resp.put("url",authorizeUri.toString());
         return resp;
     }
@@ -104,7 +96,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     @Override
     public SpotifyAccessToken exchangeAuthorizationCode(String authorizationCode, String url) {
         Instant creationTime = Instant.now();
-        System.out.println(creationTime.plus(Duration.ofSeconds(3600)));
         String spotifyTokenUrl = "https://accounts.spotify.com/api/token";
 
         RestTemplate restTemplate = new RestTemplate();
@@ -125,7 +116,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 requestEntity,
                 SpotifyAccessToken.class
         );
-        System.out.println(response.getBody());
         SpotifyAccessToken tokenResponse = response.getBody();
         tokenResponse.setToken_creation_time(creationTime);
         return tokenResponse;
@@ -153,14 +143,11 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 entity,
                 Object.class
         );
-        System.out.println("response: "+(Map<String,Object>) a.getBody());
         if(responseEntity.getBody() != null){
         SpotifySongList songList = responseEntity.getBody();
         if(!songList.getTracks().getItems().isEmpty()){
             return songList.getTracks().getItems().get(0);
         }
-        //System.out.println(songList.getTracks().getItems().get(0).getAlbum().getImages().get(0));
-
         }
         return null;
     }
@@ -211,7 +198,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         String requestBody = "{\"uris\": ["+ songList +"],\"position\": 0}";
         //System.out.println("requestBody = " + requestBody);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-        System.out.println(requestBody);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(
                 url,
@@ -224,10 +210,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         } else {
             System.out.println("Failed to add songs. Status code: " + response.getStatusCode());
         }
-        //SpotifyPlaylist spotifyPlaylist = response.getBody();
         return response.getBody();
-
-
     }
 
     @Override
@@ -282,9 +265,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     public SpotifyAccessToken refreshToken(String refreshToken) {
         String clientId = spotifyClientId;
         String clientSecret = spotifyClientSecret;
-        System.out.println(" REFRESH TOKEN: "+refreshToken);
         Instant creationTime = Instant.now();
-        System.out.println("time: "+creationTime);
         String spotifyTokenUrl = "https://accounts.spotify.com/api/token";
 
         RestTemplate restTemplate = new RestTemplate();
@@ -308,7 +289,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         SpotifyAccessToken tokenResponse = response.getBody();
         tokenResponse.setToken_creation_time(creationTime);
         tokenResponse.setRefresh_token(refreshToken);
-        System.out.println("RT: "+tokenResponse.getToken_creation_time());
         return tokenResponse;
     }
 
@@ -324,14 +304,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         data=data.replace("#"," ");
         data=data.replace("&","and");
         data=data.trim();
-/*
-        try {
-            data= URLEncoder.encode(data, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return data;
-
-        }*/
         return data;
     }
     private String clearArtistText(String artist){

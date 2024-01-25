@@ -18,11 +18,10 @@ import java.util.List;
 
 @Service
 public class BeatportScrapperServiceImpl implements BeatportScrapperService {
-
     @Override
     public Document getHTML(String url) {
         try {
-        System.out.println("getHTML: " + url);
+        System.out.println("get HTML from: " + url);
         Connection.Response response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).ignoreHttpErrors(true).execute();
         Document document = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).get();
         return document;
@@ -31,11 +30,6 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         return null;
         }
 
-    }
-
-    @Override
-    public List<BeatportSong> getSongs(String url) {
-        return null;
     }
 
     @Override
@@ -66,7 +60,6 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         beatportGenre.setUrl(stringFormatter(beatportGenre.getName())+"/"+beatportGenre.getId());
         genreList.add(beatportGenre);
         }
-        System.out.println("success!");
         return genreList;
     }
 

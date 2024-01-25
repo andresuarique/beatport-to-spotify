@@ -21,7 +21,12 @@
     </div>
   </a>
 </div>
-<div *ngIf="ready" class="w-full h-full grid place-items-center max-md:p-4">
+<div *ngIf="ready && hasError" class="w-full h-full grid place-items-center">
+  <div>
+    <h2 class=" text-3xl text-amber-500">Ha ocurrido un error, intenta mas tarde.</h2>
+  </div>
+</div>
+<div *ngIf="ready && !hasError" class="w-full h-full grid place-items-center max-md:p-4">
 
   <div class="lg:w-2/5 md:w-2/3 max-md:w-4/5 md:aspect-square max-md:aspect-1/4">
     <main class="w-full h-full grid md:grid-cols-2 auto-rows-fr max-md:grid-cols-1 gap-2">

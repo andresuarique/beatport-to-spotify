@@ -24,6 +24,7 @@ export class DetailComponent implements OnInit {
   playlistUrl:string = '';
   beatportUrl:string='https://www.beatport.com/';
   ready:boolean=false;
+  hasError:boolean=false;
   constructor(
     private beatportToSpotifyApiService: BeatportToSpotifyApiService,
     private dataService: DataService,
@@ -51,18 +52,20 @@ export class DetailComponent implements OnInit {
         this.tracks = data.tracks.items;
         //this.tracks.sort(() => Math.random() - 0.5);
         //this.tracks= this.tracks.slice(0,40);
-        this.ready=!this.ready;
+        this.ready=true;
+        this.hasError = false;
 
+        if(name == 'general'){
+          this.beatportUrl+='top-100';
+        }
+        else{
+          this.beatportUrl+='genre/'+name+"/"+id+"/top-100"
+        }
+      },
+      error =>{
+        this.ready=true;
+        this.hasError = true;
       });
     }
-
-    if(name == 'general'){
-      this.beatportUrl+='top-100';
-    }
-    else{
-      this.beatportUrl+='genre/'+name+"/"+id+"/top-100"
-    }
-
-
   }
 }

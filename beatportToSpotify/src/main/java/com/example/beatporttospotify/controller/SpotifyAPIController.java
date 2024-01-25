@@ -2,7 +2,6 @@ package com.example.beatporttospotify.controller;
 
 import com.example.beatporttospotify.model.*;
 import com.example.beatporttospotify.service.SpotifyAPIService;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/spotify")

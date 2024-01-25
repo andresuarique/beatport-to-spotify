@@ -50,8 +50,6 @@ export class DetailComponent implements OnInit {
         this.image=data.playlist.images[0].url
         this.playlistUrl=data.playlist.external_urls.spotify;
         this.tracks = data.tracks.items;
-        //this.tracks.sort(() => Math.random() - 0.5);
-        //this.tracks= this.tracks.slice(0,40);
         this.ready=true;
         this.hasError = false;
 

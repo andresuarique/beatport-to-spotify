@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>beatportToSpotify</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
     <name>beatportToSpotify</name>
     <description>beatportToSpotify</description>
@@ -32,11 +32,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cdimascio</groupId>
-            <artifactId>java-dotenv</artifactId>
-            <version>5.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -85,6 +80,26 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${profile.dir}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+    <profiles>
+        <profile>
+            <id>develop</id>
+            <properties>
+                <profile.dir>src/main/profiles/develop</profile.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <profile.dir>src/main/profiles/production</profile.dir>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface BeatportScrapperService {
     public Document getHTML(String url);
-    public List<BeatportSong> getSongs(String url);
     public List<BeatportGenre> getGenres();
     public List<BeatportSong> getTop100(String genre);
 }

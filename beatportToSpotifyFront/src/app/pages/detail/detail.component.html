@@ -21,7 +21,12 @@
     </div>
   </a>
 </div>
-<div *ngIf="ready" class="w-full h-full grid place-items-center max-md:p-4">
+<section *ngIf="ready && hasError" class="w-full h-full grid place-items-center">
+  <article>
+    <h2 class=" text-3xl text-amber-500">Ha ocurrido un error, intenta mas tarde.</h2>
+  </article>
+</section>
+<div *ngIf="ready && !hasError" class="w-full h-full grid place-items-center max-md:p-4">
 
   <div class="lg:w-2/5 md:w-2/3 max-md:w-4/5 md:aspect-square max-md:aspect-1/4">
     <main class="w-full h-full grid md:grid-cols-2 auto-rows-fr max-md:grid-cols-1 gap-2">
@@ -29,17 +34,17 @@
         class="col-span-1 md:row-span-2 max-md:row-span-1 w-full rounded-xl text-white bg-gradient-to-r from-blue-600 via-cyan-400 to-blue-600 p-1">
         <div class="relative bg-black w-full h-full rounded-xl overflow-hidden">
           <div class="absolute w-full h-full bg-black">
-            <img [src]="image" alt="" class="w-full h-full opacity-10">
+            <img [src]="image" alt="" class="w-full h-full opacity-20">
           </div>
           <article class="relative w-full h-full flex items-end p-4 z-50">
-            <div class="w-full ">
+            <header class="w-full ">
               <h2 class="font-bold lg:text-2xl max-lg:text-1xl">Playlist Creada</h2>
               <h1
                 class="font-bold overflow-visible text-left lg:text-4xl max-lg:text-2xl text-transparent bg-clip-text bg-gradient-to-tr from-amber-500 from-40% via-amber-400 to-amber-500 to-60% ">
                 {{ request.playlistName }}</h1>
               <h2 class="bottom-1"><span class="text-cyan-400 font-bold lg:text-2xl max-lg:text-1xl"> {{ tracks.length
                   }} </span>Canciones</h2>
-            </div>
+            </header>
           </article>
         </div>
       </section>

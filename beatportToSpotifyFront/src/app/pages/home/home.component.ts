@@ -8,42 +8,41 @@ import { BeatportToSpotifyRequest } from 'src/app/models/beatport-to-spotify-req
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  urlGenreSelected:string = '';
-  playlistName:string = '';
+  urlGenreSelected: string = '';
+  playlistName: string = '';
 
   genres: BeatportGenre[] = [];
-
 
   constructor(
     private router: Router,
     private beatportToSpotifyApiService: BeatportToSpotifyApiService,
     private dataService: DataService,
     private route: ActivatedRoute
-
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getGenres();
   }
 
-  getGenres():void{
-    this.beatportToSpotifyApiService.getGenres().subscribe(data =>{
-      this.genres = data;
-      this.genres = this.genres.filter(genre => genre.id !== 0);
-    },
-    error =>{
-      console.error('Genres not found')
-    }
+  getGenres(): void {
+    this.beatportToSpotifyApiService.getGenres().subscribe(
+      (data) => {
+        this.genres = data;
+        this.genres = this.genres.filter((genre) => genre.id !== 0);
+      },
+      (error) => {
+        console.error('Genres not found');
+      }
     );
   }
-  create():void{
-    console.log("Click");
+  create(): void {
+    console.log('Click');
     console.log(this.playlistName);
     console.log(this.urlGenreSelected);
-    let split =this.urlGenreSelected.split("/");
-    this.router.navigate(['/detail',this.playlistName,split[0],split[1]]);
+    let split = this.urlGenreSelected.split('/');
+    this.router.navigate(['/detail', this.playlistName, split[0], split[1]]);
   }
 }

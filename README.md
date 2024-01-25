@@ -1,7 +1,7 @@
 # Beatport to Spotify
 
 ## Descripción del Proyecto
-Beatport to Spotify es un web scraper generador de playlists en Spotify. La aplicación utiliza Selenium para extraer el top 100 de diversas categorías de música electrónica de Beatport y crea automáticamente playlists personalizadas en Spotify a través de su API. Este proyecto fue desarrollado con Java 1.8, Spring Boot 2.4, Angular 12, Selenium, Tailwind y la API de Spotify.
+Beatport to Spotify es un web scraper generador de playlists en Spotify. La aplicación utiliza Jsoup para extraer el top 100 de diversas categorías de música electrónica de Beatport y crea automáticamente playlists personalizadas en Spotify a través de su API. Este proyecto fue desarrollado con Java 1.8, Spring Boot 2.4, Angular 12, Tailwind CSS y la API de Spotify.
 
 ## Instrucciones de Instalación
 No se requiere instalación, ya que es una aplicación web.
@@ -16,7 +16,6 @@ No se requiere instalación, ya que es una aplicación web.
 - Java 1.8
 - Spring Boot 2.4
 - Angular 12
-- Selenium
 - Tailwind CSS
 - Spotify API
 

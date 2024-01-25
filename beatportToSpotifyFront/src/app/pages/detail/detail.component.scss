@@ -1,67 +1,44 @@
-.background-style{
-  z-index: -10;
-  background-size: 20px 20px;
-  background-image:
-    linear-gradient(to left, rgba(0,0,0,.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0,0,0,.03) 1px, transparent 1px);
-    .background-style-gradient{
-    height: fit-content;
-    z-index: -1;
-    max-width: 640px;
-    background-image: radial-gradient(at 27% 37%,#7ef03c 0,transparent 30%),
-    radial-gradient(at 97% 21%,#4ea8fc 0,transparent 50%),
-    radial-gradient(at 52% 99%,#743afd 0,transparent 50%),
-    radial-gradient(at 10% 29%,#fa2643 0,transparent 50%),
-    radial-gradient(at 97% 96%,#f0ec14 0,transparent 50%),
-    radial-gradient(at 33% 50%,#ff00f2 0,transparent 50%),
-    radial-gradient(at 79% 53%,#00ff00 0,transparent 50%);
-    position: absolute;
-    content: "";
-    width: 50%;
-    height: 50%;
-    filter: blur(100px) saturate(150%);
-    top: 80px;
-    opacity: .3;
-    }
-}
-.scrollbar {
-}
+.scrollbar {}
+
 .scrollbar::-webkit-scrollbar {
-   width: 8px;
+  width: 8px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
-   -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
-   border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-   border-radius: 10px;
-   -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.5);
 }
 
-.spotify-button:hover{
-  div{
-    img{
+.spotify-button:hover {
+  div {
+    img {
       transform: rotate(5deg);
       scale: 120%;
     }
   }
-  article{
-    h2{
+
+  article {
+    h2 {
       scale: 95%;
     }
   }
 }
-.beatport-button:hover{
-  div{
-    img{
+
+.beatport-button:hover {
+  div {
+    img {
       transform: rotate(-5deg);
       scale: 120%;
     }
   }
-  article{
-    h2{
+
+  article {
+    h2 {
       scale: 95%;
     }
   }

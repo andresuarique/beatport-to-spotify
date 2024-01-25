@@ -4,17 +4,17 @@ FROM maven:3.8.4-openjdk-8-slim AS build
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copia el directorio de controladores
-#COPY drivers /app/drivers
-
 # Copia el archivo pom.xml para descargar las dependencias
 COPY pom.xml .
 
 # Copia el resto de los archivos
 COPY src src
 
+# Establece el perfil a utilizar (puedes configurar esto según tus necesidades)
+ARG MAVEN_PROFILE=production
+
 # Ejecuta la fase de compilación y construcción del proyecto
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -P$MAVEN_PROFILE
 
 # Usa la imagen oficial de Java 8 como base
 FROM openjdk:8-jdk-alpine
@@ -22,14 +22,8 @@ FROM openjdk:8-jdk-alpine
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
-
-# Instala dependencias necesarias para Chrome
-#RUN apk add --no-cache \
-    #chromium \
-    #chromium-chromedriver
-
 # Copia el archivo JAR de la aplicación en el contenedor
-COPY target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war
+COPY --from=build /app/target/beatportToSpotify-0.0.1-SNAPSHOT.war java-app.war
 
 # Expone el puerto 8080 (o el puerto que esté utilizando tu aplicación)
 EXPOSE 8081

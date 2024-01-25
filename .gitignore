@@ -199,3 +199,5 @@ data.json
 
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,dotenv,visualstudiocode,angular
+
+**/profiles/develop/*

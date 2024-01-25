@@ -80,6 +80,26 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${profile.dir}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+    <profiles>
+        <profile>
+            <id>develop</id>
+            <properties>
+                <profile.dir>src/main/profiles/develop</profile.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <profile.dir>src/main/profiles/production</profile.dir>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

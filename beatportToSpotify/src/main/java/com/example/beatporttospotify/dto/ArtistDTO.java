@@ -1,7 +1,8 @@
 package com.example.beatporttospotify.dto;
 
-import javax.persistence.Column;
+import lombok.Data;
 
+@Data
 public class ArtistDTO {
     private Long id;
     private String spotifyName;

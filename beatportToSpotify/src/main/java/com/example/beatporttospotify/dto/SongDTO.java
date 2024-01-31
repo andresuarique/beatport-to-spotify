@@ -1,15 +1,11 @@
 package com.example.beatporttospotify.dto;
 
-import com.example.beatporttospotify.domain.Artist;
-import com.example.beatporttospotify.domain.PlaylistSongs;
-import com.example.beatporttospotify.domain.SongArtists;
+import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class SongDTO {
     private Long id;
     private String spotifyName;

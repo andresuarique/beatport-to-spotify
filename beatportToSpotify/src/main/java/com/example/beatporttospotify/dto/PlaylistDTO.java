@@ -1,14 +1,12 @@
 package com.example.beatporttospotify.dto;
 
-import com.example.beatporttospotify.domain.PlaylistSongs;
+import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class PlaylistDTO {
     private Long id;
     private String name;

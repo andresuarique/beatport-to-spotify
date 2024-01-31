@@ -1,10 +1,9 @@
 package com.example.beatporttospotify.service;
 
-import com.example.beatporttospotify.model.*;
-import org.springframework.web.servlet.view.RedirectView;
+import com.example.beatporttospotify.model.scraper.BeatportToSpotifyRequest;
+import com.example.beatporttospotify.model.spotify.*;
 
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 
 public interface SpotifyAPIService {

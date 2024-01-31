@@ -1,4 +1,4 @@
-package com.example.beatporttospotify.model;
+package com.example.beatporttospotify.model.scraper;
 
 import lombok.Data;
 

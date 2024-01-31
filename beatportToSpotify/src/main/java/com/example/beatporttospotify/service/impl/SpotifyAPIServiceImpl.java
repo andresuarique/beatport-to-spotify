@@ -1,6 +1,8 @@
 package com.example.beatporttospotify.service.impl;
 
-import com.example.beatporttospotify.model.*;
+import com.example.beatporttospotify.model.scraper.BeatportSong;
+import com.example.beatporttospotify.model.scraper.BeatportToSpotifyRequest;
+import com.example.beatporttospotify.model.spotify.*;
 import com.example.beatporttospotify.service.BeatportScrapperService;
 import com.example.beatporttospotify.service.SpotifyAPIService;
 import org.apache.commons.lang3.StringEscapeUtils;

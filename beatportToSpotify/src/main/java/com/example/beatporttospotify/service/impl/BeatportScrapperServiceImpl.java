@@ -1,9 +1,7 @@
 package com.example.beatporttospotify.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.beatporttospotify.model.BeatportGenre;
-import com.example.beatporttospotify.model.BeatportSong;
+import com.example.beatporttospotify.model.scraper.BeatportGenre;
+import com.example.beatporttospotify.model.scraper.BeatportSong;
 import com.example.beatporttospotify.service.BeatportScrapperService;
 import org.json.JSONArray;
 import org.json.JSONObject;

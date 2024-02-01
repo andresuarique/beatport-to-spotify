@@ -1,8 +1,13 @@
 package com.example.beatporttospotify.model.spotify;
 
-import lombok.Data;
-
-@Data
 public class SpotifySongList {
     private Tracks tracks;
+
+    public Tracks getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(Tracks tracks) {
+        this.tracks = tracks;
+    }
 }

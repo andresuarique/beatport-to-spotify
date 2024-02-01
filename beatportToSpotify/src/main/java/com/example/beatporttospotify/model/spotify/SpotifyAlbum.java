@@ -1,11 +1,17 @@
 package com.example.beatporttospotify.model.spotify;
 
-import lombok.Data;
 
 import java.util.List;
 
-@Data
 public class SpotifyAlbum {
 
     private List<SpotifyImages> images;
+
+    public List<SpotifyImages> getImages() {
+        return images;
+    }
+
+    public void setImages(List<SpotifyImages> images) {
+        this.images = images;
+    }
 }

@@ -1,10 +1,12 @@
 package com.example.beatporttospotify.dto;
 
 public class GenreDTO {
+    public static final String ENABLE = "ENABLE";
     private Long id;
     private String name;
     private String code;
     private String status;
+    private String url;
 
     public Long getId() {
         return id;
@@ -36,5 +38,13 @@ public class GenreDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

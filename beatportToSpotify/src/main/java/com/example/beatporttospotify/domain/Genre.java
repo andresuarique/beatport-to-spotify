@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "genre")
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
@@ -15,6 +15,8 @@ public class Genre {
     private String code;
     @Column(name = "status")
     private String status;
+    @Column(name = "url")
+    private String url;
 
     public Long getId() {
         return id;
@@ -46,5 +48,13 @@ public class Genre {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

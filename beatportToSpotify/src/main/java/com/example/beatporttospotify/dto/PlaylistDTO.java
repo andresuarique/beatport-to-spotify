@@ -9,7 +9,6 @@ public class PlaylistDTO {
     private String name;
     private Date creationDate;
     private Date modificationDate;
-    private List<SongDTO> songsDTO = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -43,11 +42,4 @@ public class PlaylistDTO {
         this.modificationDate = modificationDate;
     }
 
-    public List<SongDTO> getSongsDTO() {
-        return songsDTO;
-    }
-
-    public void setSongsDTO(List<SongDTO> songsDTO) {
-        this.songsDTO = songsDTO;
-    }
 }

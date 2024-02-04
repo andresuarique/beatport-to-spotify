@@ -11,7 +11,6 @@ import java.util.List;
 
 @Mapper(uses = ArtistMapper.class)
 public interface SongMapper {
-    @Mapping(source = "songArtists", target = "artistsDTO")
     public SongDTO songToSongDTO(Song song);
     public Song songDTOToSong(SongDTO songDTO);
     public List<SongDTO> listSongToListSongDTO(List<Song> songs);

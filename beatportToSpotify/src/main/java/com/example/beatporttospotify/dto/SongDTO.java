@@ -11,7 +11,6 @@ public class SongDTO {
     private String spotifyId;
     private String beatportImageUrl;
     private String status;
-    private List<ArtistDTO> artistsDTO = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -61,11 +60,4 @@ public class SongDTO {
         this.status = status;
     }
 
-    public List<ArtistDTO> getArtistsDTO() {
-        return artistsDTO;
-    }
-
-    public void setArtistsDTO(List<ArtistDTO> artistsDTO) {
-        this.artistsDTO = artistsDTO;
-    }
 }

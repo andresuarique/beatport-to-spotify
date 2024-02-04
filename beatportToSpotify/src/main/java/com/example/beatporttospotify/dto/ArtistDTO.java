@@ -29,4 +29,5 @@ public class ArtistDTO {
     public void setBeatportName(String beatportName) {
         this.beatportName = beatportName;
     }
+
 }

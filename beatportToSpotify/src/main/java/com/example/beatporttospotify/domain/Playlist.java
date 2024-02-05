@@ -19,6 +19,9 @@ public class Playlist {
     private Date creationDate;
     @Column(name = "modification_date")
     private Date modificationDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist")
     private List<PlaylistSongs> playlistSongs = new ArrayList<>();
@@ -61,5 +64,13 @@ public class Playlist {
 
     public void setPlaylistSongs(List<PlaylistSongs> playlistSongs) {
         this.playlistSongs = playlistSongs;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }

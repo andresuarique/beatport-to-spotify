@@ -4,8 +4,6 @@ import java.util.Date;
 
 public class PlaylistSongsDTO {
     private Long id;
-    private Date addedDate;
-    private Date modificationDate;
     private String status;
     private Long playlistId;
 
@@ -18,23 +16,6 @@ public class PlaylistSongsDTO {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Date getAddedDate() {
-        return addedDate;
-    }
-
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
-    }
-
-    public Date getModificationDate() {
-        return modificationDate;
-    }
-
-    public void setModificationDate(Date modificationDate) {
-        this.modificationDate = modificationDate;
-    }
-
     public String getStatus() {
         return status;
     }

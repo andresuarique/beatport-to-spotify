@@ -5,18 +5,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "song_artists")
+@Table(name = "playlist_songs")
 public class PlaylistSongs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "added_date")
-    private Date addedDate;
-
-    @Column(name = "modification_date")
-    private Date modificationDate;
 
     @Column(name = "status")
     private String status;
@@ -29,28 +23,13 @@ public class PlaylistSongs {
     @JoinColumn(name = "song_id")
     private Song song;
 
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getAddedDate() {
-        return addedDate;
-    }
-
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
-    }
-
-    public Date getModificationDate() {
-        return modificationDate;
-    }
-
-    public void setModificationDate(Date modificationDate) {
-        this.modificationDate = modificationDate;
     }
 
     public String getStatus() {

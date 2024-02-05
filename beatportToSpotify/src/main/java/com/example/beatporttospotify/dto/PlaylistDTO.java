@@ -9,6 +9,7 @@ public class PlaylistDTO {
     private String name;
     private Date creationDate;
     private Date modificationDate;
+    private Long genreId;
 
     public Long getId() {
         return id;
@@ -42,4 +43,11 @@ public class PlaylistDTO {
         this.modificationDate = modificationDate;
     }
 
+    public Long getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(Long genreId) {
+        this.genreId = genreId;
+    }
 }

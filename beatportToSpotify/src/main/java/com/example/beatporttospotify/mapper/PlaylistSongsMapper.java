@@ -12,7 +12,9 @@ public interface PlaylistSongsMapper {
     @Mapping(source = "playlist.id", target = "playlistId")
     @Mapping(source = "song.id", target = "songId")
     public PlaylistSongsDTO playlistSongsToPlaylistSongsDTO(PlaylistSongs playlistSongs);
-    public PlaylistSongsDTO playlistSongsDTOToPlaylistSongs(PlaylistSongsDTO playlistSongsDTO);
+    @Mapping(source = "playlistId", target = "playlist.id")
+    @Mapping(source = "songId", target = "song.id")
+    public PlaylistSongs playlistSongsDTOToPlaylistSongs(PlaylistSongsDTO playlistSongsDTO);
     public List<PlaylistSongsDTO> listPlaylistSongsToListPlaylistSongsDTO(List<PlaylistSongs> playlistSongs);
-    public List<PlaylistSongsDTO> listPlaylistSongsDTOToListPlaylistSongs(List<PlaylistSongsDTO> playlistSongsDTO);
+    public List<PlaylistSongs> listPlaylistSongsDTOToListPlaylistSongs(List<PlaylistSongsDTO> playlistSongsDTO);
 }

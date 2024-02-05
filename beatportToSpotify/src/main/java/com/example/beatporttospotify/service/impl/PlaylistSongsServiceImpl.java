@@ -1,9 +1,13 @@
 package com.example.beatporttospotify.service.impl;
 
+import com.example.beatporttospotify.domain.Playlist;
 import com.example.beatporttospotify.domain.PlaylistSongs;
+import com.example.beatporttospotify.dto.PlaylistDTO;
 import com.example.beatporttospotify.dto.PlaylistSongsDTO;
+import com.example.beatporttospotify.mapper.PlaylistMapper;
 import com.example.beatporttospotify.mapper.PlaylistSongsMapper;
 import com.example.beatporttospotify.repository.PlaylistSongsRepository;
+import com.example.beatporttospotify.service.PlaylistService;
 import com.example.beatporttospotify.service.PlaylistSongsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +21,23 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
     private PlaylistSongsRepository playlistSongsRepository;
     @Autowired
     private PlaylistSongsMapper playlistSongsMapper;
+    @Autowired
+    private PlaylistService playlistService;
+    @Autowired
+    private PlaylistMapper playlistMapper;
 
     @Override
     public List<PlaylistSongsDTO> getPlaylistSongs() {
         return playlistSongsMapper.listPlaylistSongsToListPlaylistSongsDTO(playlistSongsRepository.findAll());
+    }
+
+    @Override
+    public List<PlaylistSongsDTO> getPlaylistSongsByPlaylist(PlaylistDTO playlistDTO) {
+        Playlist playlist = playlistMapper.playlistDTOToPlaylist(playlistService.getPlaylistById(playlistDTO.getId()));
+        if(playlist == null){
+            return null;
+        }
+        return playlistSongsMapper.listPlaylistSongsToListPlaylistSongsDTO(playlistSongsRepository.findByPlaylist(playlist));
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.example.beatporttospotify.service.impl;
 
+import com.example.beatporttospotify.domain.Genre;
 import com.example.beatporttospotify.domain.Playlist;
 import com.example.beatporttospotify.dto.PlaylistDTO;
+import com.example.beatporttospotify.mapper.GenreMapper;
 import com.example.beatporttospotify.mapper.PlaylistMapper;
 import com.example.beatporttospotify.repository.PlaylistRepository;
+import com.example.beatporttospotify.service.GenreService;
 import com.example.beatporttospotify.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,10 @@ public class PlaylistServiceImpl implements PlaylistService {
     private PlaylistRepository  playlistRepository;
     @Autowired
     private PlaylistMapper playlistMapper;
+    @Autowired
+    private GenreService genreService;
+    @Autowired
+    private GenreMapper genreMapper;
     @Override
     public List<PlaylistDTO> getPlaylists() {
         return playlistMapper.listPlaylistToListPlaylistDTO(playlistRepository.findAll());
@@ -29,6 +36,13 @@ public class PlaylistServiceImpl implements PlaylistService {
             return null;
         }
         return playlistMapper.playlistToPlaylistDTO(optionalPlaylist.get());
+    }
+
+    @Override
+    public PlaylistDTO getPlaylistByGenre(String genreCode) {
+        Genre genre = genreMapper.genreDTOToGenre(genreService.getGenreByCode(genreCode));
+        Playlist playlist = playlistRepository.findByGenre(genre);
+        return playlistMapper.playlistToPlaylistDTO(playlist);
     }
 
     @Override

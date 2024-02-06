@@ -43,9 +43,8 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public GenreDTO save(GenreDTO genreDTO) {
         try{
-            //GenreDTO genre = getGenreByCode(genreDTO.getCode());
-            //if(genre == null)
-            //    return null;
+            if(getGenreByCode(genreDTO.getCode()) == null)
+                return null;
 
             Genre genre = genreMapper.genreDTOToGenre(genreDTO);
             genre = genreRepository.save(genre);

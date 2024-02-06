@@ -2,11 +2,14 @@ package com.example.beatporttospotify.service.impl;
 
 import com.example.beatporttospotify.domain.Playlist;
 import com.example.beatporttospotify.domain.PlaylistSongs;
+import com.example.beatporttospotify.domain.Song;
 import com.example.beatporttospotify.dto.PlaylistDTO;
 import com.example.beatporttospotify.dto.PlaylistSongsDTO;
 import com.example.beatporttospotify.mapper.PlaylistMapper;
 import com.example.beatporttospotify.mapper.PlaylistSongsMapper;
+import com.example.beatporttospotify.repository.PlaylistRepository;
 import com.example.beatporttospotify.repository.PlaylistSongsRepository;
+import com.example.beatporttospotify.repository.SongRepository;
 import com.example.beatporttospotify.service.PlaylistService;
 import com.example.beatporttospotify.service.PlaylistSongsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,10 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
     private PlaylistService playlistService;
     @Autowired
     private PlaylistMapper playlistMapper;
+    @Autowired
+    private PlaylistRepository playlistRepository;
+    @Autowired
+    private SongRepository songRepository;
 
     @Override
     public List<PlaylistSongsDTO> getPlaylistSongs() {
@@ -52,6 +59,14 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
     @Override
     public PlaylistSongsDTO save(PlaylistSongsDTO playlistSongsDTO) {
         try{
+            Optional<Song> optionalSong = songRepository.findById(playlistSongsDTO.getSongId());
+            Optional<Playlist> optionalPlaylist = playlistRepository.findById(playlistSongsDTO.getPlaylistId());
+            if(!optionalPlaylist.isPresent() || !optionalSong.isPresent()){
+                return null;
+            }
+            if(playlistSongsRepository.findBySongAndPlaylist(optionalSong.get(), optionalPlaylist.get()) != null){
+                return null;
+            }
             PlaylistSongs playlistSongs = playlistSongsMapper.playlistSongsDTOToPlaylistSongs(playlistSongsDTO);
             playlistSongs = playlistSongsRepository.save(playlistSongs);
             return playlistSongsMapper.playlistSongsToPlaylistSongsDTO(playlistSongs);

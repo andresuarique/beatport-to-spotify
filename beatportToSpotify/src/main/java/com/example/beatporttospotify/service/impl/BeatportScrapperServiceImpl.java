@@ -95,13 +95,10 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         if(genre.equals("general/0")){
             url="https://www.beatport.com/top-100";
         }
-        System.out.println(genre.split("/")[1]);
         GenreDTO genreDTO = genreService.getGenreByCode(genre.split("/")[1]);
         if(genreDTO == null){
-            System.out.println("no hay genero");
             return null;
         }
-        System.out.println("urlScrapper: "+url);
         Document html =getHTML(url);
          songs = html.select("script#__NEXT_DATA__");
         String json = songs.get(0).html();
@@ -113,31 +110,43 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         jsonObject = new JSONObject(json2);
         json2 = jsonObject.getJSONObject("state").getJSONObject("data").getJSONArray("results").toString();
         JSONArray jsonArray = new JSONArray(json2);
-        List<BeatportSong> beatportSongList = new ArrayList<>();
-        SongDTO songDTO = new SongDTO();
-        List<ArtistDTO> artistDTOS = new ArrayList<>();
-        ArtistDTO artistDTO = new ArtistDTO();
-        SongArtistsDTO songArtistsDTO = new SongArtistsDTO();
+
         PlaylistDTO playlistDTO = new PlaylistDTO();
         playlistDTO.setName(genreDTO.getName() + " top 100");
         playlistDTO.setGenreId(genreDTO.getId());
         playlistDTO.setCreationDate(new Date());
         playlistDTO = playlistService.save(playlistDTO);
 
-        PlaylistSongsDTO playlistSongsDTO = new PlaylistSongsDTO();
+
+        List<BeatportSong> beatportSongList = new ArrayList<>();
+        SongDTO songDTO;
+        List<ArtistDTO> artistDTOS;
+        ArtistDTO artistDTO;
+        SongArtistsDTO songArtistsDTO;
+        PlaylistSongsDTO playlistSongsDTO;
+        JSONObject object;
+        BeatportSong beatportSong;
+        String songName;
+        String songImage;
+        List<String> artists;
+        JSONArray array;
+        JSONObject artistObject;
+        SpotifySong spotifySong;
+
+
         for(int i = 0; i<jsonArray.length();i++){
             songArtistsDTO = new SongArtistsDTO();
             playlistSongsDTO = new PlaylistSongsDTO();
             songDTO = new SongDTO();
-            artistDTOS.clear();
-            JSONObject object = jsonArray.getJSONObject(i);
-            BeatportSong beatportSong = new BeatportSong();
-            String songName = object.get("name").toString();
-            String songImage = object.getJSONObject("release").getJSONObject("image").get("uri").toString();
+            artistDTOS = new ArrayList<>();
+            object = jsonArray.getJSONObject(i);
+            beatportSong = new BeatportSong();
+            songName = object.get("name").toString();
+            songImage = object.getJSONObject("release").getJSONObject("image").get("uri").toString();
 
 
-            List<String> artists = new ArrayList<>();
-            JSONArray array = object.getJSONArray("artists");
+            artists = new ArrayList<>();
+            array = object.getJSONArray("artists");
 
             songDTO.setBeatportName(songName);
             songDTO.setBeatportImageUrl(songImage);
@@ -145,7 +154,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             songDTO = songService.save(songDTO);
             for(int j = 0; j<array.length();j++){
                 artistDTO = new ArtistDTO();
-                JSONObject artistObject = array.getJSONObject(j);
+                artistObject = array.getJSONObject(j);
                 artists.add(artistObject.get("name").toString());
 
                 artistDTO.setBeatportName(artistObject.get("name").toString());
@@ -160,7 +169,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             beatportSong.setArtists(artists);
             beatportSongList.add(beatportSong);
 
-            SpotifySong spotifySong = spotifyAPIService.searchSong(songName + " " + clearArtistText(beatportSong.getArtists().get(0)));
+            spotifySong = spotifyAPIService.searchSong(songName + " " + clearArtistText(beatportSong.getArtists().get(0)));
             if(spotifySong != null){
                 songDTO.setSpotifyName(spotifySong.getName());
                 songDTO.setSpotifyId(spotifySong.getId());

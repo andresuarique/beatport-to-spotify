@@ -174,6 +174,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             if (spotifySong != null) {
                 songDTO.setSpotifyName(spotifySong.getName());
                 songDTO.setSpotifyId(spotifySong.getId());
+                songDTO.setSpotifyImageUrl(spotifySong.getAlbum().getImages().get(0).getUrl());
                 songDTO = songService.update(songDTO);
 
             }

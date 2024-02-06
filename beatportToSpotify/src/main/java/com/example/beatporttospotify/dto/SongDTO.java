@@ -10,6 +10,7 @@ public class SongDTO {
     private String beatportName;
     private String spotifyId;
     private String beatportImageUrl;
+    private String spotifyImageUrl;
     private String status;
 
     public Long getId() {
@@ -60,4 +61,11 @@ public class SongDTO {
         this.status = status;
     }
 
+    public String getSpotifyImageUrl() {
+        return spotifyImageUrl;
+    }
+
+    public void setSpotifyImageUrl(String spotifyImageUrl) {
+        this.spotifyImageUrl = spotifyImageUrl;
+    }
 }

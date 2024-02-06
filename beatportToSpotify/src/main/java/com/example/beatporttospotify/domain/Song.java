@@ -20,6 +20,8 @@ public class Song {
     private String spotifyId;
     @Column(name = "beatport_image_url")
     private String beatportImageUrl;
+    @Column(name = "spotify_image_url")
+    private String spotifyImageUrl;
     @Column(name = "status")
     private String status;
 
@@ -91,5 +93,13 @@ public class Song {
 
     public void setPlaylistSongs(List<PlaylistSongs> playlistSongs) {
         this.playlistSongs = playlistSongs;
+    }
+
+    public String getSpotifyImageUrl() {
+        return spotifyImageUrl;
+    }
+
+    public void setSpotifyImageUrl(String spotifyImageUrl) {
+        this.spotifyImageUrl = spotifyImageUrl;
     }
 }

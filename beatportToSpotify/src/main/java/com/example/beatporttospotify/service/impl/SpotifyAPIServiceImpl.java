@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 @Service
 public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
-    @Autowired
-    private BeatportScrapperService beatportScrapperService;
+    //@Autowired
+    //private BeatportScrapperService beatportScrapperService;
 
     @Value("${spotify.client.id}")
     private String spotifyClientId;
@@ -215,34 +215,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         return response.getBody();
     }
 
-    @Override
-    public Map<String,Object> createPlaylistFromBeatport(BeatportToSpotifyRequest request, String userId, String authorizationCode) {
-        Map<String,Object> response = new HashMap<>();
-        SpotifyPlaylist spotifyPlaylist = createPlaylist(request.getPlaylistName() ,userId,authorizationCode);
-        if(request.getSongs() == null || request.getSongs().isEmpty()) {
-            System.out.println("songs null");
-            request.setSongs(beatportScrapperService.getTop100(request.getGenre()));
-        }
-        Tracks tracks = new Tracks();
-        List<SpotifySong> songs = new ArrayList<>();
-        List<BeatportSong> notFound = new ArrayList<>();
-        request.getSongs().forEach(beatportSong ->{
-            SpotifySong song =  searchSong(beatportSong.getName()+" "+clearArtistText(beatportSong.getArtists().get(0)));
-            if(song != null){
-                songs.add(song);
-            }
-            else {
-                notFound.add(beatportSong);
-            }
-        });
-        tracks.setItems(songs);
-        addSongs(tracks,spotifyPlaylist.getId(),authorizationCode);
-        spotifyPlaylist=getPlaylist(authorizationCode,spotifyPlaylist.getId());
-        response.put("playlist",spotifyPlaylist);
-        response.put("notFound",notFound);
-        response.put("tracks",tracks);
-        return response;
-    }
     @Override
     public SpotifyPlaylist getPlaylist(String token,String playlistId){
         String url = "https://api.spotify.com/v1/playlists/"+playlistId;

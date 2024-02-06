@@ -83,13 +83,4 @@ private String clientUrl;
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
         return  ResponseEntity.ok(spotifyAPIService.createPlaylist(name, user.getId(), token.getAccess_token()));
     }
-    @PostMapping("/create-playlist")
-    public ResponseEntity<?> createPlaylistFromBeatport(@RequestBody BeatportToSpotifyRequest request){
-        Instant currentTime = Instant.now();
-        if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
-            token= spotifyAPIService.refreshToken(token.getRefresh_token());
-
-        SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
-        return ResponseEntity.ok(spotifyAPIService.createPlaylistFromBeatport(request, user.getId(),token.getAccess_token()));
-    }
 }

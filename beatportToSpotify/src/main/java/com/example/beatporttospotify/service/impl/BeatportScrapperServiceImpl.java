@@ -3,7 +3,9 @@ package com.example.beatporttospotify.service.impl;
 import com.example.beatporttospotify.dto.*;
 import com.example.beatporttospotify.model.scraper.BeatportGenre;
 import com.example.beatporttospotify.model.scraper.BeatportSong;
+import com.example.beatporttospotify.model.spotify.SpotifySong;
 import com.example.beatporttospotify.service.*;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
@@ -31,6 +33,8 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     private PlaylistService playlistService;
     @Autowired
     private PlaylistSongsService playlistSongsService;
+    @Autowired
+    private SpotifyAPIService spotifyAPIService;
     @Override
     public Document getHTML(String url) {
         try {
@@ -122,6 +126,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
 
         PlaylistSongsDTO playlistSongsDTO = new PlaylistSongsDTO();
         for(int i = 0; i<jsonArray.length();i++){
+            songArtistsDTO = new SongArtistsDTO();
             playlistSongsDTO = new PlaylistSongsDTO();
             songDTO = new SongDTO();
             artistDTOS.clear();
@@ -131,13 +136,13 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             String songImage = object.getJSONObject("release").getJSONObject("image").get("uri").toString();
 
 
+            List<String> artists = new ArrayList<>();
+            JSONArray array = object.getJSONArray("artists");
+
             songDTO.setBeatportName(songName);
             songDTO.setBeatportImageUrl(songImage);
             songDTO.setStatus("ENABLE");
             songDTO = songService.save(songDTO);
-
-            List<String> artists = new ArrayList<>();
-            JSONArray array = object.getJSONArray("artists");
             for(int j = 0; j<array.length();j++){
                 artistDTO = new ArtistDTO();
                 JSONObject artistObject = array.getJSONObject(j);
@@ -155,6 +160,14 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             beatportSong.setArtists(artists);
             beatportSongList.add(beatportSong);
 
+            SpotifySong spotifySong = spotifyAPIService.searchSong(songName + " " + clearArtistText(beatportSong.getArtists().get(0)));
+            if(spotifySong != null){
+                songDTO.setSpotifyName(spotifySong.getName());
+                songDTO.setSpotifyId(spotifySong.getId());
+                songDTO = songService.update(songDTO);
+
+            }
+
             playlistSongsDTO.setSongId(songDTO.getId());
             playlistSongsDTO.setPlaylistId(playlistDTO.getId());
             playlistSongsDTO.setStatus("ENABLE");
@@ -167,6 +180,27 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         String removedCharacters = lowercase.replaceAll("[()&/]", "");
         String replacedSpaces = removedCharacters.replaceAll("\\s+", "-");
         return replacedSpaces;
+    }
+    private String clearArtistText(String artist){
+        artist = artist.trim();
+        artist = StringEscapeUtils.unescapeHtml4(artist);
+        //(ofc) (US) (OZ) (ITA) (UK) (BR)
+        String array[]={"(ofc)","(US)","(UK)","(ITA)","(OZ)","(BR)","(IT)","(UZ)","(FR)","(ES)","(YU)",
+                "(CA)","(PL)","(BE)","(SE)","(DE)","(PT)","(NO)","(RSA)","(SA)","(RO)","(Havana)","(VE)","(UZ)"
+                ,"(FL)","(AR)","(EON)","(BG)","(ZM)","(TN)","(NL)","(Palestina)","(GB)","(Official)","(CO)","(Aus)"
+                ,"(DnB)","(MX)","(HU)","(fr)","(It)","(SC)","(CZ)","(JP)","(SWE)","(IL)","(AZ)","(TN)","(NYC)","(Italy)"
+                ,"(LA)","(AUS)","(ARG)","(PE)","(GER)","(ESP)","(AU)","(SL)","(BRA)","(MU)","(Paris)","(UA)","(IND)","(CU)","(GR)"
+                ,"(Brazil)","(ISR)","(Psy)","(IE)","(LU)","(CL)","(UY)","(JPN)"};
+        for (String data: array) {
+            if(artist.contains(data)){
+                artist=artist.replace(data,"");
+                break;
+            }
+        }
+        if(artist.contains("(") && artist.contains(")")){
+            System.out.println("ARTIST : "+artist);
+        }
+        return artist;
     }
 
 }

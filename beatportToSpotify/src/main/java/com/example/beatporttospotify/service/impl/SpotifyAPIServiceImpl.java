@@ -125,10 +125,8 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
     @Override
     public SpotifySong searchSong(String songName) {
-        System.out.println("Song: "+songName);
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://api.spotify.com/v1/search?q=" + encodeURL(songName)  +"&type=artist,track";
-        System.out.println("url = " + url);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + getToken().getAccess_token());
         HttpEntity<String> entity = new HttpEntity<>(headers);

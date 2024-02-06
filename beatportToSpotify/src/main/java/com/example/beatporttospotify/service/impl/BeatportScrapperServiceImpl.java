@@ -39,7 +39,6 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     @Override
     public Document getHTML(String url) {
         try {
-            System.out.println("get HTML from: " + url);
             Connection.Response response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).ignoreHttpErrors(true).execute();
             Document document = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).get();
             return document;

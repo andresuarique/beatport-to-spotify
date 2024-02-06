@@ -65,9 +65,11 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         List<BeatportGenre> genreList = new ArrayList<>();
 
         GenreDTO genreDTO = new GenreDTO();
+        JSONObject object;
+        BeatportGenre beatportGenre;
         for(int i = 0; i<jsonArray.length();i++){
-        JSONObject object = jsonArray.getJSONObject(i);
-        BeatportGenre beatportGenre = new BeatportGenre();
+        object = jsonArray.getJSONObject(i);
+        beatportGenre = new BeatportGenre();
         Long id =0L;
             try {
                 id = Long.parseLong(object.get("id").toString());
@@ -82,7 +84,6 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         genreDTO.setUrl(stringFormatter(beatportGenre.getName())+"/"+beatportGenre.getId());
         genreDTO.setStatus(GenreDTO.ENABLE);
         genreService.save(genreDTO);
-
         genreList.add(beatportGenre);
         }
         return genreList;

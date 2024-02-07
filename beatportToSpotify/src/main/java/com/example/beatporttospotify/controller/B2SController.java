@@ -1,17 +1,22 @@
 package com.example.beatporttospotify.controller;
 
+import com.example.beatporttospotify.dto.B2SRequestDTO;
 import com.example.beatporttospotify.dto.GenreDTO;
 import com.example.beatporttospotify.dto.PlaylistDTO;
 import com.example.beatporttospotify.dto.PlaylistSongsDTO;
-import com.example.beatporttospotify.service.B2SService;
-import com.example.beatporttospotify.service.GenreService;
-import com.example.beatporttospotify.service.PlaylistService;
-import com.example.beatporttospotify.service.PlaylistSongsService;
+import com.example.beatporttospotify.model.spotify.SpotifyAccessToken;
+import com.example.beatporttospotify.model.spotify.SpotifyUser;
+import com.example.beatporttospotify.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.xml.ws.Response;
+import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +25,17 @@ import java.util.Map;
 @RequestMapping("/b2s")
 @CrossOrigin(origins = "*")
 public class B2SController {
+
+    private SpotifyAccessToken token = new SpotifyAccessToken();
+
+    @Value("${server.url}")
+    private String serverUrl;
+    @Value("${client.url}")
+    private String clientUrl;
+
+    @Autowired
+    private SpotifyAPIService spotifyAPIService;
+
     @Autowired
     private GenreService genreService;
     @Autowired
@@ -33,4 +49,72 @@ public class B2SController {
     public ResponseEntity<?> getPlaylist(@PathVariable("genreName")String genreName,@PathVariable("genreCode")String genreCode){
         return ResponseEntity.ok(b2SService.getPlaylistByGenreCode(genreCode));
     }
+    @PostMapping("/create-playlist")
+    public ResponseEntity<?> createPlaylist(@RequestBody B2SRequestDTO request){
+        Instant currentTime = Instant.now();
+        if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
+            token= spotifyAPIService.refreshToken(token.getRefresh_token());
+
+        SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
+        return ResponseEntity.ok(b2SService.createPlaylist(request,user.getId(), token.getAccess_token()));
+    }
+
+
+
+
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser(){
+        Instant currentTime = Instant.now();
+        if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
+            token= spotifyAPIService.refreshToken(token.getRefresh_token());
+
+        SpotifyUser spotifyUser = spotifyAPIService.getUser(token.getAccess_token());
+        return ResponseEntity.ok(spotifyUser);
+    }
+    @GetMapping("/token")
+    public ResponseEntity<?> getToken(){
+        token=spotifyAPIService.getToken();
+        return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("/callback")
+    public ResponseEntity<?> callback(){
+        try{
+            String url = serverUrl+"/api/spotify/redirect";
+
+            String scope = "user-read-currently-playing";
+            scope = "user-read-private user-read-email user-read-currently-playing user-read-recently-played playlist-modify-public playlist-modify-private";
+            System.out.println("callback");
+            return ResponseEntity.ok(spotifyAPIService.authorize(url,scope));
+        }catch (URISyntaxException e){
+            return null;
+        }
+    }
+    @GetMapping("/redirect")
+    public RedirectView redirect(@RequestParam("code") String authorizationCode){
+        String url = serverUrl+"/api/spotify/redirect";
+        System.out.println("Redirect to: "+url);
+        token = spotifyAPIService.exchangeAuthorizationCode(authorizationCode,url);
+        if(token == null){
+            System.out.println("Failed to obtain access token");
+        }
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(clientUrl +"/home");
+        return redirectView;
+    }
+    @GetMapping("/search-song/{song}")
+    public ResponseEntity<?> searchSong(@PathVariable String song){
+        return ResponseEntity.ok(spotifyAPIService.searchSong(song));
+    }
+    @GetMapping("/create-playlist-by-name/{name}")
+    public ResponseEntity<?> createPlaylist(@PathVariable String name){
+        Instant currentTime = Instant.now();
+        if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
+            token= spotifyAPIService.refreshToken(token.getRefresh_token());
+
+        SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
+        return  ResponseEntity.ok(spotifyAPIService.createPlaylist(name, user.getId(), token.getAccess_token()));
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.beatporttospotify.service.impl;
 
+import com.example.beatporttospotify.dto.SongDTO;
 import com.example.beatporttospotify.model.scraper.BeatportSong;
 import com.example.beatporttospotify.model.scraper.BeatportToSpotifyRequest;
 import com.example.beatporttospotify.model.spotify.*;
@@ -194,6 +195,33 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         String songList= tracks.getItems().stream().map(song -> "\"spotify:track:"+song.getId()+"\"").collect(Collectors.joining(","));
+
+        String requestBody = "{\"uris\": ["+ songList +"],\"position\": 0}";
+        //System.out.println("requestBody = " + requestBody);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                String.class);
+
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+            System.out.println("Songs are added successfully!");
+        } else {
+            System.out.println("Failed to add songs. Status code: " + response.getStatusCode());
+        }
+        return response.getBody();
+    }
+
+    @Override
+    public String addSongsFromDB(List<SongDTO> songDTOS, String playlistId, String authorizationCode) {
+        String url = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + authorizationCode);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String songList= songDTOS.stream().map(song -> "\"spotify:track:"+song.getSpotifyId()+"\"").collect(Collectors.joining(","));
 
         String requestBody = "{\"uris\": ["+ songList +"],\"position\": 0}";
         //System.out.println("requestBody = " + requestBody);

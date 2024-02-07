@@ -1,9 +1,11 @@
 package com.example.beatporttospotify.service;
 
+import com.example.beatporttospotify.dto.SongDTO;
 import com.example.beatporttospotify.model.scraper.BeatportToSpotifyRequest;
 import com.example.beatporttospotify.model.spotify.*;
 
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 
 public interface SpotifyAPIService {
@@ -14,6 +16,7 @@ public interface SpotifyAPIService {
     public SpotifySong searchSong (String songName);
     public SpotifyPlaylist createPlaylist(String name, String userId, String authorizationCode);
     public String addSongs(Tracks tracks, String playlistId, String authorizationCode);
+    public String addSongsFromDB(List<SongDTO> songDTOS, String playlistId, String authorizationCode);
     public SpotifyPlaylist getPlaylist(String token,String playlistId);
     public SpotifyAccessToken refreshToken(String refreshToken);
 }

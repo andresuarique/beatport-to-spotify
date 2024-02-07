@@ -48,7 +48,13 @@ public class B2SServiceImpl implements B2SService {
             }
             String genreCode = genreDTOS.get(0).getCode();
             PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreCode);
+            if(playlistDTO == null){
+                return null;
+            }
             List<PlaylistSongsDTO> listPlaylistSongsDTO = playlistSongsService.getPlaylistSongsByPlaylist(playlistDTO);
+            if(listPlaylistSongsDTO.isEmpty()){
+                return null;
+            }
             List<SongDTO> songDTOS = new ArrayList<>();
             listPlaylistSongsDTO.forEach(playlistSongsDTO -> {
                 songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId()));

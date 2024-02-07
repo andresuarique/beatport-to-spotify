@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/b2s")
+@RequestMapping("")
 @CrossOrigin(origins = "*")
 public class B2SController {
 
@@ -41,15 +41,15 @@ public class B2SController {
     @Autowired
     private B2SService b2SService;
 
-    @GetMapping("/genres")
+    @GetMapping("/b2s/genres")
     public ResponseEntity<?> getGenres(){
         return ResponseEntity.ok(genreService.getGenres());
     }
-    @GetMapping("/playlist/{genreName}/{genreCode}")
+    @GetMapping("/b2s/playlist/{genreName}/{genreCode}")
     public ResponseEntity<?> getPlaylist(@PathVariable("genreName")String genreName,@PathVariable("genreCode")String genreCode){
         return ResponseEntity.ok(b2SService.getPlaylistByGenreCode(genreCode));
     }
-    @PostMapping("/create-playlist")
+    @PostMapping("/b2s/create-playlist")
     public ResponseEntity<?> createPlaylist(@RequestBody B2SRequestDTO request){
         Instant currentTime = Instant.now();
         if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
@@ -63,7 +63,7 @@ public class B2SController {
 
 
 
-    @GetMapping("/user")
+    @GetMapping("/api/spotify/user")
     public ResponseEntity<?> getUser(){
         Instant currentTime = Instant.now();
         if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))
@@ -72,13 +72,13 @@ public class B2SController {
         SpotifyUser spotifyUser = spotifyAPIService.getUser(token.getAccess_token());
         return ResponseEntity.ok(spotifyUser);
     }
-    @GetMapping("/token")
+    @GetMapping("/api/spotify/token")
     public ResponseEntity<?> getToken(){
         token=spotifyAPIService.getToken();
         return ResponseEntity.ok(token);
     }
 
-    @GetMapping("/callback")
+    @GetMapping("/api/spotify/callback")
     public ResponseEntity<?> callback(){
         try{
             String url = serverUrl+"/api/spotify/redirect";
@@ -91,7 +91,7 @@ public class B2SController {
             return null;
         }
     }
-    @GetMapping("/redirect")
+    @GetMapping("/api/spotify/redirect")
     public RedirectView redirect(@RequestParam("code") String authorizationCode){
         String url = serverUrl+"/api/spotify/redirect";
         System.out.println("Redirect to: "+url);
@@ -103,11 +103,11 @@ public class B2SController {
         redirectView.setUrl(clientUrl +"/home");
         return redirectView;
     }
-    @GetMapping("/search-song/{song}")
+    @GetMapping("/api/spotify/search-song/{song}")
     public ResponseEntity<?> searchSong(@PathVariable String song){
         return ResponseEntity.ok(spotifyAPIService.searchSong(song));
     }
-    @GetMapping("/create-playlist-by-name/{name}")
+    @GetMapping("/api/spotify/create-playlist-by-name/{name}")
     public ResponseEntity<?> createPlaylist(@PathVariable String name){
         Instant currentTime = Instant.now();
         if(currentTime.isAfter(token.getToken_creation_time().plus(Duration.ofSeconds(token.getExpires_in()))))

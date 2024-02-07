@@ -36,14 +36,14 @@ public class GenreServiceImpl implements GenreService {
         return genreMapper.listGenreToListGenreDTO(genreRepository.findByName(name));
     }
     @Override
-    public GenreDTO getGenreByCode(String code) {
-        return genreMapper.genreToGenreDTO(genreRepository.findByCode(code));
+    public List<GenreDTO> getGenreByCode(String code) {
+        return genreMapper.listGenreToListGenreDTO(genreRepository.findByCode(code));
     }
 
     @Override
     public GenreDTO save(GenreDTO genreDTO) {
         try{
-            if(getGenreByCode(genreDTO.getCode()) != null)
+            if(!getGenreByCode(genreDTO.getCode()).isEmpty())
                 return null;
 
             Genre genre = genreMapper.genreDTOToGenre(genreDTO);

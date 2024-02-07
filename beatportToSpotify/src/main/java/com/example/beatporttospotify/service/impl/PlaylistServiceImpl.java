@@ -40,7 +40,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public PlaylistDTO getPlaylistByGenre(String genreCode) {
-        Genre genre = genreMapper.genreDTOToGenre(genreService.getGenreByCode(genreCode));
+        Genre genre = genreMapper.genreDTOToGenre(genreService.getGenreByCode(genreCode).get(0));
         Playlist playlist = playlistRepository.findByGenre(genre);
         return playlistMapper.playlistToPlaylistDTO(playlist);
     }

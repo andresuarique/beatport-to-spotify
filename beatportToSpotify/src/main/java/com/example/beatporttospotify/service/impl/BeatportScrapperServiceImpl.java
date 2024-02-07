@@ -96,10 +96,11 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         if (genre.equals("general/0")) {
             url = "https://www.beatport.com/top-100";
         }
-        GenreDTO genreDTO = genreService.getGenreByCode(genre.split("/")[1]);
-        if (genreDTO == null) {
+        List<GenreDTO> genresDTO = genreService.getGenreByCode(genre.split("/")[1]);
+        if (genresDTO.isEmpty() ) {
             return null;
         }
+        GenreDTO genreDTO = genresDTO.get(0);
         Document html = getHTML(url);
         songs = html.select("script#__NEXT_DATA__");
         String json = songs.get(0).html();

@@ -93,10 +93,10 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     public List<BeatportSong> getTop100(String genre) {
         String url = "https://www.beatport.com/genre/" + genre + "/top-100";
         Elements songs;
-        if (genre.equals("general/0")) {
+        if (genre.equals("General/0")) {
             url = "https://www.beatport.com/top-100";
         }
-        List<GenreDTO> genresDTO = genreService.getGenreByCode(genre.split("/")[1]);
+        List<GenreDTO> genresDTO = genreService.getGenreByNameAndCode(genre.split("/")[0],genre.split("/")[1]);
         if (genresDTO.isEmpty() ) {
             return null;
         }
@@ -113,11 +113,17 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         json2 = jsonObject.getJSONObject("state").getJSONObject("data").getJSONArray("results").toString();
         JSONArray jsonArray = new JSONArray(json2);
 
-        PlaylistDTO playlistDTO = new PlaylistDTO();
-        playlistDTO.setName(genreDTO.getName() + " top 100");
-        playlistDTO.setGenreId(genreDTO.getId());
-        playlistDTO.setCreationDate(new Date());
-        playlistDTO = playlistService.save(playlistDTO);
+        PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreDTO.getCode());
+        if(playlistDTO != null){
+            playlistDTO.setModificationDate(new Date());
+            playlistDTO = playlistService.update(playlistDTO);
+        }else {
+            playlistDTO = new PlaylistDTO();
+            playlistDTO.setName(genreDTO.getName() + " Top 100");
+            playlistDTO.setGenreId(genreDTO.getId());
+            playlistDTO.setCreationDate(new Date());
+            playlistDTO = playlistService.save(playlistDTO);
+        }
 
 
         List<BeatportSong> beatportSongList = new ArrayList<>();
@@ -149,11 +155,18 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
 
             artists = new ArrayList<>();
             array = object.getJSONArray("artists");
+            List<SongDTO> songDTOS = songService.getSongeByName(songName);
+            if(songDTOS.isEmpty()){
+                songDTO.setBeatportName(songName);
+                songDTO.setBeatportImageUrl(songImage);
+                songDTO.setStatus("ENABLE");
+                songDTO = songService.save(songDTO);
+            }
+            else {
+                songDTO = songDTOS.get(0);
+                songDTO.setStatus("ENABLE");
+            }
 
-            songDTO.setBeatportName(songName);
-            songDTO.setBeatportImageUrl(songImage);
-            songDTO.setStatus("ENABLE");
-            songDTO = songService.save(songDTO);
             for (int j = 0; j < array.length(); j++) {
                 artistDTO = new ArtistDTO();
                 artistObject = array.getJSONObject(j);
@@ -172,12 +185,11 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             beatportSongList.add(beatportSong);
 
             spotifySong = spotifyAPIService.searchSong(songName + " " + clearArtistText(beatportSong.getArtists().get(0)));
-            if (spotifySong != null) {
+            if (spotifySong != null && songDTO.getSpotifyId() == null) {
                 songDTO.setSpotifyName(spotifySong.getName());
                 songDTO.setSpotifyId(spotifySong.getId());
                 songDTO.setSpotifyImageUrl(spotifySong.getAlbum().getImages().get(0).getUrl());
                 songDTO = songService.update(songDTO);
-
             }
 
             playlistSongsDTO.setSongId(songDTO.getId());

@@ -59,10 +59,6 @@ public class B2SController {
         return ResponseEntity.ok(b2SService.createPlaylist(request,user.getId(), token.getAccess_token()));
     }
 
-
-
-
-
     @GetMapping("/api/spotify/user")
     public ResponseEntity<?> getUser(){
         Instant currentTime = Instant.now();
@@ -115,6 +111,11 @@ public class B2SController {
 
         SpotifyUser user = spotifyAPIService.getUser(token.getAccess_token());
         return  ResponseEntity.ok(spotifyAPIService.createPlaylist(name, user.getId(), token.getAccess_token()));
+    }
+
+    @GetMapping("/scheduled-job/update-playlist")
+    public ResponseEntity<?> updatePlaylist(){
+        return ResponseEntity.ok(b2SService.updatePlaylist());
     }
 
 }

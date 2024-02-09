@@ -24,6 +24,8 @@ public class B2SServiceImpl implements B2SService {
     private GenreService genreService;
     @Autowired
     private SpotifyAPIService spotifyAPIService;
+    @Autowired
+    private BeatportScrapperService beatportScrapperService;
     @Override
     public Map<String, Object> getPlaylistByGenreCode(String genreCode) {
         Map<String, Object> response = new HashMap<>();
@@ -69,5 +71,31 @@ public class B2SServiceImpl implements B2SService {
             return null;
         }
 
+    }
+    @Override
+    public Map<String, Object> updatePlaylist() {
+        Map<String, Object> response = new HashMap<>();
+        try{
+            List<GenreDTO> genreDTOS = genreService.getGenres();
+
+            genreDTOS.forEach(genreDTO -> {
+                System.out.println("GENRE: "+genreDTO.getName());
+                PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreDTO.getCode());
+                if(playlistDTO != null){
+                    playlistSongsService.disableAllSongs(playlistDTO.getId());
+                }
+                System.out.println(genreDTO.getName()+"/"+genreDTO.getCode());
+                try {
+                    beatportScrapperService.getTop100(genreDTO.getName() + "/" + genreDTO.getCode());
+                }catch (Exception e){
+                    System.out.println("NO SE PUDO OBTENER PLAYLIST PARA "+genreDTO.getName());
+                }
+            });
+            response.put("success",true);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.put("success",false);
+        }
+        return response;
     }
 }

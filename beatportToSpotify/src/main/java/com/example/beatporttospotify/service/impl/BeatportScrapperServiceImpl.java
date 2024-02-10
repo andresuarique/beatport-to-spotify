@@ -165,6 +165,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             else {
                 songDTO = songDTOS.get(0);
                 songDTO.setStatus("ENABLE");
+                songDTO = songService.update(songDTO);
             }
 
             for (int j = 0; j < array.length(); j++) {

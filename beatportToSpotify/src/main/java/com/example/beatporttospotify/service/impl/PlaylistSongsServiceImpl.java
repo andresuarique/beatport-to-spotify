@@ -93,12 +93,8 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
     }
 
     @Override
-    @Transactional
     public boolean disableAllSongs(Long idPlaylist) {
-        List<PlaylistSongs> playlistSongs = playlistSongsRepository.disableAllsongs(idPlaylist);
-        if(playlistSongs.isEmpty()){
-            return false;
-        }
+        playlistSongsRepository.disableAllSongs(idPlaylist);
         return true;
     }
 }

@@ -26,9 +26,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public GenreDTO getGenreById(Long id) {
         Optional<Genre> optionalGenre = genreRepository.findById(id);
-        if(!optionalGenre.isPresent())
-            return null;
-        return genreMapper.genreToGenreDTO(optionalGenre.get());
+        return optionalGenre.map(genre -> genreMapper.genreToGenreDTO(genre)).orElse(null);
     }
 
     @Override

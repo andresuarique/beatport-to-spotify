@@ -30,9 +30,7 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public ArtistDTO getArtistsById(Long id) {
         Optional<Artist> optionalArtist = artistRepository.findById(id);
-        if(!optionalArtist.isPresent())
-            return null;
-        return artistMapper.artistToArtistDTO(optionalArtist.get());
+        return optionalArtist.map(artist -> artistMapper.artistToArtistDTO(artist)).orElse(null);
     }
 
     @Override

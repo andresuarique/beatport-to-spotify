@@ -25,9 +25,7 @@ public class SongServiceImpl implements SongService {
     @Override
     public SongDTO getSongsById(Long id) {
         Optional<Song> optionalSong = songRepository.findById(id);
-        if(!optionalSong.isPresent())
-            return null;
-        return songMapper.songToSongDTO(optionalSong.get());
+        return optionalSong.map(song -> songMapper.songToSongDTO(song)).orElse(null);
     }
     @Override
     public List<SongDTO> getSongeByName(String name) {

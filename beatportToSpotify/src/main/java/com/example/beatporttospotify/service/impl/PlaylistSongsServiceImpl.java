@@ -50,10 +50,7 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
     @Override
     public PlaylistSongsDTO getPlaylistSongsById(Long id) {
         Optional<PlaylistSongs> playlistSongsOptional = playlistSongsRepository.findById(id);
-        if(!playlistSongsOptional.isPresent()){
-            return null;
-        }
-        return playlistSongsMapper.playlistSongsToPlaylistSongsDTO(playlistSongsOptional.get());
+        return playlistSongsOptional.map(playlistSongs -> playlistSongsMapper.playlistSongsToPlaylistSongsDTO(playlistSongs)).orElse(null);
     }
 
     @Override
@@ -92,8 +89,7 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
     }
 
     @Override
-    public boolean disableAllSongs(Long idPlaylist) {
+    public void disableAllSongs(Long idPlaylist) {
         playlistSongsRepository.disableAllSongs(idPlaylist);
-        return true;
     }
 }

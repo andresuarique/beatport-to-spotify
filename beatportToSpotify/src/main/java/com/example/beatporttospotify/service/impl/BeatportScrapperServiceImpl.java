@@ -39,9 +39,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     @Override
     public Document getHTML(String url) {
         try {
-            Connection.Response response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).ignoreHttpErrors(true).execute();
-            Document document = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).get();
-            return document;
+            return Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).get();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -196,7 +194,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             playlistSongsDTO.setSongId(songDTO.getId());
             playlistSongsDTO.setPlaylistId(playlistDTO.getId());
             playlistSongsDTO.setStatus("ENABLE");
-            playlistSongsDTO = playlistSongsService.save(playlistSongsDTO);
+            playlistSongsService.save(playlistSongsDTO);
         }
         return beatportSongList;
     }
@@ -204,15 +202,14 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     private String stringFormatter(String input) {
         String lowercase = input.toLowerCase();
         String removedCharacters = lowercase.replaceAll("[()&/]", "");
-        String replacedSpaces = removedCharacters.replaceAll("\\s+", "-");
-        return replacedSpaces;
+        return removedCharacters.replaceAll("\\s+", "-");
     }
 
     private String clearArtistText(String artist) {
         artist = artist.trim();
         artist = StringEscapeUtils.unescapeHtml4(artist);
         //(ofc) (US) (OZ) (ITA) (UK) (BR)
-        String array[] = {"(ofc)", "(US)", "(UK)", "(ITA)", "(OZ)", "(BR)", "(IT)", "(UZ)", "(FR)", "(ES)", "(YU)",
+        String[] array = {"(ofc)", "(US)", "(UK)", "(ITA)", "(OZ)", "(BR)", "(IT)", "(UZ)", "(FR)", "(ES)", "(YU)",
                 "(CA)", "(PL)", "(BE)", "(SE)", "(DE)", "(PT)", "(NO)", "(RSA)", "(SA)", "(RO)", "(Havana)", "(VE)", "(UZ)"
                 , "(FL)", "(AR)", "(EON)", "(BG)", "(ZM)", "(TN)", "(NL)", "(Palestina)", "(GB)", "(Official)", "(CO)", "(Aus)"
                 , "(DnB)", "(MX)", "(HU)", "(fr)", "(It)", "(SC)", "(CZ)", "(JP)", "(SWE)", "(IL)", "(AZ)", "(TN)", "(NYC)", "(Italy)"

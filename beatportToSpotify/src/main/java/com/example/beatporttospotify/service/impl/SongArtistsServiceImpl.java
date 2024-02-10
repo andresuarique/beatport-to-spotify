@@ -35,10 +35,7 @@ public class SongArtistsServiceImpl implements SongArtistsService {
     @Override
     public SongArtistsDTO getSongsArtistsById(Long id) {
         Optional<SongArtists> optionalSongArtists = songArtistsRepository.findById(id);
-        if(!optionalSongArtists.isPresent()){
-            return null;
-        }
-        return songArtistsMapper.songArtistToSongArtistsDTO(optionalSongArtists.get());
+        return optionalSongArtists.map(songArtists -> songArtistsMapper.songArtistToSongArtistsDTO(songArtists)).orElse(null);
     }
 
     @Override

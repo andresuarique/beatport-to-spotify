@@ -3,7 +3,6 @@ package com.example.beatporttospotify.service.impl;
 import com.example.beatporttospotify.dto.SongDTO;
 import com.example.beatporttospotify.model.spotify.*;
 import com.example.beatporttospotify.service.SpotifyAPIService;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -211,7 +210,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     }
 
     @Override
-    public String addSongsFromDB(List<SongDTO> songDTOS, String playlistId, String authorizationCode) {
+    public void addSongsFromDB(List<SongDTO> songDTOS, String playlistId, String authorizationCode) {
         String url = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + authorizationCode);
@@ -234,7 +233,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         } else {
             System.out.println("Failed to add songs. Status code: " + response.getStatusCode());
         }
-        return response.getBody();
+        response.getBody();
     }
 
     @Override
@@ -283,8 +282,10 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         );
 
         SpotifyAccessToken tokenResponse = response.getBody();
-        tokenResponse.setToken_creation_time(creationTime);
-        tokenResponse.setRefresh_token(refreshToken);
+        if(tokenResponse != null){
+            tokenResponse.setToken_creation_time(creationTime);
+            tokenResponse.setRefresh_token(refreshToken);
+        }
         return tokenResponse;
     }
 
@@ -301,26 +302,5 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         data=data.replace("&","and");
         data=data.trim();
         return data;
-    }
-    private String clearArtistText(String artist){
-        artist = artist.trim();
-        artist = StringEscapeUtils.unescapeHtml4(artist);
-        //(ofc) (US) (OZ) (ITA) (UK) (BR)
-        String array[]={"(ofc)","(US)","(UK)","(ITA)","(OZ)","(BR)","(IT)","(UZ)","(FR)","(ES)","(YU)",
-                "(CA)","(PL)","(BE)","(SE)","(DE)","(PT)","(NO)","(RSA)","(SA)","(RO)","(Havana)","(VE)","(UZ)"
-                ,"(FL)","(AR)","(EON)","(BG)","(ZM)","(TN)","(NL)","(Palestina)","(GB)","(Official)","(CO)","(Aus)"
-                ,"(DnB)","(MX)","(HU)","(fr)","(It)","(SC)","(CZ)","(JP)","(SWE)","(IL)","(AZ)","(TN)","(NYC)","(Italy)"
-                ,"(LA)","(AUS)","(ARG)","(PE)","(GER)","(ESP)","(AU)","(SL)","(BRA)","(MU)","(Paris)","(UA)","(IND)","(CU)","(GR)"
-                ,"(Brazil)","(ISR)","(Psy)","(IE)","(LU)","(CL)","(UY)","(JPN)"};
-        for (String data: array) {
-                    if(artist.contains(data)){
-                        artist=artist.replace(data,"");
-                        break;
-                    }
-        }
-        if(artist.contains("(") && artist.contains(")")){
-            System.out.println("ARTIST : "+artist);
-        }
-        return artist;
     }
 }

@@ -11,5 +11,5 @@ public interface ArtistMapper {
     public ArtistDTO artistToArtistDTO(Artist artist);
     public Artist artistDTOToArtist(ArtistDTO artistDTO);
     public List<ArtistDTO> listArtistToListArtistDTO(List<Artist> artists);
-    public List<Artist> ListArtistDTOToListArtist(List<ArtistDTO> artistDTOs);
+    public List<Artist> listArtistDTOToListArtist(List<ArtistDTO> artistDTOs);
 }

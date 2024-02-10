@@ -72,8 +72,7 @@ public class B2SController {
         try{
             String url = serverUrl+"/api/spotify/redirect";
 
-            String scope = "user-read-currently-playing";
-            scope = "user-read-private user-read-email user-read-currently-playing user-read-recently-played playlist-modify-public playlist-modify-private";
+            String scope = "user-read-private user-read-email user-read-currently-playing user-read-recently-played playlist-modify-public playlist-modify-private";
             System.out.println("callback");
             return ResponseEntity.ok(spotifyAPIService.authorize(url,scope));
         }catch (URISyntaxException e){

@@ -32,10 +32,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     public PlaylistDTO getPlaylistById(Long id) {
         Optional<Playlist> optionalPlaylist = playlistRepository.findById(id);
-        if(!optionalPlaylist.isPresent()){
-            return null;
-        }
-        return playlistMapper.playlistToPlaylistDTO(optionalPlaylist.get());
+        return optionalPlaylist.map(playlist -> playlistMapper.playlistToPlaylistDTO(playlist)).orElse(null);
     }
 
     @Override

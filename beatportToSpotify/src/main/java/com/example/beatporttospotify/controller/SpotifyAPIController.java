@@ -18,10 +18,4 @@ import java.time.Instant;
 @RequestMapping("/api/spotify")
 @CrossOrigin(origins = "*")
 public class SpotifyAPIController {
-
-
-
-
-
-
 }

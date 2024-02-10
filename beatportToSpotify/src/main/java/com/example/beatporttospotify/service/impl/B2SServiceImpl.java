@@ -31,9 +31,7 @@ public class B2SServiceImpl implements B2SService {
         PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreCode);
         List<PlaylistSongsDTO> listPlaylistSongsDTO = playlistSongsService.getPlaylistSongsByPlaylist(playlistDTO);
         List<SongDTO> songDTOS = new ArrayList<>();
-        listPlaylistSongsDTO.forEach(playlistSongsDTO -> {
-            songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId()));
-        });
+        listPlaylistSongsDTO.forEach(playlistSongsDTO -> songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId())));
         response.put("playlist",playlistDTO);
         response.put("songs",songDTOS);
         return response;
@@ -57,11 +55,9 @@ public class B2SServiceImpl implements B2SService {
                 return null;
             }
             List<SongDTO> songDTOS = new ArrayList<>();
-            listPlaylistSongsDTO.forEach(playlistSongsDTO -> {
-                songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId()));
-            });
+            listPlaylistSongsDTO.forEach(playlistSongsDTO -> songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId())));
             SpotifyPlaylist spotifyPlaylist = spotifyAPIService.createPlaylist(request.getPlaylistName(),userid,authorizationCode);
-            String data = spotifyAPIService.addSongsFromDB(songDTOS,spotifyPlaylist.getId(),authorizationCode);
+            spotifyAPIService.addSongsFromDB(songDTOS,spotifyPlaylist.getId(),authorizationCode);
             response.put("playlist",spotifyPlaylist);
             response.put("tracks",songDTOS);
             return response;

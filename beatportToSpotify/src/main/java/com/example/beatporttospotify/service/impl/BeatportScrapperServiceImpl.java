@@ -65,14 +65,12 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         GenreDTO genreDTO = new GenreDTO();
         JSONObject object;
         BeatportGenre beatportGenre;
+        Long id;
         for (int i = 0; i < jsonArray.length(); i++) {
             object = jsonArray.getJSONObject(i);
             beatportGenre = new BeatportGenre();
-            Long id = 0L;
-            try {
-                id = Long.parseLong(object.get("id").toString());
-            } catch (Exception e) {
-            }
+
+            id = Long.parseLong(object.get("id").toString());
             beatportGenre.setId(id);
             beatportGenre.setName(object.get("name").toString());
             beatportGenre.setUrl(stringFormatter(beatportGenre.getName()) + "/" + beatportGenre.getId());
@@ -138,7 +136,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
         JSONArray array;
         JSONObject artistObject;
         SpotifySong spotifySong;
-
+        List<SongDTO> songDTOS;
 
         for (int i = 0; i < jsonArray.length(); i++) {
             songArtistsDTO = new SongArtistsDTO();
@@ -153,19 +151,17 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
 
             artists = new ArrayList<>();
             array = object.getJSONArray("artists");
-            List<SongDTO> songDTOS = songService.getSongeByName(songName);
+            songDTOS = songService.getSongeByName(songName);
             if(songDTOS.isEmpty()){
                 songDTO.setBeatportName(songName);
                 songDTO.setBeatportImageUrl(songImage);
                 songDTO.setStatus("ENABLE");
                 songDTO = songService.save(songDTO);
-            }
-            else {
+            }else {
                 songDTO = songDTOS.get(0);
                 songDTO.setStatus("ENABLE");
                 songDTO = songService.update(songDTO);
             }
-
             for (int j = 0; j < array.length(); j++) {
                 artistDTO = new ArtistDTO();
                 artistObject = array.getJSONObject(j);

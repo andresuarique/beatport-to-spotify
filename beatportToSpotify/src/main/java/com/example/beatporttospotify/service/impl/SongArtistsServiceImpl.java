@@ -42,11 +42,11 @@ public class SongArtistsServiceImpl implements SongArtistsService {
     public SongArtistsDTO save(SongArtistsDTO songArtistsDTO) {
         try{
             Optional<Song> optionalSong = songRepository.findById(songArtistsDTO.getSongId());
-            Optional<Artist> optionlaArtist = artistRepository.findById(songArtistsDTO.getArtistId());
-            if(!optionlaArtist.isPresent() || !optionalSong.isPresent()){
+            Optional<Artist> optionalArtist = artistRepository.findById(songArtistsDTO.getArtistId());
+            if(!optionalArtist.isPresent() || !optionalSong.isPresent()){
                 return null;
             }
-            if(songArtistsRepository.findBySongAndArtist(optionalSong.get(), optionlaArtist.get()) != null){
+            if(songArtistsRepository.findBySongAndArtist(optionalSong.get(), optionalArtist.get()) != null){
                 return null;
             }
             SongArtists songArtists = songArtistsMapper.songArtistDTOToSongArtists(songArtistsDTO);

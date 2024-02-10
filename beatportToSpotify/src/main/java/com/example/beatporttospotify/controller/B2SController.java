@@ -106,10 +106,10 @@ public class B2SController {
         return  ResponseEntity.ok(spotifyAPIService.createPlaylist(name, user.getId(), token.getAccess_token()));
     }
 
-        @Scheduled(cron = "0 0 0 * * *")
-        @GetMapping("/scheduled-job/playlists-update")
-        public ResponseEntity<?> updatePlaylist(){
-            return ResponseEntity.ok(b2SService.updatePlaylist());
-        }
+    @Scheduled(cron = "0 0 0 * * *")
+    @GetMapping("/scheduled-job/playlists-update")
+    public ResponseEntity<?> updatePlaylist(){
+        return ResponseEntity.ok(b2SService.updatePlaylist());
+    }
 
 }

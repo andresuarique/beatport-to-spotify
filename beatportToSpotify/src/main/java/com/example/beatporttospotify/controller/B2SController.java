@@ -7,6 +7,7 @@ import com.example.beatporttospotify.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -105,9 +106,10 @@ public class B2SController {
         return  ResponseEntity.ok(spotifyAPIService.createPlaylist(name, user.getId(), token.getAccess_token()));
     }
 
-    @GetMapping("/scheduled-job/update-playlist")
-    public ResponseEntity<?> updatePlaylist(){
-        return ResponseEntity.ok(b2SService.updatePlaylist());
-    }
+        @Scheduled(cron = "0 0 0 * * *")
+        @GetMapping("/scheduled-job/playlists-update")
+        public ResponseEntity<?> updatePlaylist(){
+            return ResponseEntity.ok(b2SService.updatePlaylist());
+        }
 
 }

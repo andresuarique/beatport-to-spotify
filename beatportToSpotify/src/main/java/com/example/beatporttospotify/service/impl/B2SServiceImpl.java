@@ -4,7 +4,6 @@ import com.example.beatporttospotify.dto.*;
 import com.example.beatporttospotify.model.spotify.SpotifyPlaylist;
 import com.example.beatporttospotify.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

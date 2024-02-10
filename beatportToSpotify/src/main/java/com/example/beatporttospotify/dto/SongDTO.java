@@ -1,8 +1,6 @@
 package com.example.beatporttospotify.dto;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class SongDTO {
     private Long id;

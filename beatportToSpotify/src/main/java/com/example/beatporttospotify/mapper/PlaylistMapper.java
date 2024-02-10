@@ -1,11 +1,9 @@
 package com.example.beatporttospotify.mapper;
 
 import com.example.beatporttospotify.domain.Playlist;
-import com.example.beatporttospotify.domain.PlaylistSongs;
 import com.example.beatporttospotify.dto.PlaylistDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.List;
 

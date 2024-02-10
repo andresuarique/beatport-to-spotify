@@ -9,7 +9,6 @@ import com.example.beatporttospotify.repository.ArtistRepository;
 import com.example.beatporttospotify.repository.SongArtistsRepository;
 import com.example.beatporttospotify.repository.SongRepository;
 import com.example.beatporttospotify.service.SongArtistsService;
-import com.example.beatporttospotify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

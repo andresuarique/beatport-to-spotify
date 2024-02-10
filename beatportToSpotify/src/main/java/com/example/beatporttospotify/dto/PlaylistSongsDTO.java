@@ -1,6 +1,5 @@
 package com.example.beatporttospotify.dto;
 
-import java.util.Date;
 
 public class PlaylistSongsDTO {
     private Long id;

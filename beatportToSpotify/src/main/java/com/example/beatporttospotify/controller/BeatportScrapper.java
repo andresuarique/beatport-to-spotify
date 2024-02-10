@@ -1,6 +1,5 @@
 package com.example.beatporttospotify.controller;
 
-import com.example.beatporttospotify.dto.B2SRequestDTO;
 import com.example.beatporttospotify.service.BeatportScrapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

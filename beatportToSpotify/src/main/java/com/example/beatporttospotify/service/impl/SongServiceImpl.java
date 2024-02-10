@@ -1,8 +1,6 @@
 package com.example.beatporttospotify.service.impl;
 
-import com.example.beatporttospotify.domain.Genre;
 import com.example.beatporttospotify.domain.Song;
-import com.example.beatporttospotify.dto.GenreDTO;
 import com.example.beatporttospotify.dto.SongDTO;
 import com.example.beatporttospotify.mapper.SongMapper;
 import com.example.beatporttospotify.repository.SongRepository;

@@ -1,9 +1,6 @@
 package com.example.beatporttospotify.controller;
 
 import com.example.beatporttospotify.dto.B2SRequestDTO;
-import com.example.beatporttospotify.dto.GenreDTO;
-import com.example.beatporttospotify.dto.PlaylistDTO;
-import com.example.beatporttospotify.dto.PlaylistSongsDTO;
 import com.example.beatporttospotify.model.spotify.SpotifyAccessToken;
 import com.example.beatporttospotify.model.spotify.SpotifyUser;
 import com.example.beatporttospotify.service.*;
@@ -13,13 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.xml.ws.Response;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("")

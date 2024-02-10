@@ -1,13 +1,9 @@
 package com.example.beatporttospotify.service.impl;
 
 import com.example.beatporttospotify.dto.SongDTO;
-import com.example.beatporttospotify.model.scraper.BeatportSong;
-import com.example.beatporttospotify.model.scraper.BeatportToSpotifyRequest;
 import com.example.beatporttospotify.model.spotify.*;
-import com.example.beatporttospotify.service.BeatportScrapperService;
 import com.example.beatporttospotify.service.SpotifyAPIService;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

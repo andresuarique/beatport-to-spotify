@@ -3,7 +3,6 @@ package com.example.beatporttospotify.service;
 import com.example.beatporttospotify.dto.ArtistDTO;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ArtistService {
     public List<ArtistDTO> getArtists();

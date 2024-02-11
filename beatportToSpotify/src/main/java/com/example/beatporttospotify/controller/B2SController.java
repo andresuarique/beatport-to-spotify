@@ -74,7 +74,6 @@ public class B2SController {
             String url = serverUrl+"/api/spotify/redirect";
 
             String scope = "user-read-private user-read-email user-read-currently-playing user-read-recently-played playlist-modify-public playlist-modify-private";
-            System.out.println("callback");
             return ResponseEntity.ok(spotifyAPIService.authorize(url,scope));
         }catch (URISyntaxException e){
             return null;
@@ -83,7 +82,6 @@ public class B2SController {
     @GetMapping("/api/spotify/redirect")
     public RedirectView redirect(@RequestParam("code") String authorizationCode){
         String url = serverUrl+"/api/spotify/redirect";
-        System.out.println("Redirect to: "+url);
         token = spotifyAPIService.exchangeAuthorizationCode(authorizationCode,url);
         if(token == null){
             System.out.println("Failed to obtain access token");

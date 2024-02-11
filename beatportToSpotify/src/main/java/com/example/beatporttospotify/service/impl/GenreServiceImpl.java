@@ -5,6 +5,8 @@ import com.example.beatporttospotify.dto.GenreDTO;
 import com.example.beatporttospotify.mapper.GenreMapper;
 import com.example.beatporttospotify.repository.GenreRepository;
 import com.example.beatporttospotify.service.GenreService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ public class GenreServiceImpl implements GenreService {
     private GenreRepository genreRepository;
     @Autowired
     private GenreMapper genreMapper;
+    private static final Logger logger = LoggerFactory.getLogger(GenreServiceImpl.class);
 
     @Override
     public List<GenreDTO> getGenres() {
@@ -52,7 +55,7 @@ public class GenreServiceImpl implements GenreService {
             genre = genreRepository.save(genre);
             return genreMapper.genreToGenreDTO(genre);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -66,7 +69,7 @@ public class GenreServiceImpl implements GenreService {
             Genre genre = genreMapper.genreDTOToGenre(genreDTO);
             return genreMapper.genreToGenreDTO(genreRepository.save(genre));
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }

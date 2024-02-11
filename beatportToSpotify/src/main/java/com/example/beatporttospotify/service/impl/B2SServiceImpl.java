@@ -3,6 +3,8 @@ package com.example.beatporttospotify.service.impl;
 import com.example.beatporttospotify.dto.*;
 import com.example.beatporttospotify.model.spotify.SpotifyPlaylist;
 import com.example.beatporttospotify.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class B2SServiceImpl implements B2SService {
     private SpotifyAPIService spotifyAPIService;
     @Autowired
     private BeatportScrapperService beatportScrapperService;
+    private static final Logger logger = LoggerFactory.getLogger(B2SServiceImpl.class);
     @Override
     public Map<String, Object> getPlaylistByGenreCode(String genreCode) {
         Map<String, Object> response = new HashMap<>();
@@ -62,7 +65,7 @@ public class B2SServiceImpl implements B2SService {
             response.put("tracks",songDTOS);
             return response;
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
 
@@ -74,21 +77,20 @@ public class B2SServiceImpl implements B2SService {
             List<GenreDTO> genreDTOS = genreService.getGenres();
 
             genreDTOS.forEach(genreDTO -> {
-                System.out.println("GENRE: "+genreDTO.getName());
+                logger.info("update playlist for {} genre",genreDTO.getName());
                 PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreDTO.getCode());
                 if(playlistDTO != null){
                     playlistSongsService.disableAllSongs(playlistDTO.getId());
                 }
-                System.out.println(genreDTO.getName()+"/"+genreDTO.getCode());
                 try {
                     beatportScrapperService.getTop100(genreDTO.getName() + "/" + genreDTO.getCode());
                 }catch (Exception e){
-                    System.out.println("NO SE PUDO OBTENER PLAYLIST PARA "+genreDTO.getName());
+                    logger.error("cannot get playlist for {} genre",genreDTO.getName());
                 }
             });
             response.put("success",true);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             response.put("success",false);
         }
         return response;

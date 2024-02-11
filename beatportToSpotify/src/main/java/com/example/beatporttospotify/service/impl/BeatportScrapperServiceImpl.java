@@ -12,6 +12,8 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +37,14 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
     private PlaylistSongsService playlistSongsService;
     @Autowired
     private SpotifyAPIService spotifyAPIService;
+    private static final Logger logger = LoggerFactory.getLogger(BeatportScrapperServiceImpl.class);
 
     @Override
     public Document getHTML(String url) {
         try {
             return Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(100000).get();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
 
@@ -218,7 +221,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             }
         }
         if (artist.contains("(") && artist.contains(")")) {
-            System.out.println("ARTIST : " + artist);
+            logger.info("new artist country: {}",artist);
         }
         return artist;
     }

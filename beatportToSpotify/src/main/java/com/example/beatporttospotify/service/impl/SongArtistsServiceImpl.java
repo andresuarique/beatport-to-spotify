@@ -9,6 +9,8 @@ import com.example.beatporttospotify.repository.ArtistRepository;
 import com.example.beatporttospotify.repository.SongArtistsRepository;
 import com.example.beatporttospotify.repository.SongRepository;
 import com.example.beatporttospotify.service.SongArtistsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class SongArtistsServiceImpl implements SongArtistsService {
     private SongRepository songRepository;
     @Autowired
     private ArtistRepository artistRepository;
+    private static final Logger logger = LoggerFactory.getLogger(SongArtistsServiceImpl.class);
 
 
     @Override
@@ -53,7 +56,7 @@ public class SongArtistsServiceImpl implements SongArtistsService {
             songArtists = songArtistsRepository.save(songArtists);
             return songArtistsMapper.songArtistToSongArtistsDTO(songArtists);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -68,7 +71,7 @@ public class SongArtistsServiceImpl implements SongArtistsService {
             SongArtists songArtists = songArtistsMapper.songArtistDTOToSongArtists(songArtistsDTO);
             return songArtistsMapper.songArtistToSongArtistsDTO(songArtistsRepository.save(songArtists));
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }

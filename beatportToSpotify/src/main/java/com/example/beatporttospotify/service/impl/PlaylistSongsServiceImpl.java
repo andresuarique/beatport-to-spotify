@@ -12,6 +12,8 @@ import com.example.beatporttospotify.repository.PlaylistSongsRepository;
 import com.example.beatporttospotify.repository.SongRepository;
 import com.example.beatporttospotify.service.PlaylistService;
 import com.example.beatporttospotify.service.PlaylistSongsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,7 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
     private PlaylistRepository playlistRepository;
     @Autowired
     private SongRepository songRepository;
+    private static final Logger logger = LoggerFactory.getLogger(PlaylistSongsServiceImpl.class);
 
     @Override
     public List<PlaylistSongsDTO> getPlaylistSongs() {
@@ -68,7 +71,7 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
             playlistSongs = playlistSongsRepository.save(playlistSongs);
             return playlistSongsMapper.playlistSongsToPlaylistSongsDTO(playlistSongs);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -83,7 +86,7 @@ public class PlaylistSongsServiceImpl implements PlaylistSongsService {
             PlaylistSongs playlistSongs = playlistSongsMapper.playlistSongsDTOToPlaylistSongs(playlistSongsDTO);
             return playlistSongsMapper.playlistSongsToPlaylistSongsDTO(playlistSongsRepository.save(playlistSongs));
         }catch (Exception e){
-         e.printStackTrace();
+            logger.error(e.getMessage());
          return null;
         }
     }

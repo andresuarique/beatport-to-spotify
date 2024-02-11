@@ -3,6 +3,8 @@ package com.example.beatporttospotify.service.impl;
 import com.example.beatporttospotify.dto.SongDTO;
 import com.example.beatporttospotify.model.spotify.*;
 import com.example.beatporttospotify.service.SpotifyAPIService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     private String spotifyClientId;
     @Value("${spotify.client.secret}")
     private String spotifyClientSecret;
+    private static final Logger logger = LoggerFactory.getLogger(SpotifyAPIServiceImpl.class);
     @Override
     public SpotifyUser getUser(String token){
         String url = "https://api.spotify.com/v1/me";
@@ -46,7 +49,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            System.out.println("Failed to get user information. Status code: " + response.getStatusCode());
+            logger.error("Failed to get user information. Status code: {}", response.getStatusCode());
             return null;
         }
     }
@@ -144,7 +147,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
     @Override
     public SpotifyPlaylist createPlaylist(String name, String userId, String authorizationCode) {
-        System.out.println("playlist: "+name);
         // Utilizar el token de acceso para crear la playlist
         String url = "https://api.spotify.com/v1/users/" + userId + "/playlists";
         HttpHeaders headers = new HttpHeaders();
@@ -167,9 +169,9 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 SpotifyPlaylist.class);
 
         if (response.getStatusCode() == HttpStatus.CREATED) {
-             System.out.println("Playlist created successfully!");
+            logger.info("Playlist created successfully!");
         } else {
-              System.out.println("Failed to create playlist. Status code: " + response.getStatusCode());
+            logger.error("Failed to create playlist. Status code: {}", response.getStatusCode());
         }
         return response.getBody();
     }
@@ -193,9 +195,9 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 String.class);
 
         if (response.getStatusCode() == HttpStatus.CREATED) {
-            System.out.println("Songs are added successfully!");
+            logger.info("Songs are added successfully!");
         } else {
-            System.out.println("Failed to add songs. Status code: " + response.getStatusCode());
+            logger.error("Failed to add songs. Status code: {}", response.getStatusCode());
         }
         return response.getBody();
     }
@@ -219,9 +221,9 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
                 String.class);
 
         if (response.getStatusCode() == HttpStatus.CREATED) {
-            System.out.println("Songs are added successfully!");
+            logger.info("Songs are added successfully!");
         } else {
-            System.out.println("Failed to add songs. Status code: " + response.getStatusCode());
+            logger.error("Failed to add songs. Status code: {}", response.getStatusCode());
         }
         response.getBody();
     }
@@ -241,7 +243,7 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            System.out.println("Failed to get playlist information. Status code: " + response.getStatusCode());
+            logger.error("Failed to get playlist information. Status code: {}", response.getStatusCode());
             return null;
         }
     }

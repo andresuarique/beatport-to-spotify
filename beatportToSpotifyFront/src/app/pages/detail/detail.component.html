@@ -42,8 +42,7 @@
               <h1
                 class="font-bold overflow-visible text-left lg:text-4xl max-lg:text-2xl text-transparent bg-clip-text bg-gradient-to-tr from-amber-500 from-40% via-amber-400 to-amber-500 to-60% ">
                 {{ request.playlistName }}</h1>
-              <h2 class="bottom-1"><span class="text-cyan-400 font-bold lg:text-2xl max-lg:text-1xl"> {{ tracks.length
-                  }} </span>Canciones</h2>
+              <h2 class="bottom-1"><span class="text-cyan-400 font-bold lg:text-2xl max-lg:text-1xl"> {{ tracks.length }} </span>Canciones</h2>
             </header>
           </article>
         </div>
@@ -66,11 +65,11 @@
                     {{ i + 1 }}
                   </td>
                   <td class="px-4 py-2 ">
-                    <a [href]="track.external_urls.spotify" target="_blank" class="flex gap-3">
-                      <img [src]="track.album.images[0].url" alt="" class="aspect-square w-auto max-w-[50px]" />
+                    <a [href]="" target="_blank" class="flex gap-3">
+                      <img [src]="track.spotifyImageUrl" alt="" class="aspect-square w-auto max-w-[50px]" />
                       <header class="flex flex-col">
-                        <h3 class="font-bold">{{ track.name }}</h3>
-                        <small class="text-amber-400">{{ track.artists[0].name }}</small>
+                        <h3 class="font-bold whitespace-nowrap text-overflow-ellipsis">{{ track.spotifyName }}</h3>
+                        <small class="text-amber-400 whitespace-nowrap text-overflow-ellipsis"> {{ track.artists[0] }} </small>
                       </header>
                     </a>
                   </td>

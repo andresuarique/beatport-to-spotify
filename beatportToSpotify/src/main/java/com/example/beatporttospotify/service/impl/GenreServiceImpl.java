@@ -37,6 +37,10 @@ public class GenreServiceImpl implements GenreService {
         return genreMapper.listGenreToListGenreDTO(genreRepository.findByName(name));
     }
     @Override
+    public List<GenreDTO> getGenreByUrl(String url) {
+        return genreMapper.listGenreToListGenreDTO(genreRepository.findByUrl(url));
+    }
+    @Override
     public List<GenreDTO> getGenreByCode(String code) {
         return genreMapper.listGenreToListGenreDTO(genreRepository.findByCode(code));
     }

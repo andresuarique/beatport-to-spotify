@@ -9,6 +9,9 @@ import com.example.beatporttospotify.repository.ArtistRepository;
 import com.example.beatporttospotify.repository.SongArtistsRepository;
 import com.example.beatporttospotify.repository.SongRepository;
 import com.example.beatporttospotify.service.SongArtistsService;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,19 @@ public class SongArtistsServiceImpl implements SongArtistsService {
     public SongArtistsDTO getSongsArtistsById(Long id) {
         Optional<SongArtists> optionalSongArtists = songArtistsRepository.findById(id);
         return optionalSongArtists.map(songArtists -> songArtistsMapper.songArtistToSongArtistsDTO(songArtists)).orElse(null);
+    }
+
+    @Override
+    public List<String> getSongsArtistsBySongId(Long songId) {
+        Optional<Song> optionalSong = songRepository.findById(songId);
+        if(!optionalSong.isPresent()){
+            return Collections.emptyList();
+        }
+        List<SongArtists> songArtists = songArtistsRepository.findBySong(optionalSong.get());
+        List<String> artists = new ArrayList<>();
+        songArtists.forEach(songArtist -> artists.add(songArtist.getArtist().getBeatportName()));
+
+        return artists;
     }
 
     @Override

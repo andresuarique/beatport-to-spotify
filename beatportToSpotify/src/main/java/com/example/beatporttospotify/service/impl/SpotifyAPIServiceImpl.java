@@ -179,7 +179,11 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
         } else {
             logger.error("Failed to create playlist. Status code: {}", response.getStatusCode());
         }
-        return response.getBody();
+        SpotifyPlaylist spotifyPlaylist  = response.getBody();
+        if(spotifyPlaylist != null){
+            spotifyPlaylist=getPlaylist(authorizationCode,spotifyPlaylist.getId());
+        }
+        return spotifyPlaylist;
     }
 
     @Override
@@ -245,7 +249,6 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<SpotifyPlaylist> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, SpotifyPlaylist.class);
-
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {

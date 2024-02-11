@@ -24,6 +24,8 @@ public class B2SServiceImpl implements B2SService {
     private SpotifyAPIService spotifyAPIService;
     @Autowired
     private BeatportScrapperService beatportScrapperService;
+    @Autowired
+    private SongArtistsService songArtistsService;
     private static final Logger logger = LoggerFactory.getLogger(B2SServiceImpl.class);
     @Override
     public Map<String, Object> getPlaylistByGenreCode(String genreCode) {
@@ -47,24 +49,31 @@ public class B2SServiceImpl implements B2SService {
     public Map<String, Object> createPlaylist(B2SRequestDTO request,String userid, String authorizationCode) {
         Map<String, Object> response = new HashMap<>();
         try{
-            List<GenreDTO> genreDTOS = genreService.getGenreByName(request.getGenre());
+            List<GenreDTO> genreDTOS = genreService.getGenreByUrl(request.getGenre());
             if(genreDTOS.isEmpty()){
                 response.put("success",false);
                 response.put("error","genre not found");
+                return response;
             }
             String genreCode = genreDTOS.get(0).getCode();
             PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreCode);
             if(playlistDTO == null){
                 response.put("success",false);
                 response.put("error","playlist not found");
+                return response;
             }
             List<PlaylistSongsDTO> listPlaylistSongsDTO = playlistSongsService.getPlaylistSongsByPlaylist(playlistDTO);
             if(listPlaylistSongsDTO.isEmpty()){
                 response.put("success",false);
                 response.put("error","songs not found");
+                return response;
             }
             List<SongDTO> songDTOS = new ArrayList<>();
-            listPlaylistSongsDTO.forEach(playlistSongsDTO -> songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId())));
+            listPlaylistSongsDTO.forEach(playlistSongsDTO -> {
+                SongDTO songDTO = songService.getSongsById(playlistSongsDTO.getSongId());
+                songDTO.setArtists(songArtistsService.getSongsArtistsBySongId(songDTO.getId()));
+                songDTOS.add(songDTO);
+            });
             SpotifyPlaylist spotifyPlaylist = spotifyAPIService.createPlaylist(request.getPlaylistName(),userid,authorizationCode);
             spotifyAPIService.addSongsFromDB(songDTOS,spotifyPlaylist.getId(),authorizationCode);
             response.put("success",true);

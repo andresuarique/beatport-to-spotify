@@ -1,6 +1,7 @@
 package com.example.beatporttospotify.dto;
 
 
+import java.util.List;
 
 public class SongDTO {
     private Long id;
@@ -10,6 +11,7 @@ public class SongDTO {
     private String beatportImageUrl;
     private String spotifyImageUrl;
     private String status;
+    private List<String> artists;
 
     public Long getId() {
         return id;
@@ -65,5 +67,13 @@ public class SongDTO {
 
     public void setSpotifyImageUrl(String spotifyImageUrl) {
         this.spotifyImageUrl = spotifyImageUrl;
+    }
+
+    public List<String> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(List<String> artists) {
+        this.artists = artists;
     }
 }

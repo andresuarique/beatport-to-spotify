@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   getGenres(): void {
     this.beatportToSpotifyApiService.getGenres().subscribe(
       (data) => {
-        this.genres = data;
+        this.genres = data.genres;
         this.genres = this.genres.filter((genre) => genre.id !== 0);
       },
       (error) => {

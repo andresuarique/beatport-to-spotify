@@ -47,11 +47,11 @@ export class DetailComponent implements OnInit {
       this.beatportToSpotifyApiService.createPlaylist(this.request).subscribe(
         (data) => {
           //this.http.get<any>(this.url).subscribe(data =>{
-          this.image = data.playlist.images[0].url;
           this.playlistUrl = data.playlist.external_urls.spotify;
-          this.tracks = data.tracks.items;
+          this.tracks = data.tracks;
           this.ready = true;
           this.hasError = false;
+          this.image = data.tracks[0].spotifyImageUrl;
 
           if (name == 'general') {
             this.beatportUrl += 'top-100';

@@ -17,14 +17,14 @@ export class BeatportToSpotifyApiService {
     return this.http.get<any>(this.apiUrl + '/api/spotify/callback');
   }
 
-  getGenres(): Observable<BeatportGenre[]> {
-    return this.http.get<BeatportGenre[]>(
-      this.apiUrl + '/scrapper/beatport/genres'
+  getGenres(): Observable<any> {
+    return this.http.get<any>(
+      this.apiUrl + '/b2s/genres'
     );
   }
-  createPlaylist(data: BeatportToSpotifyRequest): Observable<any> {
+  createPlaylist(data: any): Observable<any> {
     return this.http.post<any>(
-      this.apiUrl + '/api/spotify/create-playlist',
+      this.apiUrl + '/b2s/create-playlist',
       data
     );
   }

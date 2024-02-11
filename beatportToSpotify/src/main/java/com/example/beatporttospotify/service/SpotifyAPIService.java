@@ -10,7 +10,7 @@ import java.util.Map;
 public interface SpotifyAPIService {
     public SpotifyUser getUser(String token);
     public SpotifyAccessToken getToken();
-    public Map<String,Object> authorize(String url, String scope) throws URISyntaxException;
+    public Map<String,Object> authorize(String url, String scope);
     public SpotifyAccessToken exchangeAuthorizationCode (String authorizationCode, String url);
     public SpotifySong searchSong (String songName);
     public SpotifyPlaylist createPlaylist(String name, String userId, String authorizationCode);

@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/scrapper/beatport")
 @CrossOrigin(origins = "*")
@@ -13,10 +16,26 @@ public class BeatportScrapper {
 private BeatportScrapperService beatportScrapperService;
     @GetMapping("/genres")
     public ResponseEntity<?> getGenres(){
-        return ResponseEntity.ok(beatportScrapperService.getGenres());
+        Map<String,Object> response = new HashMap<>();
+        try{
+            response.put("genres",beatportScrapperService.getGenres());
+            response.put("success",true);
+        }catch (Exception e){
+            response.put("error",e.getMessage());
+            response.put("success",true);
+        }
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/top-100/{genre}/{genreId}")
     public ResponseEntity<?> getTop100(@PathVariable String genre,@PathVariable String genreId){
-        return ResponseEntity.ok(beatportScrapperService.getTop100(genre+"/"+genreId));
+        Map<String,Object> response= new HashMap<>();
+        try{
+            response.put("songs",beatportScrapperService.getTop100(genre+"/"+genreId));
+            response.put("success",true);
+        }catch (Exception e){
+            response.put("error",e.getMessage());
+            response.put("success",true);
+        }
+        return ResponseEntity.ok(response);
     }
 }

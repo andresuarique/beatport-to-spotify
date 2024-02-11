@@ -76,19 +76,25 @@ public class SpotifyAPIServiceImpl implements SpotifyAPIService {
     }
 
     @Override
-    public Map<String,Object> authorize(String url, String scope) throws URISyntaxException {
+    public Map<String,Object> authorize(String url, String scope){
         Map<String,Object> resp = new HashMap<>();
-        String state = generateRandomString(16);
+        try {
+            String state = generateRandomString(16);
 
-        URI authorizeUri = new URIBuilder("https://accounts.spotify.com/authorize")
-                .addParameter("response_type", "code")
-                .addParameter("client_id", spotifyClientId)
-                .addParameter("scope", scope)
-                .addParameter("redirect_uri", url)
-                .addParameter("state", state)
-                .build();
+            URI authorizeUri = new URIBuilder("https://accounts.spotify.com/authorize")
+                    .addParameter("response_type", "code")
+                    .addParameter("client_id", spotifyClientId)
+                    .addParameter("scope", scope)
+                    .addParameter("redirect_uri", url)
+                    .addParameter("state", state)
+                    .build();
 
-        resp.put("url",authorizeUri.toString());
+            resp.put("url", authorizeUri.toString());
+            resp.put("success", true);
+        }catch (Exception e){
+            resp.put("success",e.getMessage());
+            resp.put("error",e.getMessage());
+        }
         return resp;
     }
 

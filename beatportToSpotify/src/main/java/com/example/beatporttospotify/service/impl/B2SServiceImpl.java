@@ -28,12 +28,18 @@ public class B2SServiceImpl implements B2SService {
     @Override
     public Map<String, Object> getPlaylistByGenreCode(String genreCode) {
         Map<String, Object> response = new HashMap<>();
-        PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreCode);
-        List<PlaylistSongsDTO> listPlaylistSongsDTO = playlistSongsService.getPlaylistSongsByPlaylist(playlistDTO);
-        List<SongDTO> songDTOS = new ArrayList<>();
-        listPlaylistSongsDTO.forEach(playlistSongsDTO -> songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId())));
-        response.put("playlist",playlistDTO);
-        response.put("songs",songDTOS);
+        try {
+            PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreCode);
+            List<PlaylistSongsDTO> listPlaylistSongsDTO = playlistSongsService.getPlaylistSongsByPlaylist(playlistDTO);
+            List<SongDTO> songDTOS = new ArrayList<>();
+            listPlaylistSongsDTO.forEach(playlistSongsDTO -> songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId())));
+            response.put("success", true);
+            response.put("playlist", playlistDTO);
+            response.put("songs", songDTOS);
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("error",e.getMessage());
+        }
         return response;
     }
 
@@ -43,27 +49,33 @@ public class B2SServiceImpl implements B2SService {
         try{
             List<GenreDTO> genreDTOS = genreService.getGenreByName(request.getGenre());
             if(genreDTOS.isEmpty()){
-               return null;
+                response.put("success",false);
+                response.put("error","genre not found");
             }
             String genreCode = genreDTOS.get(0).getCode();
             PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreCode);
             if(playlistDTO == null){
-                return null;
+                response.put("success",false);
+                response.put("error","playlist not found");
             }
             List<PlaylistSongsDTO> listPlaylistSongsDTO = playlistSongsService.getPlaylistSongsByPlaylist(playlistDTO);
             if(listPlaylistSongsDTO.isEmpty()){
-                return null;
+                response.put("success",false);
+                response.put("error","songs not found");
             }
             List<SongDTO> songDTOS = new ArrayList<>();
             listPlaylistSongsDTO.forEach(playlistSongsDTO -> songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId())));
             SpotifyPlaylist spotifyPlaylist = spotifyAPIService.createPlaylist(request.getPlaylistName(),userid,authorizationCode);
             spotifyAPIService.addSongsFromDB(songDTOS,spotifyPlaylist.getId(),authorizationCode);
+            response.put("success",true);
             response.put("playlist",spotifyPlaylist);
             response.put("tracks",songDTOS);
             return response;
         }catch (Exception e){
             logger.error(e.getMessage());
-            return null;
+            response.put("success",false);
+            response.put("error",e.getMessage());
+            return response;
         }
 
     }

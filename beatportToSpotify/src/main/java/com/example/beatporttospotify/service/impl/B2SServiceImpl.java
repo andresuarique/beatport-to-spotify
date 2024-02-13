@@ -76,6 +76,7 @@ public class B2SServiceImpl implements B2SService {
             });
             SpotifyPlaylist spotifyPlaylist = spotifyAPIService.createPlaylist(request.getPlaylistName(),userid,authorizationCode);
             spotifyAPIService.addSongsFromDB(songDTOS,spotifyPlaylist.getId(),authorizationCode);
+            spotifyPlaylist = spotifyAPIService.getPlaylist(authorizationCode, spotifyPlaylist.getId());
             response.put("success",true);
             response.put("playlist",spotifyPlaylist);
             response.put("tracks",songDTOS);

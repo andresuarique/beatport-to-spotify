@@ -51,7 +51,7 @@ export class DetailComponent implements OnInit {
           this.tracks = data.tracks;
           this.ready = true;
           this.hasError = false;
-          this.image = data.tracks[0].spotifyImageUrl;
+          this.image = data.playlist.images[0].url;
 
           if (name == 'general') {
             this.beatportUrl += 'top-100';

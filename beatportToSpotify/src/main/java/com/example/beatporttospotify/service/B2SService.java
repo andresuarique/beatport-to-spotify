@@ -6,6 +6,7 @@ import java.util.Map;
 
 public interface B2SService {
     public Map<String, Object> getPlaylistByGenreCode(String genreCode);
+    public Map<String, Object> getMonthlyPlaylistByGenreCode(int year, int month,String genreCode);
     public Map<String, Object> createPlaylist(B2SRequestDTO b2SRequestDTO,String userid, String token);
     public Map<String, Object> updatePlaylist();
 }

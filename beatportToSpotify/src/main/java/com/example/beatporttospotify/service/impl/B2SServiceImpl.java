@@ -17,6 +17,10 @@ public class B2SServiceImpl implements B2SService {
     @Autowired
     private PlaylistSongsService playlistSongsService;
     @Autowired
+    private MonthlyPlaylistService monthlyPlaylistService;
+    @Autowired
+    private MonthlyPlaylistSongsService monthlyPlaylistSongsService;
+    @Autowired
     private SongService songService;
     @Autowired
     private GenreService genreService;
@@ -37,6 +41,24 @@ public class B2SServiceImpl implements B2SService {
             listPlaylistSongsDTO.forEach(playlistSongsDTO -> songDTOS.add(songService.getSongsById(playlistSongsDTO.getSongId())));
             response.put("success", true);
             response.put("playlist", playlistDTO);
+            response.put("songs", songDTOS);
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("error",e.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public Map<String, Object> getMonthlyPlaylistByGenreCode(int year, int month, String genreCode) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            MonthlyPlaylistDTO monthlyPlaylistDTO = monthlyPlaylistService.getMonthlyPlaylistByGenreAndMonth(year,month,genreCode);
+            List<MonthlyPlaylistSongsDTO> monthlyPlaylistSongsDTOS = monthlyPlaylistSongsService.getMonthlyPlaylistSongsByMonthlyPlaylist(monthlyPlaylistDTO);
+            List<SongDTO> songDTOS = new ArrayList<>();
+            monthlyPlaylistSongsDTOS.forEach(monthlyPlaylistSongsDTO -> songDTOS.add(songService.getSongsById(monthlyPlaylistSongsDTO.getSongId())));
+            response.put("success", true);
+            response.put("playlist", monthlyPlaylistSongsDTOS);
             response.put("songs", songDTOS);
         }catch (Exception e){
             response.put("success", false);

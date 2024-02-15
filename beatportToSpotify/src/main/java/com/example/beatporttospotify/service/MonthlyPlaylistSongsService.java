@@ -10,7 +10,7 @@ import java.util.List;
 public interface MonthlyPlaylistSongsService {
     public List<MonthlyPlaylistSongsDTO> getMonthlyPlaylistSongs();
     public MonthlyPlaylistSongsDTO getMonthlyPlaylistSongsById(Long id);
-    public List<MonthlyPlaylistSongsDTO> getMonthlyPlaylistSongsByMonthlyPlaylist(MonthlyPlaylistSongsDTO monthlyPlaylistSongsDTO);
+    public List<MonthlyPlaylistSongsDTO> getMonthlyPlaylistSongsByMonthlyPlaylist(MonthlyPlaylistDTO monthlyPlaylistDTO);
     public MonthlyPlaylistSongsDTO save(MonthlyPlaylistSongsDTO monthlyPlaylistDTO);
     public MonthlyPlaylistSongsDTO update(MonthlyPlaylistSongsDTO monthlyPlaylistDTO);
     public void disableAllSongs(Long idMonthlyPlaylist);

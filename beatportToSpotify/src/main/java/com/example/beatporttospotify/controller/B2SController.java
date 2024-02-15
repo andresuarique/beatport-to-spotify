@@ -57,6 +57,13 @@ public class B2SController {
     public ResponseEntity<?> getPlaylist(@PathVariable("genreName")String genreName,@PathVariable("genreCode")String genreCode){
         return ResponseEntity.ok(b2SService.getPlaylistByGenreCode(genreCode));
     }
+
+    @GetMapping("/b2s/monthly-playlist/{year}/{month}/{genreCode}")
+    public ResponseEntity<?> getMonthlyPlaylist(@PathVariable("year")int year,@PathVariable("month")int month,@PathVariable("genreCode")String genreCode){
+        return ResponseEntity.ok(b2SService.getMonthlyPlaylistByGenreCode(year,month,genreCode));
+    }
+
+
     @PostMapping("/b2s/create-playlist")
     public ResponseEntity<?> createPlaylist(@RequestBody B2SRequestDTO request){
         Instant currentTime = Instant.now();

@@ -48,8 +48,8 @@ public class MonthlyPlaylistSongsServiceImpl implements MonthlyPlaylistSongsServ
     }
 
     @Override
-    public List<MonthlyPlaylistSongsDTO> getMonthlyPlaylistSongsByMonthlyPlaylist(MonthlyPlaylistSongsDTO monthlyPlaylistSongsDTO) {
-        MonthlyPlaylist monthlyPlaylist = monthlyPlaylistMapper.monthlyPlaylistDTOToMonthlyPlaylist(monthlyPlaylistService.getMonthlyPlaylistById(monthlyPlaylistSongsDTO.getId()));
+    public List<MonthlyPlaylistSongsDTO> getMonthlyPlaylistSongsByMonthlyPlaylist(MonthlyPlaylistDTO monthlyPlaylistDTO) {
+        MonthlyPlaylist monthlyPlaylist = monthlyPlaylistMapper.monthlyPlaylistDTOToMonthlyPlaylist(monthlyPlaylistService.getMonthlyPlaylistById(monthlyPlaylistDTO.getId()));
         if(monthlyPlaylist == null){
             return null;
         }

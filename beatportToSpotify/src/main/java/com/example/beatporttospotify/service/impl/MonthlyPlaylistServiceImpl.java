@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +41,12 @@ public class MonthlyPlaylistServiceImpl implements MonthlyPlaylistService {
     }
 
     @Override
-    public MonthlyPlaylistDTO getMonthlyPlaylistByGenre(String genreCode) {
+    public MonthlyPlaylistDTO getMonthlyPlaylistByGenreAndMonth(int year,int month, String genreCode){
         Genre genre = genreMapper.genreDTOToGenre(genreService.getGenreByCode(genreCode).get(0));
-        MonthlyPlaylist monthlyPlaylist = monthlyPlaylistRepository.findByGenre(genre);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month-1, 1);
+        Date date = calendar.getTime();
+        MonthlyPlaylist monthlyPlaylist = monthlyPlaylistRepository.findByGenreAndCreationDate(genre,date);
         return monthlyPlaylistMapper.monthlyPlaylistToMonthlyPlaylistDTO(monthlyPlaylist);
     }
 

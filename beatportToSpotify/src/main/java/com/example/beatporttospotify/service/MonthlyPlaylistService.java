@@ -7,7 +7,7 @@ import java.util.List;
 public interface MonthlyPlaylistService {
     public List<MonthlyPlaylistDTO> getMonthlyPlaylists();
     public MonthlyPlaylistDTO getMonthlyPlaylistById(Long id);
-    public MonthlyPlaylistDTO getMonthlyPlaylistByGenre(String genreCode);
+    public MonthlyPlaylistDTO getMonthlyPlaylistByGenreAndMonth(int year,int month, String genreCode);
     public  MonthlyPlaylistDTO save(MonthlyPlaylistDTO monthlyPlaylistDTO);
     public  MonthlyPlaylistDTO update(MonthlyPlaylistDTO monthlyPlaylistDTO);
 }

@@ -1,5 +1,6 @@
 package com.example.beatporttospotify.service.impl;
 
+import com.example.beatporttospotify.domain.MonthlyPlaylistSongs;
 import com.example.beatporttospotify.dto.*;
 import com.example.beatporttospotify.model.spotify.SpotifyPlaylist;
 import com.example.beatporttospotify.service.*;
@@ -137,4 +138,56 @@ public class B2SServiceImpl implements B2SService {
         }
         return response;
     }
+
+    @Override
+    public Map<String, Object> createMonthlyPlaylists() {
+        Map<String, Object> response = new HashMap<>();
+        logger.info("createMonthlyPlaylists Job {}",new Date());
+        try{
+            Calendar calendar = Calendar.getInstance();
+            int month = calendar.get(Calendar.MONTH);
+            calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),1);
+
+
+            List<GenreDTO> genreDTOS = genreService.getGenres();
+            genreDTOS.forEach(genreDTO -> {
+                logger.info("create playlist for {} genre",genreDTO.getName());
+                PlaylistDTO playlistDTO = playlistService.getPlaylistByGenre(genreDTO.getCode());
+                if(playlistDTO != null){
+                    MonthlyPlaylistDTO monthlyPlaylistDTO = new MonthlyPlaylistDTO();
+                    monthlyPlaylistDTO.setName("Top 100 "+genreDTO.getName()+" "+getMonthName(month)+" "+calendar.get(Calendar.YEAR));
+                    monthlyPlaylistDTO.setGenreId(genreDTO.getId());
+                    monthlyPlaylistDTO.setCreationDate(calendar.getTime());
+                    monthlyPlaylistDTO = monthlyPlaylistService.save(monthlyPlaylistDTO);
+                    Long montlyPlaylitId = monthlyPlaylistDTO.getId();
+                    List<PlaylistSongsDTO> playlistSongsDTOs = playlistSongsService.getPlaylistSongsByPlaylist(playlistDTO);
+                    if(playlistSongsDTOs != null && !playlistSongsDTOs.isEmpty()){
+                        List<MonthlyPlaylistSongsDTO> playlistSongsDTOS = new ArrayList<>();
+
+                        playlistSongsDTOs.forEach(playlistSongsDTO -> {
+                            MonthlyPlaylistSongsDTO monthlyPlaylistSongsDTO = new MonthlyPlaylistSongsDTO();
+                            monthlyPlaylistSongsDTO.setMonthlyPlaylistId(montlyPlaylitId);
+                            monthlyPlaylistSongsDTO.setSongId(playlistSongsDTO.getSongId());
+                            monthlyPlaylistSongsDTO.setStatus("ENABLE");
+                            monthlyPlaylistSongsService.save(monthlyPlaylistSongsDTO);
+                        });
+                    }
+                }
+            });
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            response.put("success",false);
+        }
+        return response;
+    }
+
+    private String getMonthName(int month){
+        String[] months = {
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        };
+        return months[month];
+    }
 }
+
+

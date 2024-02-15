@@ -158,5 +158,9 @@ public class B2SController {
     public ResponseEntity<?> updatePlaylist(){
         return ResponseEntity.ok(b2SService.updatePlaylist());
     }
-
+    @Scheduled(cron = "0 0 12 1 * *")
+    @GetMapping("/scheduled-job/montlyplaylists-create")
+    public ResponseEntity<?> createMonthlyPlaylist(){
+        return ResponseEntity.ok(b2SService.createMonthlyPlaylists());
+    }
 }

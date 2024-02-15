@@ -1,7 +1,9 @@
 package com.example.beatporttospotify.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "monthly_playlist")
@@ -20,6 +22,8 @@ public class MonthlyPlaylist {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist")
+    private List<MonthlyPlaylistSongs> monthlyPlaylistSongs = new ArrayList<>();
     public Long getId() {
         return id;
     }
@@ -58,5 +62,13 @@ public class MonthlyPlaylist {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    public List<MonthlyPlaylistSongs> getMonthlyPlaylistSongs() {
+        return monthlyPlaylistSongs;
+    }
+
+    public void setMonthlyPlaylistSongs(List<MonthlyPlaylistSongs> monthlyPlaylistSongs) {
+        this.monthlyPlaylistSongs = monthlyPlaylistSongs;
     }
 }

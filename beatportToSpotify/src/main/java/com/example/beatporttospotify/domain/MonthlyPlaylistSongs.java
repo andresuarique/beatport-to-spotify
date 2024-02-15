@@ -15,7 +15,7 @@ public class MonthlyPlaylistSongs {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "monthly_playlist_id")
-    private MonthlyPlaylist Monthlyplaylist;
+    private MonthlyPlaylist monthlyPlaylist;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
@@ -37,12 +37,12 @@ public class MonthlyPlaylistSongs {
         this.status = status;
     }
 
-    public MonthlyPlaylist getMonthlyplaylist() {
-        return Monthlyplaylist;
+    public MonthlyPlaylist getMonthlyPlaylist() {
+        return monthlyPlaylist;
     }
 
-    public void setMonthlyplaylist(MonthlyPlaylist monthlyplaylist) {
-        Monthlyplaylist = monthlyplaylist;
+    public void setMonthlyPlaylist(MonthlyPlaylist monthlyPlaylist) {
+        this.monthlyPlaylist = monthlyPlaylist;
     }
 
     public Song getSong() {

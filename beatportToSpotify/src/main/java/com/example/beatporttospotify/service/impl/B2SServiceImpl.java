@@ -168,7 +168,7 @@ public class B2SServiceImpl implements B2SService {
                             MonthlyPlaylistSongsDTO monthlyPlaylistSongsDTO = new MonthlyPlaylistSongsDTO();
                             monthlyPlaylistSongsDTO.setMonthlyPlaylistId(montlyPlaylitId);
                             monthlyPlaylistSongsDTO.setSongId(playlistSongsDTO.getSongId());
-                            monthlyPlaylistSongsDTO.setStatus("ENABLE");
+                            monthlyPlaylistSongsDTO.setStatus(MonthlyPlaylistSongsDTO.ENABLE);
                             monthlyPlaylistSongsService.save(monthlyPlaylistSongsDTO);
                         });
                     }

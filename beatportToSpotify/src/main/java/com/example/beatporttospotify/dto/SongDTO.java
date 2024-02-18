@@ -4,6 +4,8 @@ package com.example.beatporttospotify.dto;
 import java.util.List;
 
 public class SongDTO {
+    public static final String ENABLE = "ENABLE";
+    public static final String DISABLE = "DISABLE";
     private Long id;
     private String spotifyName;
     private String beatportName;

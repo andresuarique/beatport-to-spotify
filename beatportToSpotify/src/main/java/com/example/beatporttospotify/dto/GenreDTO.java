@@ -2,6 +2,7 @@ package com.example.beatporttospotify.dto;
 
 public class GenreDTO {
     public static final String ENABLE = "ENABLE";
+    public static final String DISABLE = "DISABLE";
     private Long id;
     private String name;
     private String code;

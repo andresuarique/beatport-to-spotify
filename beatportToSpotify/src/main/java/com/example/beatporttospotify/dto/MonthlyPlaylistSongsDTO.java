@@ -2,6 +2,8 @@ package com.example.beatporttospotify.dto;
 
 
 public class MonthlyPlaylistSongsDTO {
+    public static final String ENABLE = "ENABLE";
+    public static final String DISABLE = "DISABLE";
     private Long id;
     private String status;
     private Long monthlyPlaylistId;

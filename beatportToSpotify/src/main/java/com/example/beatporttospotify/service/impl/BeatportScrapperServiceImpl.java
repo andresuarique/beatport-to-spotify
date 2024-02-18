@@ -158,11 +158,11 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
             if(songDTOS.isEmpty()){
                 songDTO.setBeatportName(songName);
                 songDTO.setBeatportImageUrl(songImage);
-                songDTO.setStatus("ENABLE");
+                songDTO.setStatus(SongDTO.ENABLE);
                 songDTO = songService.save(songDTO);
             }else {
                 songDTO = songDTOS.get(0);
-                songDTO.setStatus("ENABLE");
+                songDTO.setStatus(SongDTO.ENABLE);
                 songDTO = songService.update(songDTO);
             }
             for (int j = 0; j < array.length(); j++) {
@@ -192,7 +192,7 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
 
             playlistSongsDTO.setSongId(songDTO.getId());
             playlistSongsDTO.setPlaylistId(playlistDTO.getId());
-            playlistSongsDTO.setStatus("ENABLE");
+            playlistSongsDTO.setStatus(PlaylistSongsDTO.ENABLE);
             playlistSongsService.save(playlistSongsDTO);
         }
         return beatportSongList;

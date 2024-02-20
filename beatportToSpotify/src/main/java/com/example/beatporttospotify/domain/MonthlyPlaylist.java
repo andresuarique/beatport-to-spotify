@@ -22,7 +22,7 @@ public class MonthlyPlaylist {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "monthlyPlaylist")
     private List<MonthlyPlaylistSongs> monthlyPlaylistSongs = new ArrayList<>();
     public Long getId() {
         return id;

@@ -30,6 +30,8 @@ public class Song {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "song")
     private List<PlaylistSongs> playlistSongs = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "song")
+    private List<MonthlyPlaylistSongs> monthlyPlaylistSongs = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -93,6 +95,14 @@ public class Song {
 
     public void setPlaylistSongs(List<PlaylistSongs> playlistSongs) {
         this.playlistSongs = playlistSongs;
+    }
+
+    public List<MonthlyPlaylistSongs> getMonthlyPlaylistSongs() {
+        return monthlyPlaylistSongs;
+    }
+
+    public void setMonthlyPlaylistSongs(List<MonthlyPlaylistSongs> monthlyPlaylistSongs) {
+        this.monthlyPlaylistSongs = monthlyPlaylistSongs;
     }
 
     public String getSpotifyImageUrl() {

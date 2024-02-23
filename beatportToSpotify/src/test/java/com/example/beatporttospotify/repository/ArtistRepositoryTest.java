@@ -19,12 +19,16 @@ public class ArtistRepositoryTest {
     @Autowired
     private ArtistRepository artistRepository;
 
+    private Artist createArtist(String beatportName, String spotifyName){
+        Artist artist = new Artist();
+        artist.setBeatportName(beatportName);
+        artist.setSpotifyName(spotifyName);
+        return artist;
+    }
     @Test
     public void saveArtistTest(){
         //given
-        Artist artist = new Artist();
-        artist.setBeatportName("Meduza");
-        artist.setSpotifyName("Meduza");
+        Artist artist = createArtist("Meduza","Meduza");
 
         //when
         Artist savedArtist = artistRepository.save(artist);
@@ -37,9 +41,7 @@ public class ArtistRepositoryTest {
     @Test
     public void updateArtistTest(){
         //given
-        Artist savedArtist = new Artist();
-        savedArtist.setBeatportName("FISHER (OZ)");
-        savedArtist.setSpotifyName("FISHER");
+        Artist savedArtist = createArtist("FISHER (OZ)","FISHER");
         Artist artist = artistRepository.save(savedArtist);
         //when
         artist.setSpotifyName("Fisher");
@@ -53,14 +55,10 @@ public class ArtistRepositoryTest {
     @Test
     public void findAllArtistsTest(){
         //given
-        Artist savedArtist1 = new Artist();
-        savedArtist1.setBeatportName("FISHER (OZ)");
-        savedArtist1.setSpotifyName("FISHER");
+        Artist savedArtist1 = createArtist("FISHER (OZ)","FISHER");
         Artist artist1 = artistRepository.save(savedArtist1);
 
-        Artist savedArtist2 = new Artist();
-        savedArtist2.setBeatportName("Meduza");
-        savedArtist2.setSpotifyName("Meduza");
+        Artist savedArtist2 = createArtist("Meduza","Meduza");
         Artist artist2 = artistRepository.save(savedArtist2);
         //when
         List<Artist> artistList = artistRepository.findAll();
@@ -71,14 +69,10 @@ public class ArtistRepositoryTest {
     @Test
     public void findArtistsByIdTest(){
         //given
-        Artist savedArtist1 = new Artist();
-        savedArtist1.setBeatportName("FISHER (OZ)");
-        savedArtist1.setSpotifyName("FISHER");
+        Artist savedArtist1 = createArtist("FISHER (OZ)","FISHER");
         Artist artist1 = artistRepository.save(savedArtist1);
 
-        Artist savedArtist2 = new Artist();
-        savedArtist2.setBeatportName("Meduza");
-        savedArtist2.setSpotifyName("Meduza");
+        Artist savedArtist2 = createArtist("Meduza","Meduza");
         Artist artist2 = artistRepository.save(savedArtist2);
         //when
         Optional<Artist> optional1 = artistRepository.findById(artist1.getId());
@@ -88,7 +82,7 @@ public class ArtistRepositoryTest {
         //then
         assertThat(optional1).isPresent();
         assertThat(optional2).isPresent();
-        assertThat(optional3).isPresent();
+        assertThat(optional3).isNotPresent();
         assertThat(optional1.get().getId()).isEqualTo(artist1.getId());
         assertThat(optional2.get().getId()).isEqualTo(artist2.getId());
 
@@ -97,14 +91,10 @@ public class ArtistRepositoryTest {
     @Test
     public void findArtistsByNameTest(){
         //given
-        Artist savedArtist1 = new Artist();
-        savedArtist1.setBeatportName("FISHER (OZ)");
-        savedArtist1.setSpotifyName("FISHER");
+        Artist savedArtist1 = createArtist("FISHER (OZ)","FISHER");
         Artist artist1 = artistRepository.save(savedArtist1);
 
-        Artist savedArtist2 = new Artist();
-        savedArtist2.setBeatportName("Meduza");
-        savedArtist2.setSpotifyName("Meduza");
+        Artist savedArtist2 = createArtist("Meduza","Meduza");
         Artist artist2 = artistRepository.save(savedArtist2);
         //when
         List<Artist> list1 = artistRepository.findByBeatportName(artist1.getBeatportName());

@@ -118,7 +118,7 @@ public class MonthlyPlaylistSongsRepositoryTest {
         song1 = songRepository.save(song1);
 
         Song song2 = createSong("Cloud","Cloud","002","image02.png","image02.png");
-        song1 = songRepository.save(song2);
+        song2 = songRepository.save(song2);
 
         MonthlyPlaylistSongs monthlyPlaylistSongs1 = createMonthlyPlaylistSongs(monthlyPlaylist,song1);
         MonthlyPlaylistSongs monthlyPlaylistSongs2 = createMonthlyPlaylistSongs(monthlyPlaylist,song2);
@@ -134,6 +134,59 @@ public class MonthlyPlaylistSongsRepositoryTest {
     }
 
     @Test
+    public void findAllMonthlyPlaylistlistSongsByMonthlyPlaylistTest(){
+        //given
+        MonthlyPlaylist monthlyPlaylist = createMonthlyPlaylist("techno playlist");
+        monthlyPlaylist = monthlyPlaylistRepository.save(monthlyPlaylist);
+
+        Song song1 = createSong("Weak","Weak","001","image01.png","image01.png");
+        song1 = songRepository.save(song1);
+
+        Song song2 = createSong("Cloud","Cloud","002","image02.png","image02.png");
+        song2 = songRepository.save(song2);
+
+        MonthlyPlaylistSongs monthlyPlaylistSongs1 = createMonthlyPlaylistSongs(monthlyPlaylist,song1);
+        MonthlyPlaylistSongs monthlyPlaylistSongs2 = createMonthlyPlaylistSongs(monthlyPlaylist,song2);
+
+        monthlyPlaylistSongs1 = monthlyPlaylistSongsRepository.save(monthlyPlaylistSongs1);
+        monthlyPlaylistSongs2 = monthlyPlaylistSongsRepository.save(monthlyPlaylistSongs2);
+
+        //when
+        List<MonthlyPlaylistSongs> monthlyPlaylistSongsList = monthlyPlaylistSongsRepository.findByMonthlyPlaylist(monthlyPlaylist);
+
+        //then
+        assertThat(monthlyPlaylistSongsList).hasSize(2);
+    }
+
+    @Test
+    public void findAllMonthlyPlaylistlistSongsBySongAndMonthlyPlaylistTest(){
+        //given
+        MonthlyPlaylist monthlyPlaylist = createMonthlyPlaylist("techno playlist");
+        monthlyPlaylist = monthlyPlaylistRepository.save(monthlyPlaylist);
+
+        Song song1 = createSong("Weak","Weak","001","image01.png","image01.png");
+        song1 = songRepository.save(song1);
+
+        Song song2 = createSong("Cloud","Cloud","002","image02.png","image02.png");
+        song2 = songRepository.save(song2);
+
+        MonthlyPlaylistSongs monthlyPlaylistSongs1 = createMonthlyPlaylistSongs(monthlyPlaylist,song1);
+        MonthlyPlaylistSongs monthlyPlaylistSongs2 = createMonthlyPlaylistSongs(monthlyPlaylist,song2);
+
+        monthlyPlaylistSongs1 = monthlyPlaylistSongsRepository.save(monthlyPlaylistSongs1);
+        monthlyPlaylistSongs2 = monthlyPlaylistSongsRepository.save(monthlyPlaylistSongs2);
+
+        //when
+        monthlyPlaylistSongs1 = monthlyPlaylistSongsRepository.findBySongAndMonthlyPlaylist(song1,monthlyPlaylist);
+        monthlyPlaylistSongs2 = monthlyPlaylistSongsRepository.findBySongAndMonthlyPlaylist(song2,monthlyPlaylist);
+
+        //then
+        assertThat(monthlyPlaylistSongs1.getSong().getBeatportName()).isEqualTo("Weak");
+        assertThat(monthlyPlaylistSongs2.getSong().getBeatportName()).isEqualTo("Cloud");
+    }
+
+
+    @Test
     public void disableAllSongsTest(){
         //given
         MonthlyPlaylist monthlyPlaylist = createMonthlyPlaylist("techno playlist");
@@ -143,7 +196,7 @@ public class MonthlyPlaylistSongsRepositoryTest {
         song1 = songRepository.save(song1);
 
         Song song2 = createSong("Cloud","Cloud","002","image02.png","image02.png");
-        song1 = songRepository.save(song2);
+        song2 = songRepository.save(song2);
 
         MonthlyPlaylistSongs monthlyPlaylistSongs1 = createMonthlyPlaylistSongs(monthlyPlaylist,song1);
         MonthlyPlaylistSongs monthlyPlaylistSongs2 = createMonthlyPlaylistSongs(monthlyPlaylist,song2);

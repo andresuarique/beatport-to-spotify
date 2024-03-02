@@ -145,9 +145,10 @@ public class B2SServiceImpl implements B2SService {
         logger.info("createMonthlyPlaylists Job {}",new Date());
         try{
             Calendar calendar = Calendar.getInstance();
-            int month = calendar.get(Calendar.MONTH);
             calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),1);
-
+            calendar.add(Calendar.DAY_OF_YEAR,-1);
+            System.out.println(calendar.getTime());
+            int month = calendar.get(Calendar.MONTH);
 
             List<GenreDTO> genreDTOS = genreService.getGenres();
             genreDTOS.forEach(genreDTO -> {

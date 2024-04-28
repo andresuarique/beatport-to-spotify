@@ -12,8 +12,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface PlaylistSongsRepository extends JpaRepository<PlaylistSongs, Long> {
-    public List<PlaylistSongs> findByPlaylist(Playlist playlist);
+    public List<PlaylistSongs> findByPlaylistAndStatus(Playlist playlist, String status);
     public PlaylistSongs findBySongAndPlaylist(Song song, Playlist playlist);
+
+    public PlaylistSongs findByPlaylistAndSong(Playlist playlist,Song song);
 
     @Transactional
     @Modifying

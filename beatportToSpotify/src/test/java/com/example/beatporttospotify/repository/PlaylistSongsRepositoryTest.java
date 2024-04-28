@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.List;
@@ -148,7 +147,7 @@ public class PlaylistSongsRepositoryTest {
         playlistSongs2 = playlistSongsRepository.save(playlistSongs2);
 
         //when
-        List<PlaylistSongs> playlistSongsList = playlistSongsRepository.findByPlaylist(playlist);
+        List<PlaylistSongs> playlistSongsList = playlistSongsRepository.findByPlaylistAndStatus(playlist,PlaylistSongsDTO.ENABLE);
 
         //then
         assertThat(playlistSongsList).hasSize(2);

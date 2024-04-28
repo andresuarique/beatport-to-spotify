@@ -189,11 +189,17 @@ public class BeatportScrapperServiceImpl implements BeatportScrapperService {
                 songDTO.setSpotifyImageUrl(spotifySong.getAlbum().getImages().get(0).getUrl());
                 songDTO = songService.update(songDTO);
             }
+            PlaylistSongsDTO playlistSongsDTO1 = playlistSongsService.getPlaylistSongsByPlaylistAndSong(playlistDTO,songDTO);
 
-            playlistSongsDTO.setSongId(songDTO.getId());
-            playlistSongsDTO.setPlaylistId(playlistDTO.getId());
-            playlistSongsDTO.setStatus(PlaylistSongsDTO.ENABLE);
-            playlistSongsService.save(playlistSongsDTO);
+            if(playlistSongsDTO1 != null && playlistSongsDTO1.getId() != null){
+                playlistSongsDTO1.setStatus(PlaylistSongsDTO.ENABLE);
+                playlistSongsService.update(playlistSongsDTO1);
+            }else{
+                playlistSongsDTO.setSongId(songDTO.getId());
+                playlistSongsDTO.setPlaylistId(playlistDTO.getId());
+                playlistSongsDTO.setStatus(PlaylistSongsDTO.ENABLE);
+                playlistSongsService.save(playlistSongsDTO);
+            }
         }
         return beatportSongList;
     }

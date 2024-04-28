@@ -97,6 +97,7 @@ public class B2SServiceImpl implements B2SService {
                 songDTO.setArtists(songArtistsService.getSongsArtistsBySongId(songDTO.getId()));
                 songDTOS.add(songDTO);
             });
+            System.out.println("tamaño: "+songDTOS.size());
             SpotifyPlaylist spotifyPlaylist = spotifyAPIService.createPlaylist(request.getPlaylistName(),userid,authorizationCode);
             spotifyAPIService.addSongsFromDB(songDTOS,spotifyPlaylist.getId(),authorizationCode);
             spotifyPlaylist = spotifyAPIService.getPlaylist(authorizationCode, spotifyPlaylist.getId());
